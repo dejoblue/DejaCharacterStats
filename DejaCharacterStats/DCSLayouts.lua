@@ -200,7 +200,7 @@ local function ShowCharacterStats(unit)
 		if count <= 24 then
 			UpdateStatFrameWidth(191)
 			StatScrollFrame.ScrollBar:Hide()
-		else
+		elseif count > 24 then
 			local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked
 			if checked.ScrollbarSetChecked == true then
 				UpdateStatFrameWidth(180)
