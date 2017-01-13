@@ -1,3 +1,5 @@
+--Elvis is the greatest!
+
 local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
 
