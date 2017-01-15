@@ -1,0 +1,29 @@
+## Interface: 70100
+## Version: 715r101
+## Title: DejaCharacterStats
+## Authors: Dejablue, Kakjens, loudsoul
+## Notes: Dejablue's improved character stats panel view.
+## SavedVariables: DejaCharacterStatsDB
+## SavedVariables: DCS_ClassSpecDB
+## SavedVariablesPerCharacter: DejaCharacterStatsDBPC
+
+Localization\localization.core.lua
+Localization\localization.deDE.lua
+Localization\localization.enGB.lua
+Localization\localization.enUS.lua
+Localization\localization.esES.lua
+Localization\localization.esMX.lua
+Localization\localization.frFR.lua
+Localization\localization.itIT.lua
+Localization\localization.koKR.lua
+Localization\localization.ptBR.lua
+Localization\localization.ruRU.lua
+Localization\localization.zhCN.lua
+Localization\localization.zhTW.lua
+
+DejaCharacterStats.lua
+DCSTables.lua
+DCSLayouts.lua
+DCSExpand.lua
+DCSDecimals.lua
+DCSDuraRepair.lua
