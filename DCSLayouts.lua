@@ -140,7 +140,9 @@ local configMode = false
 
 local function ShowCharacterStats(unit)
     local stat
-    local count, backgroundcount, height = 0, 0, 4
+    local count, backgroundcount, height = 0, false, 4
+	local hideatzero = true --placeholder for the checkbox hideatzero
+	local butshowstatifchecked = false --placeholder for the checkbox butshowstatifchecked
     for _, v in ipairs(ShownData) do
         stat = DCS_TableData.StatData[v.statKey]
 		if stat then -- if some stat gets removed or if experimenting with adding stats
@@ -151,13 +153,10 @@ local function ShowCharacterStats(unit)
 				stat.frame.checkButton:SetChecked(not v.hidden)
 				if (v.hidden) then
 					stat.frame:SetAlpha(0.32)
-				end
-				if (not v.hidden) then
+				else
 					stat.frame:SetAlpha(1)
 				end
 			else
-				local hideatzero = true --placeholder for the checkbox hideatzero
-				local butshowstatifchecked = false --placeholder for the checkbox butshowstatifchecked
 				if hideatzero and not butshowstatifchecked then
 					if v.hideAt then
 						if v.hideAt == stat.frame.numericValue then
@@ -182,10 +181,10 @@ local function ShowCharacterStats(unit)
 					count = count + 1
 				end
 				if (stat.category) then
-					backgroundcount = 0
+					backgroundcount = false
 				else
-					stat.frame.Background:SetShown((backgroundcount%2) ~= 0)
-					backgroundcount = backgroundcount + 1
+					stat.frame.Background:SetShown(backgroundcount)
+					backgroundcount = not backgroundcount
 				end
 				if not (configMode) then
 					stat.frame:SetAlpha(1)
@@ -196,8 +195,8 @@ local function ShowCharacterStats(unit)
 		end
 		height = floor(height)
 		StatFrame:SetHeight(height)
-		local statheight = StatFrame:GetHeight()
-		local baseheight = CharacterFrameInsetRight:GetHeight()
+		--local statheight = StatFrame:GetHeight()
+		--local baseheight = CharacterFrameInsetRight:GetHeight()
 		--print(statheight, baseheight)
 		if count <= 24 then
 			UpdateStatFrameWidth(191)
