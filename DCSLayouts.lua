@@ -236,7 +236,7 @@ local function DCS_Table_Relevant()
 		--print(spec)
 	local role = GetSpecializationRole(spec)
 		--print(role)
-	local primaryStat = select(7, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
+	local primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
 		--print(primaryStat)
     for _, v in ipairs(ShownData) do
 		--print (v.statKey, " ", v.hidden)
