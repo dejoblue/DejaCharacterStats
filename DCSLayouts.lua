@@ -193,24 +193,24 @@ local function ShowCharacterStats(unit)
 			end
 			--print(count)
 		end
-		height = floor(height)
-		StatFrame:SetHeight(height)
-		--local statheight = StatFrame:GetHeight()
-		--local baseheight = CharacterFrameInsetRight:GetHeight()
-		--print(statheight, baseheight)
-		if count <= 24 then
+		
+	end
+	height = floor(height)
+	StatFrame:SetHeight(height)
+	--local statheight = StatFrame:GetHeight()
+	--local baseheight = CharacterFrameInsetRight:GetHeight()
+	if count <= 24 then
+		UpdateStatFrameWidth(191)
+		StatScrollFrame.ScrollBar:Hide()
+	else
+		local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked
+		if checked.ScrollbarSetChecked == true then
+			UpdateStatFrameWidth(180)
+			StatScrollFrame.ScrollBar:Show()
+		else
 			UpdateStatFrameWidth(191)
 			StatScrollFrame.ScrollBar:Hide()
-		else
-			local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked
-			if checked.ScrollbarSetChecked == true then
-				UpdateStatFrameWidth(180)
-				StatScrollFrame.ScrollBar:Show()
-			else
-				UpdateStatFrameWidth(191)
-				StatScrollFrame.ScrollBar:Hide()
-			end			
-		end
+		end			
 	end
 end
 
