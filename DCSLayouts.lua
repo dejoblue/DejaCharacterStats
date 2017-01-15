@@ -195,7 +195,7 @@ local function ShowCharacterStats(unit)
 		end
 		height = floor(height)
 		StatFrame:SetHeight(height)
-		--local statheight = StatFrame:GetHeight()
+		local statheight = StatFrame:GetHeight()
 		--local baseheight = CharacterFrameInsetRight:GetHeight()
 		--print(statheight, baseheight)
 		if count <= 24 then
