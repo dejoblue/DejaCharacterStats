@@ -477,7 +477,7 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 			DCS_TableRelevantStatstooltipText = L["Show all stats."] --Creates a tooltip on mouseover.
 			_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["All Stats"])
 			gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
-		return
+		--return
 		end
 		if checked == false then
 			--print(checked)
@@ -486,7 +486,7 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 			DCS_TableRelevantStatstooltipText = L["Show only stats relevant to your class spec."] --Creates a tooltip on mouseover.
 			_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["Relevant Stats"])
 			gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = true
-		return
+		--return
 		end
 		DCS_TableRelevantStats_OnEnter()
 	end)
