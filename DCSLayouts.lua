@@ -618,6 +618,10 @@ local function DCS_ClassCrestBGCheck()
 end
 	
 local function DCS_DefaultStatsAnchors()
+	--configMode = false --seems like those four lines are not needed. Leaving incase they ARE needed
+	--DCS_ConfigtooltipText = L["Unlock DCS"] 
+	--DCS_TableResetCheck:Hide()
+	--DCS_TableRelevantStats:Hide()
 	StatScrollFrame:ClearAllPoints()
 	StatScrollFrame:SetParent(CharacterFrameInsetRight)
 	StatScrollFrame:SetPoint("TOPLEFT", CharacterFrameInsetRight, "TOPLEFT", 5, -6)
@@ -648,6 +652,9 @@ end
 
 local function DCS_InterfaceOptionsStatsAnchors()
 	if (DejaCharacterStatsPanel~=nil) then
+		configMode = true
+		DCS_ConfigtooltipText = L["Lock DCS"]
+		DCS_TableResetCheck:Show() -- somehow seems strange place for making it visible but works.
 		StatScrollFrame:ClearAllPoints()
 		StatScrollFrame:SetParent(DejaCharacterStatsPanel)
 		StatScrollFrame:SetPoint("TOPLEFT", DejaCharacterStatsPanel, "TOPLEFT", 380, -80)
