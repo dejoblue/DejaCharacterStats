@@ -655,6 +655,7 @@ local function DCS_InterfaceOptionsStatsAnchors()
 		configMode = true
 		DCS_ConfigtooltipText = L["Lock DCS"]
 		DCS_TableResetCheck:Show() -- somehow seems strange place for making it visible but works.
+		DCS_TableRelevantStats:Show() -- TODO: I think there there are several places with setting of configmode, and consequent changes of DCS_ConfigtooltipText, and visibility of buttons. Seems like a function might be used
 		StatScrollFrame:ClearAllPoints()
 		StatScrollFrame:SetParent(DejaCharacterStatsPanel)
 		StatScrollFrame:SetPoint("TOPLEFT", DejaCharacterStatsPanel, "TOPLEFT", 380, -80)
