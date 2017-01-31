@@ -346,11 +346,21 @@ end
 local function DCS_Table_Reset()
 	local uniqueKey = UnitName("player") .. ":" .. GetRealmName() .. ":" .. GetSpecialization()
 	--print(uniqueKey)
-	--print("Set default initialization")
-	ShownData = DCS_TableData:CopyTable(DefaultData)
+	--print("reseting just order of stata")
+	--ShownData = DCS_TableData:CopyTable(DefaultData)
+	local temp = DCS_TableData:CopyTable(DefaultData)
+	for _, v1 in ipairs(temp) do
+		for _, v2 in ipairs(ShownData) do
+			if v1.statKey == v2.statKey then
+				v1.hidden = v2.hidden
+			end
+		end
+	end
+	ShownData = temp
 	ShownData.uniqueKey = uniqueKey
 	DCS_ClassSpecDB[uniqueKey] = ShownData
-	DCS_Table_ShowAllStats()
+	--DCS_Table_ShowAllStats()
+	ShowCharacterStats("player")
 end
 
 
@@ -560,15 +570,15 @@ local DCS_TableResetCheck = CreateFrame("Button", "DCS_TableResetButton", Charac
 	--DCS_TableResetCheck:SetWidth(LOCALE)
 	DCS_TableResetCheck:SetWidth(125)
 	DCS_TableResetCheck:SetHeight(30)
-	DCS_TableResetCheck.tooltipText = L["Reset and enable all stats."] --Creates a tooltip on mouseover.
-	_G[DCS_TableResetCheck:GetName() .. "Text"]:SetText(L["Reset Stats"])
+	DCS_TableResetCheck.tooltipText = L["Resets order of stats."] --Creates a tooltip on mouseover. --needs to be localised
+	_G[DCS_TableResetCheck:GetName() .. "Text"]:SetText(L["Reset Stats"]) -- somehow now the name seems wrong
 
 	DCS_TableResetCheck:SetScript("OnClick", function(self, button, down)
 		DCS_Table_Reset()
 		--print("Show Relevant Button")
-		DCS_TableRelevantStatstooltipText = L["Show only stats relevant to your class spec."] --Creates a tooltip on mouseover.
-		_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["Relevant Stats"])
-		gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = true
+		--DCS_TableRelevantStatstooltipText = L["Show only stats relevant to your class spec."] --Creates a tooltip on mouseover.
+		--_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["Relevant Stats"])
+		--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = true
 		--print("true")
 	end)
 
