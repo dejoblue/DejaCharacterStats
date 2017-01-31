@@ -598,11 +598,23 @@ local function DCS_configButton_OnLeave(self)
 	DCS_configButton:SetScript("OnEnter", DCS_configButton_OnEnter)
 	DCS_configButton:SetScript("OnLeave", DCS_configButton_OnLeave)
 
+local function dcsRStatConfigButtonsHide()
+	DCS_TableRelevantStats:ClearAllPoints()
+	DCS_TableRelevantStats:SetParent(UIParent)
+	DCS_TableRelevantStats:SetPoint("BOTTOMRIGHT", UIParent, "TOPLEFT", -100, 100)
+
+	DCS_TableResetCheck:ClearAllPoints()
+	DCS_TableResetCheck:SetParent(UIParent)
+	DCS_TableResetCheck:SetPoint("BOTTOMRIGHT", UIParent, "TOPLEFT", -100, 100)
+end
 local function configButtonOnClose()
 	StatScrollFrame:SetVerticalScroll(0)
 	configMode = false
-	DCS_TableResetCheck:Hide()
+	
+	dcsRStatConfigButtonsHide()
 	DCS_TableRelevantStats:Hide()
+	DCS_TableResetCheck:Hide()
+
 	DCS_configButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
 	DCS_InterfaceOptConfigButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
 	DCS_ConfigtooltipText = L["Unlock DCS"]
@@ -618,6 +630,10 @@ local function DCS_ClassCrestBGCheck()
 end
 	
 local function DCS_DefaultStatsAnchors()
+	--configMode = false --seems like those four lines are not needed. Leaving incase they ARE needed
+	--DCS_ConfigtooltipText = L["Unlock DCS"] 
+	--DCS_TableResetCheck:Hide()
+	--DCS_TableRelevantStats:Hide()
 	StatScrollFrame:ClearAllPoints()
 	StatScrollFrame:SetParent(CharacterFrameInsetRight)
 	StatScrollFrame:SetPoint("TOPLEFT", CharacterFrameInsetRight, "TOPLEFT", 5, -6)
@@ -628,14 +644,6 @@ local function DCS_DefaultStatsAnchors()
 	StatScrollFrame.ScrollBar:SetPoint("TOPLEFT", StatScrollFrame, "TOPRIGHT", -16, -16)
 	StatScrollFrame.ScrollBar:SetPoint("BOTTOMLEFT", StatScrollFrame, "BOTTOMRIGHT", -16, 16)
 	StatScrollFrame.ScrollBar:Hide()
-
-	DCS_TableRelevantStats:ClearAllPoints()
-	DCS_TableRelevantStats:SetParent(CharacterFrameInsetRight)
-	DCS_TableRelevantStats:SetPoint("BOTTOMRIGHT", -130,-36)
-
-	DCS_TableResetCheck:ClearAllPoints()
-	DCS_TableResetCheck:SetParent(CharacterFrameInsetRight)
-	DCS_TableResetCheck:SetPoint("BOTTOMRIGHT", 5, -36)
 
 	CharacterStatsPane.ClassBackground:ClearAllPoints()
 	CharacterStatsPane.ClassBackground:SetParent(StatScrollFrame)
@@ -648,6 +656,10 @@ end
 
 local function DCS_InterfaceOptionsStatsAnchors()
 	if (DejaCharacterStatsPanel~=nil) then
+		configMode = true
+		DCS_ConfigtooltipText = L["Lock DCS"]
+		DCS_TableResetCheck:Show() -- somehow seems strange place for making it visible but works.
+		DCS_TableRelevantStats:Show() -- TODO: I think there there are several places with setting of configmode, and consequent changes of DCS_ConfigtooltipText, and visibility of buttons. Seems like a function might be used
 		StatScrollFrame:ClearAllPoints()
 		StatScrollFrame:SetParent(DejaCharacterStatsPanel)
 		StatScrollFrame:SetPoint("TOPLEFT", DejaCharacterStatsPanel, "TOPLEFT", 380, -80)
@@ -700,15 +712,8 @@ CharacterFrameInsetRight:HookScript("OnHide", function(self)
 		StatScrollFrame.ScrollBar:SetPoint("BOTTOMRIGHT", UIParent, "TOPLEFT", -160, 160)
 		StatScrollFrame.ScrollBar:Hide()
 
-		DCS_TableRelevantStats:ClearAllPoints()
-		DCS_TableRelevantStats:SetParent(CharacterFrameInsetRight)
-		DCS_TableRelevantStats:SetPoint("BOTTOMRIGHT", -130,-36)
-		DCS_TableRelevantStats:Hide()
-
-		DCS_TableResetCheck:ClearAllPoints()
-		DCS_TableResetCheck:SetParent(CharacterFrameInsetRight)
-		DCS_TableResetCheck:SetPoint("BOTTOMRIGHT", 5, -36)
-		DCS_TableResetCheck:Hide()
+		DCS_TableRelevantStats:Hide() 	--For some reason these two have to be hidden again even tho they are hidden with configButtonOnClose() below.
+		DCS_TableResetCheck:Hide()		--For some reason these two have to be hidden again even tho they are hidden with configButtonOnClose() below.
 
 		CharacterStatsPane.ClassBackground:ClearAllPoints()
 		CharacterStatsPane.ClassBackground:SetParent(UIParent)
@@ -724,8 +729,16 @@ end)
 		if (configMode) then
 			self:SetNormalTexture("Interface\\Buttons\\LockButton-Unlocked-Up")
 			DCS_ConfigtooltipText = L["Lock DCS"] --Creates a tooltip on mouseover.
-			DCS_TableResetCheck:Show()
+			
+			DCS_TableRelevantStats:ClearAllPoints()
+			DCS_TableRelevantStats:SetParent(CharacterFrameInsetRight)
+			DCS_TableRelevantStats:SetPoint("BOTTOMRIGHT", -130,-36)
 			DCS_TableRelevantStats:Show()
+
+			DCS_TableResetCheck:ClearAllPoints()
+			DCS_TableResetCheck:SetParent(CharacterFrameInsetRight)
+			DCS_TableResetCheck:SetPoint("BOTTOMRIGHT", 5, -36)
+			DCS_TableResetCheck:Show()
 		else
 			configButtonOnClose()
 		end
