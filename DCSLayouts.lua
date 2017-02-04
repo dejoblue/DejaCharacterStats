@@ -14,11 +14,6 @@ local _, gdbprivate = ...
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsClassBackgroundChecked = {
 		ClassBackgroundChecked = true,
 	}
-	gdbprivate.gdbdefaults.gdbdefaults.DCS_TableRelevantStatsChecked = {
-		RelevantStatsSetChecked = false,
-	}
-
-local ShowAllStats = false
 
 local StatScrollFrame = CreateFrame("ScrollFrame", nil, CharacterFrameInsetRight, "UIPanelScrollFrameTemplate")
 	StatScrollFrame:ClearAllPoints()
@@ -132,22 +127,20 @@ local function UpdateStatFrameWidth(width)
 end
 
 	local DCS_TableRelevantStatstooltipText
+	local relevantStatsSetChecked = true
 	local function DCS_TableRelevantStats_init()
-		local checked = gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked
-			if checked == true then
-				--print(checked)
-				--print("Show Relevant Button")
-				DCS_TableRelevantStatstooltipText = L["Show only stats relevant to your class spec."] --Creates a tooltip on mouseover.
-				_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["Relevant Stats"])
-				return
-			end
-			if checked == false then
-				--print(checked)
-				--print("Show All Button")
-				DCS_TableRelevantStatstooltipText = L["Show all stats."] --Creates a tooltip on mouseover.
-				_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["All Stats"])
-				return
-			end
+		if relevantStatsSetChecked then
+			--print(checked)
+			--print("Show Relevant Button")
+			DCS_TableRelevantStatstooltipText = L["Show only stats relevant to your class spec."] --Creates a tooltip on mouseover.
+			_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["Relevant Stats"])
+		else
+			--print(checked)
+			--print("Show All Button")
+			DCS_TableRelevantStatstooltipText = L["Show all stats."] --Creates a tooltip on mouseover.
+			_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["All Stats"])
+			return
+		end
 	end
 
 
@@ -158,18 +151,43 @@ end
 -- Config Mode Setup --
 -----------------------
 
+local function set_relevant_stat_state()
+	local stat
+	local ccount = 0
+	for _, v in ipairs(ShownData) do
+        stat = DCS_TableData.StatData[v.statKey]
+		if stat then
+			if not v.hidden then ccount = ccount +1 end
+		end
+	end
+	local temp = ccount/#ShownData
+	--print(temp)
+	--if gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked then
+	--	print("Wants to show Relevant Stats button")
+	--else
+	--	print("Wants to show All Stats button")
+	--end
+	if temp < 1 then --playing safe, probably 0.9 is sufficient; maybe epsilon check is needed?
+	--	print("All Stats due to number of stats")
+		relevantStatsSetChecked = false
+	else
+	--	print("Relevant Stats due to number of stats")
+		relevantStatsSetChecked = true
+	end
+	DCS_TableRelevantStats_init()
+end
+
 local configMode = false
 
 local function ShowCharacterStats(unit)
     local stat
-    local ccount, count, backgroundcount, height = 0, 0, false, 4
+    local count, backgroundcount, height = 0, false, 4
 	local hideatzero = true --placeholder for the checkbox hideatzero
 	local butshowstatifchecked = false --placeholder for the checkbox butshowstatifchecked
     for _, v in ipairs(ShownData) do
         stat = DCS_TableData.StatData[v.statKey]
 		if stat then -- if some stat gets removed or if experimenting with adding stats
 			stat.updateFunc(stat.frame, unit)
-			if not v.hidden then ccount = ccount +1 end
 			if (configMode) then
 				stat.frame:Show()
 				stat.frame.checkButton:Show()
@@ -235,27 +253,14 @@ local function ShowCharacterStats(unit)
 			StatScrollFrame.ScrollBar:Hide()
 		end			
 	end
-	local temp = ccount/#ShownData
-	--print(temp)
-	--if gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked then
-	--	print("Wants to show Relevant Stats button")
-	--else
-	--	print("Wants to show All Stats button")
-	--end
-	if temp < 1 then --playing safe, probably 0.9 is sufficient
-	--	print("All Stats due to number of stats")
-		gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
-	else
-	--	print("Relevant Stats due to number of stats")
-		gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = true
-	end
-	DCS_TableRelevantStats_init()
+	set_relevant_stat_state()
 end
 
 
 local function DCS_Table_ShowAllStats()
 	for _, v in ipairs(ShownData) do
-		if v.hidden == true then v.hidden = false end
+		--if v.hidden == true then v.hidden = false end
+		v.hidden = false -- should be slightly faster because when this function gets called the most of stats are invisible
 	end
 	ShowCharacterStats("player")
 end
@@ -267,7 +272,7 @@ local function DCS_Table_Relevant()
 	--ShownData = DCS_TableData:CopyTable(DefaultData)
 
 	for _, v in ipairs(ShownData) do
-		if v.hidden == true then v.hidden = false end
+		if v.hidden then v.hidden = false end
 	end 
 
 	local spec = GetSpecialization();
@@ -320,7 +325,7 @@ local function DCS_Table_Relevant()
 		if v.statKey == "PARRY_RATING" then v.hidden = true end
 		if v.statKey == "ITEMLEVEL" then v.hidden = true end
 	end
-	gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
+	--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
 	ShownData.uniqueKey = uniqueKey
 	DCS_ClassSpecDB[uniqueKey] = ShownData
 	ShowCharacterStats("player")
@@ -336,11 +341,12 @@ local function DCS_Login_Initialization()
 		ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey])
 		--print("Set saved variables.")
 		end
+		ShowCharacterStats("player")
 	else
 		--print("Set default initialization")
 		DCS_Table_Relevant()
 	end
-	ShowCharacterStats("player")
+	--ShowCharacterStats("player") --DCS_Table_Relevant in the end calls it
 end
 
 local function DCS_Table_Reset()
@@ -402,18 +408,19 @@ end
 local function onCheckClick(self)
 	local checked = self:GetChecked()
 	local statKey = self:GetParent().statKey
-	--if (checked) then
-	--	self:GetParent():SetAlpha(1)
-	--else
-	--	self:GetParent():SetAlpha(0.32)
-	--end
+	if (checked) then
+		self:GetParent():SetAlpha(1)
+	else
+		self:GetParent():SetAlpha(0.32)
+	end
 	for _, v in ipairs(ShownData) do
 		if (v.statKey == statKey) then
 			v.hidden = not checked
 			break
 		end
 	end
-	ShowCharacterStats("player")
+	set_relevant_stat_state()
+	--ShowCharacterStats("player") --seems a waste to call whole function
 end
 
 for k, v in pairs(DCS_TableData.StatData) do
@@ -516,23 +523,23 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 	DCS_TableRelevantStats:SetScript("OnLeave", DCS_TableRelevantStats_OnLeave)
 
 	DCS_TableRelevantStats:SetScript("OnClick", function(self, button, up)
-		local checked = gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked
-		if checked == true then
+		if relevantStatsSetChecked then
 			--print(checked)
 			DCS_Table_Relevant()
 			--print("Show All Button")
-			DCS_TableRelevantStatstooltipText = L["Show all stats."] --Creates a tooltip on mouseover.
-			_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["All Stats"])
-			gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
+			--DCS_TableRelevantStatstooltipText = L["Show all stats."] --Creates a tooltip on mouseover.
+			--_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["All Stats"])
+			--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
 		--return
-		end
-		if checked == false then
+		--end
+		else
+		--if checked == false then
 			--print(checked)
 			DCS_Table_ShowAllStats()
 			--print("Show Relevant Button")
-			DCS_TableRelevantStatstooltipText = L["Show only stats relevant to your class spec."] --Creates a tooltip on mouseover.
-			_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["Relevant Stats"])
-			gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = true
+			--DCS_TableRelevantStatstooltipText = L["Show only stats relevant to your class spec."] --Creates a tooltip on mouseover.
+			--_G[DCS_TableRelevantStats:GetName() .. "Text"]:SetText(L["Relevant Stats"])
+			--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = true
 		--return
 		end
 		DCS_TableRelevantStats_OnEnter()
