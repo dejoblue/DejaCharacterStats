@@ -111,11 +111,11 @@ function DCS_Mean_DurabilityCalc()
 		--if addon.duraMean == nil then addon.duraMean = 0 end -- does it ever happen?
 		
 		duraTotal = duraTotal + durCur
-		if duraTotal == 0 then duraTotal = 1 	end
+		--if duraTotal == 0 then duraTotal = 1 	end
 		duraMaxTotal = duraMaxTotal + durMax
-		if duraMaxTotal == 0 then duraMaxTotal = 1 	end
-		addon.duraMean = ((duraTotal/duraMaxTotal)*100)
 	end
+	if duraMaxTotal == 0 then duraMaxTotal = 1 	 end --puting outside of for loop
+	addon.duraMean = ((duraTotal/duraMaxTotal)*100)
 end		
 
 -----------------------------------
