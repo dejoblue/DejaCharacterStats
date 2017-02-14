@@ -207,7 +207,7 @@ local function DCS_Item_DurabilityTop()
 				v.duratexture:SetColorTexture(1, 0, 0)
 				v.durability:SetTextColor(1, 0, 0)
 			elseif duraFinite <= 10 then
-				v.duratexture:SetAllPoints(v)
+				--v.duratexture:SetAllPoints(v) -Removed so green boxes do not appear when durability is at zero.
 				v.duratexture:SetColorTexture(1, 0, 0, 0.10)
 				v.durability:SetTextColor(1, 0, 0)
 			end
@@ -223,7 +223,7 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowDuraChecked = {
 
 local DCS_ShowDuraCheck = CreateFrame("CheckButton", "DCS_ShowDuraCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowDuraCheck:RegisterEvent("PLAYER_LOGIN")
-    DCS_ShowDuraCheck:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+    DCS_ShowDuraCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_ShowDuraCheck:ClearAllPoints()
 	DCS_ShowDuraCheck:SetPoint("LEFT", 25, -75)
 	DCS_ShowDuraCheck:SetScale(1.25)
@@ -304,7 +304,7 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowDuraTextureChecked = {
 
 local DCS_ShowDuraTextureCheck = CreateFrame("CheckButton", "DCS_ShowDuraTextureCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowDuraTextureCheck:RegisterEvent("PLAYER_LOGIN")
-    DCS_ShowDuraTextureCheck:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+    DCS_ShowDuraTextureCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_ShowDuraTextureCheck:ClearAllPoints()
 	DCS_ShowDuraTextureCheck:SetPoint("LEFT", 25, -25)
 	DCS_ShowDuraTextureCheck:SetScale(1.25)
@@ -355,7 +355,7 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowAverageRepairChecked = 
 
 local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDuraCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowAverageDuraCheck:RegisterEvent("PLAYER_LOGIN")
-    DCS_ShowAverageDuraCheck:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+    DCS_ShowAverageDuraCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_ShowAverageDuraCheck:ClearAllPoints()
 	DCS_ShowAverageDuraCheck:SetPoint("LEFT", 25, -50)
 	DCS_ShowAverageDuraCheck:SetScale(1.25)
@@ -474,7 +474,7 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemRepairChecked = {
 
 local DCS_ShowItemRepairCheck = CreateFrame("CheckButton", "DCS_ShowItemRepairCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowItemRepairCheck:RegisterEvent("PLAYER_LOGIN")
-    DCS_ShowItemRepairCheck:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+    DCS_ShowItemRepairCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_ShowItemRepairCheck:ClearAllPoints()
 	DCS_ShowItemRepairCheck:SetPoint("LEFT", 25, -100)
 	DCS_ShowItemRepairCheck:SetScale(1.25)
