@@ -586,7 +586,21 @@ local DCS_TableResetCheck = CreateFrame("Button", "DCS_TableResetButton", Charac
 ------------------------
 -- Config Mode Toggle --
 ------------------------
+
 local DCS_ConfigtooltipText = L["Unlock DCS"]
+
+local function set_config_mode(state)
+	configMode = state
+	if state then --on
+		DCS_ConfigtooltipText = L["Lock DCS"]
+		DCS_TableResetCheck:Show()
+		DCS_TableRelevantStats:Show()
+	else --off
+		DCS_ConfigtooltipText = L["Unlock DCS"]
+		DCS_TableRelevantStats:Hide()
+		DCS_TableResetCheck:Hide()
+	end
+end
 
 local DCS_configButton = CreateFrame("Button", "DCS_configButton", PaperDollSidebarTab1)
 	DCS_configButton:SetSize(32, 32)
@@ -619,15 +633,11 @@ local function dcsRStatConfigButtonsHide()
 end
 local function configButtonOnClose()
 	StatScrollFrame:SetVerticalScroll(0)
-	configMode = false
-	
+	set_config_mode(false)
 	dcsRStatConfigButtonsHide()
-	DCS_TableRelevantStats:Hide()
-	DCS_TableResetCheck:Hide()
 
 	DCS_configButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
 	DCS_InterfaceOptConfigButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
-	DCS_ConfigtooltipText = L["Unlock DCS"]
 	ShowCharacterStats("player")
 end
 
@@ -666,10 +676,8 @@ end
 
 local function DCS_InterfaceOptionsStatsAnchors()
 	if (DejaCharacterStatsPanel~=nil) then
-		configMode = true
-		DCS_ConfigtooltipText = L["Lock DCS"]
-		DCS_TableResetCheck:Show() -- somehow seems strange place for making it visible but works.
-		DCS_TableRelevantStats:Show() -- TODO: I think there there are several places with setting of configmode, and consequent changes of DCS_ConfigtooltipText, and visibility of buttons. Seems like a function might be used
+		set_config_mode(true)
+				
 		StatScrollFrame:ClearAllPoints()
 		StatScrollFrame:SetParent(DejaCharacterStatsPanel)
 		StatScrollFrame:SetPoint("TOPLEFT", DejaCharacterStatsPanel, "TOPLEFT", 380, -80)
@@ -738,17 +746,16 @@ end)
 		configMode = not configMode
 		if (configMode) then
 			self:SetNormalTexture("Interface\\Buttons\\LockButton-Unlocked-Up")
-			DCS_ConfigtooltipText = L["Lock DCS"] --Creates a tooltip on mouseover.
 			
 			DCS_TableRelevantStats:ClearAllPoints()
 			DCS_TableRelevantStats:SetParent(CharacterFrameInsetRight)
 			DCS_TableRelevantStats:SetPoint("BOTTOMRIGHT", -130,-36)
-			DCS_TableRelevantStats:Show()
 
 			DCS_TableResetCheck:ClearAllPoints()
 			DCS_TableResetCheck:SetParent(CharacterFrameInsetRight)
 			DCS_TableResetCheck:SetPoint("BOTTOMRIGHT", 5, -36)
-			DCS_TableResetCheck:Show()
+			
+			set_config_mode(true)
 		else
 			configButtonOnClose()
 		end
@@ -788,14 +795,10 @@ local function DCS_InterfaceOptConfigButton_OnLeave(self)
 		configMode = not configMode
 		if (configMode) then
 			self:SetNormalTexture("Interface\\Buttons\\LockButton-Unlocked-Up")
-			DCS_ConfigtooltipText = L["Lock DCS"] --Creates a tooltip on mouseover.
-			DCS_TableResetCheck:Show()
-			DCS_TableRelevantStats:Show()
+			set_config_mode(true)
 		else
 			self:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
-			DCS_ConfigtooltipText = L["Unlock DCS"] --Creates a tooltip on mouseover.
-			DCS_TableResetCheck:Hide()
-			DCS_TableRelevantStats:Hide()
+			set_config_mode(false)
 		end
 		ShowCharacterStats("player")
 		DCS_InterfaceOptConfigButton_OnEnter()
