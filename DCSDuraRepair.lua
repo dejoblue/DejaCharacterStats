@@ -207,7 +207,7 @@ local function DCS_Item_DurabilityTop()
 				v.duratexture:SetColorTexture(1, 0, 0)
 				v.durability:SetTextColor(1, 0, 0)
 			elseif duraFinite <= 10 then
-				--v.duratexture:SetAllPoints(v)
+				--v.duratexture:SetAllPoints(v) -Removed so green boxes do not appear when durability is at zero.
 				v.duratexture:SetColorTexture(1, 0, 0, 0.10)
 				v.durability:SetTextColor(1, 0, 0)
 			end
