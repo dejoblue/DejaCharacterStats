@@ -658,7 +658,7 @@ end
 	
 local function DCS_DefaultStatsAnchors()
 	DCS_InterfaceOptConfigButton:UnregisterEvent("UNIT_AURA")
-
+	DCS_InterfaceOptConfigButton:UnregisterEvent("UPDATE_INVENTORY_DURABILITY")
 	--configMode = false --seems like those four lines are not needed. Leaving incase they ARE needed
 	--DCS_ConfigtooltipText = L["Unlock DCS"] 
 	--DCS_TableResetCheck:Hide()
@@ -684,9 +684,9 @@ local function DCS_DefaultStatsAnchors()
 end
 
 local function DCS_InterfaceOptionsStatsAnchors()
-	DCS_InterfaceOptConfigButton:RegisterEvent("UNIT_AURA")
-
 	if (DejaCharacterStatsPanel~=nil) then
+		DCS_InterfaceOptConfigButton:RegisterEvent("UNIT_AURA")
+		DCS_InterfaceOptConfigButton:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 		set_config_mode(true)
 				
 		StatScrollFrame:ClearAllPoints()
