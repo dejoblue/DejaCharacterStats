@@ -350,6 +350,28 @@ DCS_TableData.StatData.GCD = {
 				gcd = casterGCD()
 			else
 				gcd = 1 -- tested with mutilate for assasination rogues.
+				--tries to find specified buff
+				if classfilename == "ROGUE" and spec == 1 then --outlaw rogue
+					--local answer = ""
+					local i = 1
+					--local buff = UnitAura("player", i);
+					local buffid = select(11,UnitAura("player", i));
+					while buffid do
+						--if buffid == 7353 then answer = answer ..buff end -- Cozy Fire
+						if buffid == 13750 then -- Adrenaline Rush
+							--answer = answer ..buff
+							gcd = gcd - 0.2
+						end
+						if buffid == 202776 then  -- Blurred Time
+							--answer = answer ..buff 
+							gcd = gcd - 0.2
+						end
+						i = i + 1;
+						--buff = UnitAura("player", i);
+						buffid = select(11,UnitAura("player", i));
+					end;
+					--DEFAULT_CHAT_FRAME:AddMessage(answer);
+				end
 			end
 		end
 		PaperDollFrame_SetLabelAndText(statFrame, L["Global Cooldown"], format("%.2fs",gcd), false, gcd)
