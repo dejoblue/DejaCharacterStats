@@ -111,11 +111,11 @@ function DCS_Mean_DurabilityCalc()
 		--if addon.duraMean == nil then addon.duraMean = 0 end -- does it ever happen?
 		
 		duraTotal = duraTotal + durCur
-		if duraTotal == 0 then duraTotal = 1 	end
+		--if duraTotal == 0 then duraTotal = 1 	end
 		duraMaxTotal = duraMaxTotal + durMax
-		if duraMaxTotal == 0 then duraMaxTotal = 1 	end
-		addon.duraMean = ((duraTotal/duraMaxTotal)*100)
 	end
+	if duraMaxTotal == 0 then duraMaxTotal = 1 	 end --puting outside of for loop
+	addon.duraMean = ((duraTotal/duraMaxTotal)*100)
 end		
 
 -----------------------------------
@@ -207,7 +207,7 @@ local function DCS_Item_DurabilityTop()
 				v.duratexture:SetColorTexture(1, 0, 0)
 				v.durability:SetTextColor(1, 0, 0)
 			elseif duraFinite <= 10 then
-				v.duratexture:SetAllPoints(v)
+				--v.duratexture:SetAllPoints(v) -Removed so green boxes do not appear when durability is at zero.
 				v.duratexture:SetColorTexture(1, 0, 0, 0.10)
 				v.durability:SetTextColor(1, 0, 0)
 			end
