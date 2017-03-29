@@ -220,7 +220,7 @@ DCS_TableData.StatData.DCS_ALTERNATEMANA = {
 			statFrame:Hide();
 			return;
 		end
-		local power = UnitPowerMax(unit,powerToken);
+		local power = UnitPowerMax(unit,powerType);
 		local powerText = BreakUpLargeNumbers(power);
 		
 		if (powerToken and _G[powerToken]) then
