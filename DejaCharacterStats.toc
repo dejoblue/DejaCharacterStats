@@ -1,5 +1,5 @@
-## Interface: 70100
-## Version: 715b106
+## Interface: 70200
+## Version: 720r101
 ## Title: DejaCharacterStats
 ## Authors: Dejablue, Kakjens, loudsoul
 ## Notes: Dejablue's improved character stats panel view.
