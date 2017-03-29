@@ -611,10 +611,17 @@ end
 
 local DCS_configButton = CreateFrame("Button", "DCS_configButton", PaperDollSidebarTab1)
 	DCS_configButton:SetSize(32, 32)
+	DCS_configButton:RegisterEvent("MERCHANT_SHOW")
+	DCS_configButton:RegisterEvent("MERCHANT_CLOSED")
+	DCS_configButton:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_configButton:SetPoint("BOTTOMLEFT", PaperDollSidebarTab1, "BOTTOMLEFT", 96, 34)
 	DCS_configButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
 	DCS_configButton:SetPushedTexture("Interface\\Buttons\\LockButton-Unlocked-Down")
 	DCS_configButton:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
+	
+DCS_configButton:SetScript("OnEvent", function(self, event, ...)
+	PaperDollFrame_UpdateStats()
+end)
 
 local function DCS_configButton_OnEnter(self)
 	GameTooltip:SetOwner(DCS_configButton, "ANCHOR_RIGHT");
