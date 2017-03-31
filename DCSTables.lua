@@ -199,8 +199,8 @@ DCS_TableData.StatData.EnhancementsCategory = {
 
 DCS_TableData.StatData.DCS_POWER = {
 	updateFunc = function(statFrame, unit)
-		powerToken = SPELL_POWER_MANA
-		local power = UnitPowerMax(unit,powerToken);
+		powerType = SPELL_POWER_MANA
+		local power = UnitPowerMax(unit,powerType);
 		local powerText = BreakUpLargeNumbers(power);
 		if power > 0 then
 			PaperDollFrame_SetLabelAndText(statFrame, MANA, powerText, false, power);
@@ -220,7 +220,7 @@ DCS_TableData.StatData.DCS_ALTERNATEMANA = {
 			statFrame:Hide();
 			return;
 		end
-		local power = UnitPowerMax(unit,powerToken);
+		local power = UnitPowerMax(unit,powerType);
 		local powerText = BreakUpLargeNumbers(power);
 		
 		if (powerToken and _G[powerToken]) then
@@ -240,14 +240,19 @@ DCS_TableData.StatData.DCS_ATTACK_ATTACKSPEED = {
 		local speed, offhandSpeed = UnitAttackSpeed(unit);
 
 		local displaySpeed = format("%.2f", speed);
+		--print(WEAPON_SPEED)
+		--print(displaySpeed)
+		--print(9/10)
 		if ( offhandSpeed ) then
 			offhandSpeed = format("%.2f", offhandSpeed);
+			print(offhandSpeed)
 		end
 		if ( offhandSpeed ) then
 			displaySpeed =  BreakUpLargeNumbers(displaySpeed).." / ".. offhandSpeed;
 		else
 			displaySpeed =  BreakUpLargeNumbers(displaySpeed);
 		end
+		--print(displaySpeed)
 		PaperDollFrame_SetLabelAndText(statFrame, WEAPON_SPEED, displaySpeed, false, speed);
 
 		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, ATTACK_SPEED).." "..displaySpeed..FONT_COLOR_CODE_CLOSE;

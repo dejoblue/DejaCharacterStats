@@ -1,9 +1,17 @@
 local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
-
+local doit = false
 local LOCALE = GetLocale()
-
-if LOCALE == "deDE" then
+local weekday, month, day, year = CalendarGetDate();
+if month==4 and day==1 then
+	if LOCALE == "ruRU" or LOCALE == "esMX" 
+		then doit = true
+		print("ru")
+	end
+else
+	if LOCALE == "deDE" then doit = true end
+end
+if doit then
 	-- The EU English game client also
 	-- uses the US English locale code.
 
