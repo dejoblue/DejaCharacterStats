@@ -6,7 +6,6 @@ local weekday, month, day, year = CalendarGetDate();
 if month==4 and day==1 then
 	if LOCALE == "ruRU" or LOCALE == "esMX" 
 		then doit = true
-		print("ru")
 	end
 else
 	if LOCALE == "deDE" then doit = true end

@@ -3,11 +3,9 @@ local L = namespace.L 				--localization
 local doit = false
 local LOCALE = GetLocale()
 local weekday, month, day, year = CalendarGetDate();
-print("here")
 if month==4 and day==1 then
 	if LOCALE == "deDE" then
 		doit = true
-		print("there")
 	end
 else
 	if LOCALE == "ruRU" then doit = true end
