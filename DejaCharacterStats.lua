@@ -1,6 +1,7 @@
 local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
-
+local version = GetAddOnMetadata(ADDON_NAME, "Version")
+local addoninfo = ADDON_NAME .. ' v ' .. version
 --------------------------
 -- SavedVariables Setup --
 --------------------------
@@ -107,6 +108,7 @@ for k, v in pairs(RegisteredEvents) do
 end
 
 function DejaCharacterStats.ShowHelp()
+	print(addoninfo)
 	print(L["DejaCharacterStats Slash commands (/dcstats):"])
 	print(L["  /dcstats config: Open the DejaCharacterStats addon config menu."])
 	print(L["  /dcstats reset:  Resets DejaCharacterStats frames to default positions."])
@@ -181,7 +183,7 @@ local dcstitle=CreateFrame("Frame", "DCSTitle", DejaCharacterStatsPanel)
 	dcstitle:Show()
 
 local dcstitleFS = dcstitle:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-	dcstitleFS:SetText('|cff00c0ffDejaCharacterStats|r')
+	dcstitleFS:SetText('|cff00c0ff' .. addoninfo .. '|r')
 	dcstitleFS:SetPoint("TOPLEFT", 0, 0)
 	dcstitleFS:SetFont("Fonts\\FRIZQT__.TTF", 10)
 	
