@@ -1,5 +1,4 @@
 --Elvis is the greatest!
-
 local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
 
@@ -7,6 +6,7 @@ DCS_ClassSpecDB = {}
 
 local _, DCS_TableData = ...
 
+local showstats = false
 local _, gdbprivate = ...
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsScrollbarChecked = {
 		ScrollbarSetChecked = false,
@@ -180,6 +180,7 @@ end
 local configMode = false
 
 local function ShowCharacterStats(unit)
+	print(showstats)
     local stat
     local count, backgroundcount, height = 0, false, 4
 	local hideatzero = true --placeholder for the checkbox hideatzero
@@ -463,6 +464,15 @@ end)
 ---------------------
 -- Show/Hide Logic --
 ---------------------
+StatFrame:HookScript("OnShow", function(self)
+	showstats = true
+	print(showstats, "OnShow")
+end)
+StatFrame:HookScript("OnHide", function(self)
+	showstats = false
+	print(showstats,"OnHide")
+end)
+
 
 CharacterStatsPane:HookScript("OnShow", function(self)
 	self:Hide()
