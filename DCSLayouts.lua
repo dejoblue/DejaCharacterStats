@@ -181,6 +181,7 @@ local configMode = false
 
 local function ShowCharacterStats(unit)
 	print(showstats)
+	if showstats then
     local stat
     local count, backgroundcount, height = 0, false, 4
 	local hideatzero = true --placeholder for the checkbox hideatzero
@@ -255,6 +256,7 @@ local function ShowCharacterStats(unit)
 		end			
 	end
 	set_relevant_stat_state()
+	end
 end
 
 
