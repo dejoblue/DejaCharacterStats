@@ -482,7 +482,11 @@ CharacterStatsPane:HookScript("OnShow", function(self)
 end)
 
 hooksecurefunc("PaperDollFrame_UpdateStats", function()
-	if showstats then ShowCharacterStats("player") end --now that we know when to show stats use it
+	if showstats then
+		ShowCharacterStats("player")
+	else
+		print("no call")
+	end --now that we know when to show stats use it
 end)
 
 hooksecurefunc("PaperDollFrame_SetSidebar", function(self, index)
