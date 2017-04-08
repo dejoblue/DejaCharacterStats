@@ -221,7 +221,7 @@ local function DCS_Decimals(notinteger)
 			statFrame.tooltip2 = format(CR_BLOCK_TOOLTIP, GetShieldBlock());
 			statFrame:Show();
 		end
-		PaperDollFrame_UpdateStats()
+		PaperDollFrame_UpdateStats() --why there's a need to call it?
 end
 	
 local _, gdbprivate = ...
