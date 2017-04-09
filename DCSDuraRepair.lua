@@ -114,7 +114,10 @@ function DCS_Mean_DurabilityCalc()
 		--if duraTotal == 0 then duraTotal = 1 	end
 		duraMaxTotal = duraMaxTotal + durMax
 	end
-	if duraMaxTotal == 0 then duraMaxTotal = 1 	 end --puting outside of for loop
+	if duraMaxTotal == 0 then 
+		duraMaxTotal = 1
+		duraTotal = 1 --if nothing to break then durability should be 100%
+	end --puting outside of for loop
 	addon.duraMean = ((duraTotal/duraMaxTotal)*100)
 end		
 
@@ -407,13 +410,13 @@ local function DCS_Item_RepairCostBottom()
 		local repairitemCost = select(3, scanTool:SetInventoryItem("player", slotId))
 		if (repairitemCost<=0) then
 			v.itemrepair:SetFormattedText("")
-		elseif (repairitemCost>9999999) then
+		elseif (repairitemCost>999999) then -- 99G 99s 99c
 			v.itemrepair:SetTextColor(1, 0.843, 0)
 			v.itemrepair:SetFormattedText("%.0fg", (repairitemCost/10000))
-		elseif (repairitemCost>99999) then --  9g 99s 99c
+		elseif (repairitemCost>9999) then -- 99s 99c
 			v.itemrepair:SetTextColor(1, 0.843, 0)
 			v.itemrepair:SetFormattedText("%.2fg", (repairitemCost/10000))
-		elseif (repairitemCost>99) then
+		elseif (repairitemCost>99) then -- 99c
 			v.itemrepair:SetTextColor(0.753, 0.753, 0.753)
 			v.itemrepair:SetFormattedText("%.2fs", (repairitemCost/100))
 		else

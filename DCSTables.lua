@@ -199,8 +199,8 @@ DCS_TableData.StatData.EnhancementsCategory = {
 
 DCS_TableData.StatData.DCS_POWER = {
 	updateFunc = function(statFrame, unit)
-		powerToken = SPELL_POWER_MANA
-		local power = UnitPowerMax(unit,powerToken);
+		powerType = SPELL_POWER_MANA --changing here as well for similarity
+		local power = UnitPowerMax(unit,powerType);
 		local powerText = BreakUpLargeNumbers(power);
 		if power > 0 then
 			PaperDollFrame_SetLabelAndText(statFrame, MANA, powerText, false, power);
@@ -392,6 +392,18 @@ DCS_TableData.StatData.REPAIR_COST = {
 			--print (font, size, flag)
             statFrame.Label:SetFont(font, size, flag)
         end
+		--beware of strange mathematical calculations below
+		local try_to_predict_more_accurately = false -- placeholder for the checkbox
+		local multiplier
+		local upperbound, lowerbound
+		if try_to_predict_more_accurately then
+			reaction = UnitReaction("target", "player")
+			if not UnitIsPVP("target") then reaction = 4 end -- should take care of repair bots/repair mounts
+			--if not reaction then reaction = 4 end --if no target then neutral faction; seems like isn't needed
+			multiplier = (24 - reaction)/20 -- friendly faction has 5% discount, and exalted 20% discount
+			--print("mult= ",multiplier)
+			upperbound, lowerbound = 0, 0
+		end
         local totalCost = 0
         local _, repairCost
         for _, index in ipairs({1,3,5,6,7,8,9,10,16,17}) do
@@ -399,9 +411,21 @@ DCS_TableData.StatData.REPAIR_COST = {
             _, _, repairCost = statFrame.scanTooltip:SetInventoryItem(unit, index)
             if (repairCost and repairCost > 0) then
                 totalCost = totalCost + repairCost
+				if try_to_predict_more_accurately then
+					upperbound = upperbound + floor((repairCost+0.5)/multiplier)
+					lowerbound = lowerbound + ceil((repairCost-0.5)/multiplier)
+				end
             end
         end
 
+		--local repairAllCost, canRepair = GetRepairAllCost()
+		--print(repairAllCost)
+--		print("----")
+		if try_to_predict_more_accurately then
+			--print("between ",lowerbound," and ",upperbound)
+			totalCost = floor(0.5+multiplier*(upperbound + lowerbound)/2)
+			--print(totalCost)
+		end
         MoneyFrame_Update(statFrame.MoneyFrame, totalCost)
 		statFrame.MoneyFrame:Hide()
 		
