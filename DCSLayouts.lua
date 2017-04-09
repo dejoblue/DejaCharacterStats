@@ -336,7 +336,7 @@ end
 
 local function DCS_Login_Initialization()
 	ShownData = DCS_TableData:CopyTable(DefaultData)
-
+	showstats=true
 	local uniqueKey = UnitName("player") .. ":" .. GetRealmName() .. ":" .. GetSpecialization()
 	--print(uniqueKey)
 	if (DCS_ClassSpecDB[uniqueKey]) then
@@ -466,6 +466,9 @@ end)
 ---------------------
 -- Show/Hide Logic --
 ---------------------
+
+
+if 1 ==0 then
 StatFrame:HookScript("OnShow", function(self)
 	showstats = true
 	print(showstats, "OnShow")
@@ -474,7 +477,7 @@ StatFrame:HookScript("OnHide", function(self)
 	showstats = false
 	print(showstats,"OnHide")
 end)
-
+end
 
 CharacterStatsPane:HookScript("OnShow", function(self)
 	self:Hide()
@@ -842,7 +845,27 @@ local function DCS_InterfaceOptConfigButton_OnLeave(self)
 		DCS_InterfaceOptConfigButton_OnEnter()
 	end)
 
-
+	
+	
+	
+if 1==0 then	
+DCS_configButton:HookScript("OnShow", function(self)
+	showstats = true
+	print(showstats, "OnShowDCS_configButton")
+end)
+DCS_configButton:HookScript("OnHide", function(self)
+	showstats = false
+	print(showstats,"OnHideDCS_configButton")
+end)
+DCS_InterfaceOptConfigButton:HookScript("OnShow", function(self)
+	showstats = true
+	print(showstats, "OnShowDCS_InterfaceOptConfigButton")
+end)
+DCS_InterfaceOptConfigButton:HookScript("OnHide", function(self)
+	showstats = false
+	print(showstats,"OnHideDCS_InterfaceOptConfigButton")
+end)
+end
 ----------------------------
 -- Scrollbar Check Button --
 ----------------------------
