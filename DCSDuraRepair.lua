@@ -77,6 +77,7 @@ local function DCS_Set_Dura_Item_Positions()
 			end
 		end
 		if showrepair then
+			if notshowdura then
 				v.itemrepair:SetPoint("CENTER",v,"CENTER",0,-2)
 				v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 12, "THINOUTLINE")
 			end
@@ -88,6 +89,7 @@ end
 --slightly modified previous version
 if 1 == 0 then
 local function DCS_Set_Dura_Item_Positions()
+	local showdura = DCS_ShowDuraCheck:GetChecked(true) --GetChecked doesn't take input variables
 	local notshowdura = DCS_ShowDuraCheck:GetChecked(false)
 	print(showdura, not notshowdura)
 	local showrepair = DCS_ShowItemRepairCheck:GetChecked(true)
