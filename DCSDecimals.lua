@@ -221,7 +221,7 @@ local function DCS_Decimals(notinteger)
 			statFrame.tooltip2 = format(CR_BLOCK_TOOLTIP, GetShieldBlock());
 			statFrame:Show();
 		end
-		PaperDollFrame_UpdateStats()
+		PaperDollFrame_UpdateStats() -- needs to get called for checkbox Decimals
 end
 	
 local _, gdbprivate = ...
