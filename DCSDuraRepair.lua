@@ -243,10 +243,11 @@ local function DCS_Item_DurabilityTop()
 	for k, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		local slotId = v:GetID()
 		local durCur, durMax = GetInventoryItemDurability(slotId)
-		if durCur == nil or durMax == nil then
-			v.duratexture:SetColorTexture(0, 0, 0, 0)
-			v.durability:SetFormattedText("")
-		elseif ( durCur == durMax ) then
+		--if durCur == nil or durMax == nil then
+		--	v.duratexture:SetColorTexture(0, 0, 0, 0)
+		--	v.durability:SetFormattedText("")
+		--elseif ( durCur == durMax ) then
+		if ( durCur == durMax ) then
 			v.duratexture:SetColorTexture(0, 0, 0, 0)
 			v.durability:SetFormattedText("")
 		else --if ( durCur ~= durMax ) then -- no need to check, can remain as comment for easier understanding
@@ -326,15 +327,18 @@ local function DCS_Durability_Bar_Textures()
 		local slotId = v:GetID()
 		local durCur, durMax = GetInventoryItemDurability(slotId)
 
-		if durCur == nil or durMax == nil then
-			v.duratexture:SetColorTexture(0, 0, 0, 0)
-		elseif ( durCur == durMax ) then
+		--if durCur == nil or durMax == nil then
+		--	v.duratexture:SetColorTexture(0, 0, 0, 0)
+		--elseif ( durCur == durMax ) then
+		if ( durCur == durMax ) then
 			v.duratexture:SetColorTexture(0, 0, 0, 0)
 		else --if ( durCur ~= durMax ) then -- no need to check, can remain as comment for easier understanding
-			duraFinite = ((durCur/durMax)*100)
+			--duraFinite = ((durCur/durMax)*100)
+			duraFinite = durCur/durMax
 		end
-		v.duratexture:SetPoint("BOTTOMLEFT",v,"BOTTOMRIGHT",1,3)
-		v.duratexture:SetSize(4, (31*(duraFinite/100)))
+		v.duratexture:SetPoint("BOTTOMLEFT",v,"BOTTOMRIGHT",1,3) -- might be interesting to put between else and end
+		--v.duratexture:SetSize(4, (31*(duraFinite/100)))
+		v.duratexture:SetSize(4, (31*duraFinite))
 		v.duratexture:Show()
 		duraMeanTexture:Show()
 	end
@@ -342,15 +346,18 @@ local function DCS_Durability_Bar_Textures()
 		local slotId = v:GetID()
 		local durCur, durMax = GetInventoryItemDurability(slotId)
 
-		if durCur == nil or durMax == nil then
-			v.duratexture:SetColorTexture(0, 0, 0, 0)
-		elseif ( durCur == durMax ) then
+		--if durCur == nil or durMax == nil then
+		--	v.duratexture:SetColorTexture(0, 0, 0, 0)
+		--elseif ( durCur == durMax ) then
+		if ( durCur == durMax ) then
 			v.duratexture:SetColorTexture(0, 0, 0, 0)
 		else --if ( durCur ~= durMax ) then -- no need to check, can remain as comment for easier understanding
-			duraFinite = ((durCur/durMax)*100)
+			--duraFinite = ((durCur/durMax)*100)
+			duraFinite = durCur/durMax
 		end
-		v.duratexture:SetPoint("BOTTOMRIGHT",v,"BOTTOMLEFT",-2,3)
-		v.duratexture:SetSize(3, (31*(duraFinite/100)))
+		v.duratexture:SetPoint("BOTTOMRIGHT",v,"BOTTOMLEFT",-2,3) -- might be interesting to put between else and end
+		--v.duratexture:SetSize(3, (31*(duraFinite/100)))
+		v.duratexture:SetSize(3, (31*duraFinite))
 		v.duratexture:Show()
 		duraMeanTexture:Show()
 	end
