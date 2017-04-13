@@ -57,96 +57,32 @@ for k, v in ipairs(DCSITEM_SLOT_FRAMES) do
 end
 
 local function DCS_Set_Dura_Item_Positions()
+	--It encompasses item repair, durability and, indirectly, durability bars.
 	local showdura = DCS_ShowDuraCheck:GetChecked()
-	local notshowdura = not showdura
 	local showrepair = DCS_ShowItemRepairCheck:GetChecked()
 	for k, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		v.durability:ClearAllPoints()
 		v.itemrepair:ClearAllPoints()
-		if showdura then --those outer-most ifs seem really strange, like almost the same is done
-		--These outer if statements are because this whole function is clustered. 
-		--It encompasses item repair, durability and, indirectly, durability bars.
+		if showdura then 
 			if showrepair then
 				v.durability:SetPoint("TOP",v,"TOP",3,-3)
 				v.durability:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
 				v.itemrepair:SetPoint("BOTTOM",v,"BOTTOM",1,3)
 				v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
-			else
+			else --not showrepair
 				v.durability:SetPoint("CENTER",v,"CENTER",1,-2)
 				v.durability:SetFont("Fonts\\FRIZQT__.TTF", 15, "THINOUTLINE")
 			end
-		end
-		if showrepair then
-			if notshowdura then
-				v.itemrepair:SetPoint("CENTER",v,"CENTER",0,-2)
-				v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 12, "THINOUTLINE")
-			end
-		end
-	end
-end
-
-
---slightly modified previous version
-if 1 == 0 then
-local function DCS_Set_Dura_Item_Positions()
-	local showdura = DCS_ShowDuraCheck:GetChecked(true) --GetChecked doesn't take input variables
-	local notshowdura = DCS_ShowDuraCheck:GetChecked(false)
-	print(showdura, not notshowdura)
-	local showrepair = DCS_ShowItemRepairCheck:GetChecked(true)
-	local notshowrepair = DCS_ShowItemRepairCheck:GetChecked(false)
-	print(showrepair, not notshowrepair)
-	for k, v in ipairs(DCSITEM_SLOT_FRAMES) do
-		v.durability:ClearAllPoints()
-		v.itemrepair:ClearAllPoints()
-		if showdura then --those outer-most ifs seem really strange, like almost the same is done
-		--These outer if statements are because this whole function is clustered. 
-		--It encompasses item repair, durability and, indirectly, durability bars.
+		else --not showdura
 			if showrepair then
-				v.durability:SetPoint("TOP",v,"TOP",3,-30)
-				v.durability:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
-				v.itemrepair:SetPoint("BOTTOM",v,"BOTTOM",1,3)
-				v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
-			else--if not showrepair then --Absoultely need to check
-			--or else initial conditions will always show durability,
-			--even when clicking Durability Bars, Average Durability and item Repair Cost buttons.
-			--Kakjens: Disagree for this one
-				v.durability:SetPoint("CENTER",v,"CENTER",1,-2)
-				v.durability:SetFont("Fonts\\FRIZQT__.TTF", 15, "THINOUTLINE")
-			--else print("one")
-			end
-		elseif notshowdura then --Absoultely need to check
-			--or else initial conditions will always show durability,
-			--even when clicking Durability Bars, Average Durability and item Repair Cost buttons.
-			v.durability:SetPoint("TOP",v,"TOP",3,-3)
-			v.durability:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
-			print("God is good")
-			else print("two")
-		end
-		if showrepair then
-			if showdura then
-				v.durability:SetPoint("TOP",v,"TOP",3,-3)
-				v.durability:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
-				v.itemrepair:SetPoint("BOTTOM",v,"BOTTOM",1,3)
-				v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
-			else--if not showdura then --Absoultely need to check
-			--or else initial conditions will always show durability,
-			--even when clicking Durability Bars, Average Durability and item Repair Cost buttons.
-			--Kakjens: Disagree for this one
 				v.itemrepair:SetPoint("CENTER",v,"CENTER",0,-2)
 				v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 12, "THINOUTLINE")
-				--else print("three")
 			end
-		elseif notshowrepair then --Absoultely need to check
-			--or else initial conditions will always show durability,
-			--even when clicking Durability Bars, Average Durability and item Repair Cost buttons.
-			v.itemrepair:SetPoint("BOTTOM",v,"BOTTOM",1,3)
-			v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
-			print("God is great")
-			else print("four")
 		end
+		
 	end
 end
-end
+
 ---------------------------------
 -- Durability Mean Calculation --
 ---------------------------------
