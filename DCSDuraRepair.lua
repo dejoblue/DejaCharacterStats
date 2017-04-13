@@ -197,10 +197,11 @@ local function DCS_Item_DurabilityTop()
 	for k, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		local slotId = v:GetID()
 		local durCur, durMax = GetInventoryItemDurability(slotId)
-		if durCur == nil or durMax == nil then
-			v.duratexture:SetColorTexture(0, 0, 0, 0)
-			v.durability:SetFormattedText("")
-		elseif ( durCur == durMax ) then
+		--if durCur == nil or durMax == nil then
+		--	v.duratexture:SetColorTexture(0, 0, 0, 0)
+		--	v.durability:SetFormattedText("")
+		--elseif ( durCur == durMax ) then
+		if ( durCur == durMax ) then
 			v.duratexture:SetColorTexture(0, 0, 0, 0)
 			v.durability:SetFormattedText("")
 		else --if ( durCur ~= durMax ) then -- no need to check, can remain as comment for easier understanding
