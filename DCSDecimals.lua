@@ -131,17 +131,21 @@ local function DCS_Decimals(notinteger)
 				statFrame:Hide();
 				return;
 			end
+			--if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
+			--	statFrame:Hide();
+			--	return;
+			--end
+			local color_mastery = STAT_MASTERY 
 			if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
-				statFrame:Hide();
-				return;
+				color_mastery = "|cff7f7f7f" .. STAT_MASTERY .. "|r"
 			end
-
 			local mastery = GetMasteryEffect();
 		-- PaperDollFrame_SetLabelAndText Format Change
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_MASTERY, format(statformat, mastery), false, mastery);
+			PaperDollFrame_SetLabelAndText(statFrame, color_mastery, format(statformat, mastery), false, mastery);
 			statFrame.onEnterFunc = Mastery_OnEnter;
 			statFrame:Show();
 		end
+			
 
 	-- Leech (Lifesteal)
 		function PaperDollFrame_SetLifesteal(statFrame, unit)
