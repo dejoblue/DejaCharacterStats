@@ -6,7 +6,6 @@ DCS_ClassSpecDB = {}
 
 local _, DCS_TableData = ...
 
-local showstats = false
 local _, gdbprivate = ...
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsScrollbarChecked = {
 		ScrollbarSetChecked = false,
@@ -180,8 +179,6 @@ end
 local configMode = false
 
 local function ShowCharacterStats(unit)
-	--print(showstats)
-	if showstats then
     local stat
     local count, backgroundcount, height = 0, false, 4
 	local hideatzero = true --placeholder for the checkbox hideatzero
@@ -256,7 +253,6 @@ local function ShowCharacterStats(unit)
 		end			
 	end
 	set_relevant_stat_state()
-	end
 end
 
 
@@ -336,7 +332,6 @@ end
 
 local function DCS_Login_Initialization()
 	ShownData = DCS_TableData:CopyTable(DefaultData)
-	showstats=true
 	local uniqueKey = UnitName("player") .. ":" .. GetRealmName() .. ":" .. GetSpecialization()
 	--print(uniqueKey)
 	if (DCS_ClassSpecDB[uniqueKey]) then
@@ -468,29 +463,13 @@ end)
 ---------------------
 
 
-if 1 ==0 then
-StatFrame:HookScript("OnShow", function(self)
-	showstats = true
-	--print(showstats, "OnShow")
-end)
-StatFrame:HookScript("OnHide", function(self)
-	showstats = false
-	--print(showstats,"OnHide")
-end)
-end
-
 CharacterStatsPane:HookScript("OnShow", function(self)
 	self:Hide()
 	StatScrollFrame:Show()
 end)
 
 hooksecurefunc("PaperDollFrame_UpdateStats", function()
-	if showstats then
 		ShowCharacterStats("player")
-	else
-		--print("no call")
-		return
-	end --now that we know when to show stats use it
 end)
 
 hooksecurefunc("PaperDollFrame_SetSidebar", function(self, index)
@@ -846,27 +825,6 @@ local function DCS_InterfaceOptConfigButton_OnLeave(self)
 		DCS_InterfaceOptConfigButton_OnEnter()
 	end)
 
-	
-	
-	
-if 1==0 then	
-DCS_configButton:HookScript("OnShow", function(self)
-	showstats = true
-	--print(showstats, "OnShowDCS_configButton")
-end)
-DCS_configButton:HookScript("OnHide", function(self)
-	showstats = false
-	--print(showstats,"OnHideDCS_configButton")
-end)
-DCS_InterfaceOptConfigButton:HookScript("OnShow", function(self)
-	showstats = true
-	--print(showstats, "OnShowDCS_InterfaceOptConfigButton")
-end)
-DCS_InterfaceOptConfigButton:HookScript("OnHide", function(self)
-	showstats = false
-	--print(showstats,"OnHideDCS_InterfaceOptConfigButton")
-end)
-end
 ----------------------------
 -- Scrollbar Check Button --
 ----------------------------
