@@ -122,7 +122,7 @@ local function DCS_Decimals(notinteger)
 			--end
 			local color_mastery = STAT_MASTERY 
 			if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
-				color_mastery = "|cff7f7f7f" .. STAT_MASTERY .. "|r"
+				color_mastery = "|cff7f7f7f" .. color_mastery .. "|r"
 			end
 			local mastery = GetMasteryEffect();
 		-- PaperDollFrame_SetLabelAndText Format Change
