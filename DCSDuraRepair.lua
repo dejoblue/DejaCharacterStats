@@ -44,14 +44,14 @@ local duraDurabilityFrameFS = DurabilityFrame:CreateFontString("FontString","OVE
 	duraDurabilityFrameFS:SetFormattedText("")
 	
 for k, v in ipairs(DCSITEM_SLOT_FRAMES) do
-	v.duratexture = duraColorTexture
+	--v.duratexture = duraColorTexture
 	v.duratexture = v:CreateTexture(nil,"ARTWORK")
 
-	v.durability = duraFS
+	--v.durability = duraFS
     v.durability = v:CreateFontString("FontString","OVERLAY","GameTooltipText")
     v.durability:SetFormattedText("")
 
-    v.itemrepair = itemrepairFS
+    --v.itemrepair = itemrepairFS
     v.itemrepair = v:CreateFontString("FontString","OVERLAY","GameTooltipText")
     v.itemrepair:SetFormattedText("")
 end

@@ -32,7 +32,7 @@ local loader = CreateFrame("Frame")
 				return gdb
 			end
 
-			DejaCharacterStatsDB = initDB(DejaCharacterStatsDB, gdbprivate.gdbdefaults)
+			DejaCharacterStatsDB = initDB(DejaCharacterStatsDB, gdbprivate.gdbdefaults) --it's not a saved variable according to toc
 			gdbprivate.gdb = DejaCharacterStatsDB
 
 			self:UnregisterEvent("ADDON_LOADED")
@@ -96,7 +96,7 @@ end)
 function RegisteredEvents:ADDON_LOADED(event, addon, ...)
 	if (addon == "DejaCharacterStats") then
 		SLASH_DEJACHARACTERSTATS1 = (L["/dcstats"])
-		SlashCmdList["DejaCharacterStats"] = function (msg, editbox)
+		SlashCmdList["DEJACHARACTERSTATS"] = function (msg, editbox)
 			DejaCharacterStats.SlashCmdHandler(msg, editbox)	
 	end
 	--	DEFAULT_CHAT_FRAME:AddMessage("DejaCharacterStats loaded successfully. For options: Esc>Interface>AddOns or type /dcstats.",0,192,255)
@@ -116,7 +116,7 @@ end
 
 function DejaCharacterStats.SetConfigToDefaults()
 	print(L["Resetting config to defaults"])
-	DejaCharacterStatsDBPC = DefaultConfig
+	DejaCharacterStatsDBPC = DefaultConfig --what's this?
 	RELOADUI()
 end
 
@@ -128,7 +128,7 @@ function DejaCharacterStats.PrintPerformanceData()
 	UpdateAddOnMemoryUsage()
 	local mem = GetAddOnMemoryUsage("DejaCharacterStats")
 	print(L["DejaCharacterStats is currently using "] .. mem .. L[" kbytes of memory"])
-	collectgarbage(collect)
+	collectgarbage("collect")
 	UpdateAddOnMemoryUsage()
 	mem = GetAddOnMemoryUsage("DejaCharacterStats")
 	print(L["DejaCharacterStats is currently using "] .. mem .. L[" kbytes of memory after garbage collection"])
@@ -142,7 +142,7 @@ function DejaCharacterStats.SlashCmdHandler(msg, editbox)
 		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
 	elseif (string.lower(msg) == L["dumpconfig"]) then
 		print(L["With defaults"])
-		for k,v in pairs(DCSDefaultConfig) do
+		for k,v in pairs(DCSDefaultConfig) do --produces error
 			print(k,DejaCharacterStats.GetConfigValue(k))
 		end
 		print(L["Direct table"])

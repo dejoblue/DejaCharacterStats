@@ -199,7 +199,7 @@ DCS_TableData.StatData.EnhancementsCategory = {
 
 DCS_TableData.StatData.DCS_POWER = {
 	updateFunc = function(statFrame, unit)
-		powerType = SPELL_POWER_MANA --changing here as well for similarity
+		local powerType = SPELL_POWER_MANA --changing here as well for similarity
 		local power = UnitPowerMax(unit,powerType);
 		local powerText = BreakUpLargeNumbers(power);
 		if power > 0 then
@@ -320,7 +320,7 @@ DCS_TableData.StatData.WEAPON_DPS = {
 
 local function casterGCD()
 	local haste = GetHaste()
-	gcd = max(0.75, 1.5 * 100 / (100+haste))
+	local gcd = max(0.75, 1.5 * 100 / (100+haste))
 	return gcd
 end
 
@@ -374,6 +374,7 @@ DCS_TableData.StatData.REPAIR_COST = {
 		local try_to_predict_more_accurately = false -- placeholder for the checkbox
 		local multiplier
 		local upperbound, lowerbound
+		local reaction
 		if try_to_predict_more_accurately then
 			reaction = UnitReaction("target", "player")
 			if not UnitIsPVP("target") then reaction = 4 end -- should take care of repair bots/repair mounts
@@ -407,7 +408,7 @@ DCS_TableData.StatData.REPAIR_COST = {
         MoneyFrame_Update(statFrame.MoneyFrame, totalCost)
 		statFrame.MoneyFrame:Hide()
 		
-		totalRepairCost = GetCoinTextureString(totalCost)
+		local totalRepairCost = GetCoinTextureString(totalCost)
 		
 		local gold = floor(abs(totalCost / 10000))
 		local silver = floor(abs(mod(totalCost / 100, 100)))
