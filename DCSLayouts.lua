@@ -188,6 +188,7 @@ local function ShowCharacterStats(unit)
 		--print(v.statKey)
 		if stat then -- if some stat gets removed or if experimenting with adding stats
 			stat.updateFunc(stat.frame, unit)
+			--print(v.statKey,stat.frame.numericValue) -- to verify that recorded numeric value is the one intended - either rounded or with many decimal digits
 			if (configMode) then
 				stat.frame:Show()
 				stat.frame.checkButton:Show()
