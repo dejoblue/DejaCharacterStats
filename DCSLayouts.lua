@@ -179,6 +179,8 @@ end
 local configMode = false
 
 local function ShowCharacterStats(unit)
+	--DEFAULT_CHAT_FRAME:AddMessage("DejaCharacterStats loaded successfully. For options: Esc>Interface>AddOns or type /dcstats.",0,192,255)
+	DEFAULT_CHAT_FRAME:AddMessage("displayed stats",0,0.7,1)
     local stat
     local count, backgroundcount, height = 0, false, 4
 	local hideatzero = true --placeholder for the checkbox hideatzero
@@ -261,6 +263,7 @@ local function DCS_Table_ShowAllStats()
 		--if v.hidden == true then v.hidden = false end
 		v.hidden = false -- should be slightly faster because when this function gets called the most of stats are invisible
 	end
+	print("DCS_Table_ShowAllStats")
 	ShowCharacterStats("player")
 end
 
@@ -327,6 +330,7 @@ local function DCS_Table_Relevant()
 	--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
 	ShownData.uniqueKey = uniqueKey
 	DCS_ClassSpecDB[uniqueKey] = ShownData
+	print("DCS_Table_Relevant")
 	ShowCharacterStats("player")
 end
 
@@ -339,6 +343,7 @@ local function DCS_Login_Initialization()
 		ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey])
 		--print("Set saved variables.")
 		end
+		print("DCS_Login_Initialization")
 		ShowCharacterStats("player")
 	else
 		--print("Set default initialization")
@@ -364,6 +369,7 @@ local function DCS_Table_Reset()
 	ShownData.uniqueKey = uniqueKey
 	DCS_ClassSpecDB[uniqueKey] = ShownData
 	--DCS_Table_ShowAllStats()
+	print("DCS_Table_Reset")
 	ShowCharacterStats("player")
 end
 
@@ -400,6 +406,7 @@ local function OnDragStop(self)
 	if (DragTargetFrame) then
 		DragTargetFrame.anchorBar:Hide()
 	end
+	print("OnDragStop")
 	ShowCharacterStats("player")
 end
 
@@ -457,6 +464,13 @@ StatScrollFrame:HookScript("OnUpdate", function(self, elasped)
 	end
 end)
 
+--[[
+-- does not work here but can ShowCharacterStats can be modified to display it
+hooksecurefunc(DejaCharacterStats.DCSLayouts,"ShowCharacterStats", function(unit)
+		print("displayed stats")
+end)
+
+--]]
 
 ---------------------
 -- Show/Hide Logic --
@@ -469,6 +483,7 @@ CharacterStatsPane:HookScript("OnShow", function(self)
 end)
 
 hooksecurefunc("PaperDollFrame_UpdateStats", function()
+		print("PaperDollFrame_UpdateStats")
 		ShowCharacterStats("player")
 end)
 
@@ -497,7 +512,8 @@ local function DCS_TableRelevantStats_OnLeave(self)
  
 local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", CharacterFrameInsetRight, "UIPanelButtonTemplate")
 	DCS_TableRelevantStats:RegisterEvent("ADDON_LOADED")
-	DCS_TableRelevantStats:RegisterEvent("PLAYER_TALENT_UPDATE")
+	--DCS_TableRelevantStats:RegisterEvent("PLAYER_TALENT_UPDATE")
+	DCS_TableRelevantStats:RegisterEvent("PLAYER_ENTERING_WORLD")
 	DCS_TableRelevantStats:ClearAllPoints()
 	DCS_TableRelevantStats:SetPoint("BOTTOMRIGHT", -130,-36)
 	DCS_TableRelevantStats:SetScale(0.80)
@@ -545,11 +561,26 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 	end)
 
 	DCS_TableRelevantStats:SetScript("OnEvent", function(self, event, ...)
-
-		if event == "ADDON_LOADED" or event == "PLAYER_TALENT_UPDATE" then
-			if IsLoggedIn() then
+		local arg1 = ...
+		--print(ADDON_NAME,arg1 == ADDON_NAME)
+		if event == "ADDON_LOADED" and arg1 == ADDON_NAME then
+			if IsLoggedIn() then --does it happen?
+				print("DCS_TableRelevantStats OnEvent",event,arg1)
 				DCS_Login_Initialization()
 				DCS_TableRelevantStats_init()
+			end
+		else
+			if event == "PLAYER_TALENT_UPDATE" then
+				print("DCS_TableRelevantStats OnEvent",event)
+				DCS_Login_Initialization()
+				DCS_TableRelevantStats_init()
+			else
+				if event == "PLAYER_ENTERING_WORLD" then
+					print("DCS_TableRelevantStats OnEvent",event)
+					self:RegisterEvent("PLAYER_TALENT_UPDATE")
+					DCS_Login_Initialization()
+					DCS_TableRelevantStats_init()
+				end
 			end
 		end
 	end)
@@ -612,14 +643,20 @@ local DCS_configButton = CreateFrame("Button", "DCS_configButton", PaperDollSide
 	DCS_configButton:SetSize(32, 32)
 	DCS_configButton:RegisterEvent("MERCHANT_SHOW")
 	DCS_configButton:RegisterEvent("MERCHANT_CLOSED")
-	DCS_configButton:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+	DCS_configButton:RegisterEvent("PLAYER_ENTERING_WORLD")
+	--DCS_configButton:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_configButton:SetPoint("BOTTOMLEFT", PaperDollSidebarTab1, "BOTTOMLEFT", 96, 34)
 	DCS_configButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
 	DCS_configButton:SetPushedTexture("Interface\\Buttons\\LockButton-Unlocked-Down")
 	DCS_configButton:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
 	
 DCS_configButton:SetScript("OnEvent", function(self, event, ...)
-	PaperDollFrame_UpdateStats()
+	if event == "PLAYER_ENTERING_WORLD" then
+		self:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+	else
+		print("DCS_configButton OnEvent",event)
+		PaperDollFrame_UpdateStats()
+	end
 end)
 
 local function DCS_configButton_OnEnter(self)
@@ -651,6 +688,7 @@ local function configButtonOnClose()
 
 	DCS_configButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
 	DCS_InterfaceOptConfigButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
+	print("configButtonOnClose")
 	ShowCharacterStats("player")
 end
 
@@ -686,6 +724,7 @@ local function DCS_DefaultStatsAnchors()
 	
 	configButtonOnClose()
 	DCS_ClassCrestBGCheck()
+	print("DCS_DefaultStatsAnchors")
 	ShowCharacterStats("player")
 end
 
@@ -722,6 +761,7 @@ local function DCS_InterfaceOptionsStatsAnchors()
 		CharacterStatsPane.ClassBackground:Show()
 
 		DCS_ClassCrestBGCheck()
+		print("DCS_InterfaceOptionsStatsAnchors")
 		ShowCharacterStats("player")
 	end
 end	
@@ -776,6 +816,7 @@ end)
 		else
 			configButtonOnClose()
 		end
+		print("DCS_configButton on mouse up")
 		ShowCharacterStats("player")
 		DCS_configButton_OnEnter()
 	end)
@@ -786,7 +827,7 @@ end)
 ------------------------------------------
 
 local DCS_InterfaceOptConfigButton = CreateFrame("Button", "DCS_InterfaceOptConfigButton", DejaCharacterStatsPanel)
-	DCS_InterfaceOptConfigButton:RegisterEvent("PLAYER_LOGIN")
+	DCS_InterfaceOptConfigButton:RegisterEvent("PLAYER_LOGIN") --no need to register event
 	DCS_InterfaceOptConfigButton:ClearAllPoints()
 	DCS_InterfaceOptConfigButton:SetPoint("TOPRIGHT", 0, 29)
 	DCS_InterfaceOptConfigButton:SetSize(36, 36)
@@ -809,7 +850,8 @@ local function DCS_InterfaceOptConfigButton_OnLeave(self)
 	DCS_InterfaceOptConfigButton:SetScript("OnLeave", DCS_InterfaceOptConfigButton_OnLeave)
 
 	DCS_InterfaceOptConfigButton:SetScript("OnEvent", function(self, event)
-				ShowCharacterStats("player")
+	--print("DCS_InterfaceOptConfigButton OnEvent")
+				--ShowCharacterStats("player")
 	end)
 	
 	DCS_InterfaceOptConfigButton:SetScript("OnMouseUp", function(self, button, up)
@@ -821,6 +863,7 @@ local function DCS_InterfaceOptConfigButton_OnLeave(self)
 			self:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
 			set_config_mode(false)
 		end
+		print("DCS_InterfaceOptConfigButton OnMouseUp")
 		ShowCharacterStats("player")
 		DCS_InterfaceOptConfigButton_OnEnter()
 	end)
@@ -844,7 +887,8 @@ local DCS_ScrollbarCheck = CreateFrame("CheckButton", "DCS_ScrollbarCheck", Deja
 			--Logic is built into ShowCharacterStats("player")
 		end
 		DCS_ScrollbarCheck:UnregisterAllEvents();
-        ShowCharacterStats("player")
+		--print("DCS_ScrollbarCheck OnEvent")
+        --ShowCharacterStats("player") -- no need to display stats during log in
 	end)
 
 	DCS_ScrollbarCheck:SetScript("OnClick", function(self,event,arg1) 
@@ -854,7 +898,8 @@ local DCS_ScrollbarCheck = CreateFrame("CheckButton", "DCS_ScrollbarCheck", Deja
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked.ScrollbarSetChecked = true
 		else
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked.ScrollbarSetChecked = false
-		end		
+		end	
+		print("DCS_ScrollbarCheck OnClick")		
         ShowCharacterStats("player")
 	end)
 
@@ -894,7 +939,8 @@ local DCS_ClassBackgroundCheck = CreateFrame("CheckButton", "DCS_ClassBackground
 		else
 			CharacterStatsPane.ClassBackground:Hide() 
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsClassBackgroundChecked.ClassBackgroundChecked = false
-		end		
+		end	
+		print("DCS_ClassBackgroundCheck OnClick")		
         ShowCharacterStats("player")
 	end)
 

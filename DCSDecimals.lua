@@ -206,6 +206,7 @@ local function DCS_Decimals(notinteger)
 			statFrame.tooltip2 = format(CR_BLOCK_TOOLTIP, GetShieldBlock());
 			statFrame:Show();
 		end
+		print("DCS_Decimals")
 		PaperDollFrame_UpdateStats() -- needs to get called for checkbox Decimals
 end
 	
@@ -226,7 +227,7 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 			local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked
 			self:SetChecked(checked.SetChecked)
 			local status = self:GetChecked(true)
-			DCS_Decimals(status)
+			--DCS_Decimals(status)
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked = status
 		end
 	end)

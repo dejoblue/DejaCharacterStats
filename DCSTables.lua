@@ -11,7 +11,7 @@ local _, gdbprivate = ...
 		ItemLevelDecimalsSetChecked = false,
 		ItemLevelTwoDecimalsSetChecked = true,
 	}	
-
+local format = string.format
 
 -----------------------
 -- Item Level Checks --
@@ -39,6 +39,7 @@ local _, gdbprivate = ...
 		else
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelEQ_AV_SetChecked = false
 		end
+		print("DCS_ILvl_EQ_AV_Check OnClick")
 		PaperDollFrame_UpdateStats()
 	end)
 
@@ -66,6 +67,7 @@ local DCS_ItemLevelDecimalPlacesCheck = CreateFrame("CheckButton", "DCS_ItemLeve
 		else
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelDecimalsSetChecked = false
 		end
+		print("DCS_ItemLevelDecimalPlacesCheck OnClick")
 		PaperDollFrame_UpdateStats()
 	end)
 	
@@ -93,6 +95,7 @@ local DCS_ItemLevelTwoDecimalsCheck = CreateFrame("CheckButton", "DCS_ItemLevelT
 		else
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelTwoDecimalsSetChecked = false
 		end
+		print("DCS_ItemLevelTwoDecimalsCheck OnClick")
 		PaperDollFrame_UpdateStats()
 	end)
 
