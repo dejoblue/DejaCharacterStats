@@ -145,17 +145,19 @@ local function DCS_Decimals()
 			--	statFrame:Hide();
 			--	return;
 			--end
-			local color_mastery = STAT_MASTERY 
+			local color_mastery = STAT_MASTERY
+			local color_format = statformat
 			if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
 				color_mastery = "|cff7f7f7f" .. color_mastery .. "|r"
+				color_format = "|cff7f7f7f" .. color_format .. "|r"
 			end
 			local mastery = GetMasteryEffect();
 		-- PaperDollFrame_SetLabelAndText Format Change
     
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_MASTERY, format(statformat, mastery), false, round(multiplier*mastery)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, color_mastery, format(color_format, mastery), false, round(multiplier*mastery)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_MASTERY, format(statformat, mastery), false, mastery);
+				PaperDollFrame_SetLabelAndText(statFrame, color_mastery, format(color_format, mastery), false, mastery);
 			end
 
 			statFrame.onEnterFunc = Mastery_OnEnter;
