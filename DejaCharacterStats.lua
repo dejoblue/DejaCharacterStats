@@ -32,8 +32,8 @@ local loader = CreateFrame("Frame")
 				return gdb
 			end
 
-			DejaCharacterStatsDB = initDB(DejaCharacterStatsDB, gdbprivate.gdbdefaults) --it's not a saved variable according to toc
-			gdbprivate.gdb = DejaCharacterStatsDB
+			DejaCharacterStatsDB = initDB(DejaCharacterStatsDB, gdbprivate.gdbdefaults) --the first per account saved variable. The second per-account variable DCS_ClassSpecDB is handled in DCS_Layouts.lua
+			gdbprivate.gdb = DejaCharacterStatsDB --fast access for checkbox states
 
 			self:UnregisterEvent("ADDON_LOADED")
 		end
@@ -68,7 +68,7 @@ local loader = CreateFrame("Frame")
 				return db
 			end
 
-			DejaCharacterStatsDBPC = initDB(DejaCharacterStatsDBPC, private.defaults)
+			DejaCharacterStatsDBPC = initDB(DejaCharacterStatsDBPC, private.defaults) --saved variable per character, currently not used.
 			private.db = DejaCharacterStatsDBPC
 
 			self:UnregisterEvent("ADDON_LOADED")
@@ -111,19 +111,24 @@ function DejaCharacterStats.ShowHelp()
 	print(addoninfo)
 	print(L["DejaCharacterStats Slash commands (/dcstats):"])
 	print(L["  /dcstats config: Open the DejaCharacterStats addon config menu."])
-	print(L["  /dcstats reset:  Resets DejaCharacterStats frames to default positions."])
+	print(L["  /dcstats reset:  Resets DejaCharacterStats frames to default positions."]) --more plausible would be "Resets DejaCharacterStats configuration to defaults"
 end
 
+--[[
 function DejaCharacterStats.SetConfigToDefaults()
 	print(L["Resetting config to defaults"])
-	DejaCharacterStatsDBPC = DefaultConfig --what's this?
+	DejaCharacterStatsDBPC = DefaultConfig --DBPC not used, when (and if) will, DefaultConfig should be replaced with private.db
 	RELOADUI()
 end
+--]]
 
+--[[
 function DejaCharacterStats.GetConfigValue(key)
-	return DejaCharacterStatsDBPC[key]
+	return DejaCharacterStatsDBPC[key] --I think here a loop is required
 end
+--]]
 
+--[[
 function DejaCharacterStats.PrintPerformanceData()
 	UpdateAddOnMemoryUsage()
 	local mem = GetAddOnMemoryUsage("DejaCharacterStats")
@@ -133,6 +138,7 @@ function DejaCharacterStats.PrintPerformanceData()
 	mem = GetAddOnMemoryUsage("DejaCharacterStats")
 	print(L["DejaCharacterStats is currently using "] .. mem .. L[" kbytes of memory after garbage collection"])
 end
+--]]
 
 function DejaCharacterStats.SlashCmdHandler(msg, editbox)
 	--print("command is " .. msg .. "\n")
@@ -140,6 +146,7 @@ function DejaCharacterStats.SlashCmdHandler(msg, editbox)
 		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
 		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
 		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
+	--[[	
 	elseif (string.lower(msg) == L["dumpconfig"]) then
 		print(L["With defaults"])
 		for k,v in pairs(DCSDefaultConfig) do --produces error
@@ -149,11 +156,15 @@ function DejaCharacterStats.SlashCmdHandler(msg, editbox)
 		for k,v in pairs(DCSDefaultConfig) do
 			print(k,v)
 		end
+	--]]
 	elseif (string.lower(msg) == L["reset"]) then
-		DejaCharacterStatsDBPC = private.defaults;
+		--DejaCharacterStatsDBPC = private.defaults;
+		gdbprivate.gdb.gdbdefaults = gdbprivate.gdbdefaults.gdbdefaults
 		ReloadUI();
+	--[[	
 	elseif (string.lower(msg) == L["perf"]) then
 		DejaCharacterStats.PrintPerformanceData()
+	--]]
 	else
 		DejaCharacterStats.ShowHelp()
 	end
