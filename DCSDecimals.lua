@@ -312,7 +312,7 @@ local DCS_HideatZero = CreateFrame("CheckButton", "DCS_HideatZero", DejaCharacte
 	DCS_HideatZero:ClearAllPoints()
 	DCS_HideatZero:SetPoint("TOPLEFT", 25, -150)
 	DCS_HideatZero:SetScale(1.25)
-	DCS_HideatZero.tooltipText = L['Hides enchancement stats if they are zero'] --Creates a tooltip on mouseover.
+	DCS_HideatZero.tooltipText = L['Hides enchancement stats if they are zero.'] --Creates a tooltip on mouseover.
 	_G[DCS_HideatZero:GetName() .. "Text"]:SetText(L["Hide at zero"])
 	
 	DCS_HideatZero:SetScript("OnEvent", function(self, event, arg1)
@@ -362,7 +362,7 @@ local DCS_HideatZero = CreateFrame("CheckButton", "DCS_HideatZero", DejaCharacte
 	DCS_AlsoIfnotExactlyZero:ClearAllPoints()
 	DCS_AlsoIfnotExactlyZero:SetPoint("TOPLEFT", 50, -220)
 	DCS_AlsoIfnotExactlyZero:SetScale(1)
-	DCS_AlsoIfnotExactlyZero.tooltipText = L['Hides enchancement even if just displayed value is zero'] --Creates a tooltip on mouseover.
+	DCS_AlsoIfnotExactlyZero.tooltipText = L['Hides enchancement even if just displayed value is zero.'] --Creates a tooltip on mouseover.
 
 
 	
