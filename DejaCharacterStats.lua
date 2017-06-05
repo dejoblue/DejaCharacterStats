@@ -111,20 +111,20 @@ function DejaCharacterStats.ShowHelp()
 	print(addoninfo)
 	print(L["DejaCharacterStats Slash commands (/dcstats):"])
 	print(L["  /dcstats config: Open the DejaCharacterStats addon config menu."])
-	print(L["  /dcstats reset:  Resets DejaCharacterStats frames to default positions."]) --more plausible would be "Resets DejaCharacterStats configuration to defaults"
+	print(L["  /dcstats reset:  Resets DejaCharacterStats options to default."])
 end
 
 --[[
 function DejaCharacterStats.SetConfigToDefaults()
 	print(L["Resetting config to defaults"])
-	DejaCharacterStatsDBPC = DefaultConfig --DBPC not used, when (and if) will, DefaultConfig should be replaced with private.db
+	DejaCharacterStatsDBPC = private.db --DBPC not used, when (and if) will, DefaultConfig should be replaced with private.db
 	RELOADUI()
 end
 --]]
 
 --[[
 function DejaCharacterStats.GetConfigValue(key)
-	return DejaCharacterStatsDBPC[key] --I think here a loop is required
+	return DejaCharacterStatsDBPC[key] --I think here a loop is required -- Called in the dumpconfig loop in the DejaCharacterStats.SlashCmdHandler function.
 end
 --]]
 
@@ -149,11 +149,11 @@ function DejaCharacterStats.SlashCmdHandler(msg, editbox)
 	--[[	
 	elseif (string.lower(msg) == L["dumpconfig"]) then
 		print(L["With defaults"])
-		for k,v in pairs(DCSDefaultConfig) do --produces error
+		for k,v in pairs(private.db) do --produces error
 			print(k,DejaCharacterStats.GetConfigValue(k))
 		end
 		print(L["Direct table"])
-		for k,v in pairs(DCSDefaultConfig) do
+		for k,v in pairs(private.db) do
 			print(k,v)
 		end
 	--]]
