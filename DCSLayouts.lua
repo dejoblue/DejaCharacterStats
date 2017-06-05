@@ -32,7 +32,7 @@ local StatScrollFrame = CreateFrame("ScrollFrame", nil, CharacterFrameInsetRight
 		end
 	end)
 	
-	StatFrame = CreateFrame("Frame", nil, StatScrollFrame)
+	local StatFrame = CreateFrame("Frame", nil, StatScrollFrame)
 	StatFrame:SetWidth(191)
 	StatFrame:SetPoint("TOPLEFT")
 	StatFrame.AnchorFrame = CreateFrame("Frame", nil, StatFrame)

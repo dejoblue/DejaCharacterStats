@@ -199,7 +199,7 @@ DCS_TableData.StatData.EnhancementsCategory = {
 
 DCS_TableData.StatData.DCS_POWER = {
 	updateFunc = function(statFrame, unit)
-		powerType = SPELL_POWER_MANA --changing here as well for similarity
+		local powerType = SPELL_POWER_MANA --changing here as well for similarity
 		local power = UnitPowerMax(unit,powerType);
 		local powerText = BreakUpLargeNumbers(power);
 		if power > 0 then
@@ -320,7 +320,7 @@ DCS_TableData.StatData.WEAPON_DPS = {
 
 local function casterGCD()
 	local haste = GetHaste()
-	gcd = max(0.75, 1.5 * 100 / (100+haste))
+	local gcd = max(0.75, 1.5 * 100 / (100+haste))
 	return gcd
 end
 
@@ -340,7 +340,7 @@ DCS_TableData.StatData.GCD = {
 				gcd = casterGCD()
 			end
 		else
-			if (primaryStat == LE_UNIT_STAT_INTELLECT) or (classfilename == "HUNTER") or (primaryStat == LE_UNIT_STAT_STRENGTH) then 
+			if (primaryStat == LE_UNIT_STAT_INTELLECT) or (classfilename == "HUNTER") or (primaryStat == LE_UNIT_STAT_STRENGTH) or (classfilename == "DEMONHUNTER")then 
 				-- adding wariors, paladins
 				-- tested with Crusader Strike, Judgment on retribution paladin
 				-- tested with Consecration, Avenger's Shield, Judgment on protection paladin
@@ -374,6 +374,7 @@ DCS_TableData.StatData.REPAIR_COST = {
 		local try_to_predict_more_accurately = false -- placeholder for the checkbox
 		local multiplier
 		local upperbound, lowerbound
+		local reaction
 		if try_to_predict_more_accurately then
 			reaction = UnitReaction("target", "player")
 			if not UnitIsPVP("target") then reaction = 4 end -- should take care of repair bots/repair mounts
@@ -407,7 +408,7 @@ DCS_TableData.StatData.REPAIR_COST = {
         MoneyFrame_Update(statFrame.MoneyFrame, totalCost)
 		statFrame.MoneyFrame:Hide()
 		
-		totalRepairCost = GetCoinTextureString(totalCost)
+		local totalRepairCost = GetCoinTextureString(totalCost)
 		
 		local gold = floor(abs(totalCost / 10000))
 		local silver = floor(abs(mod(totalCost / 100, 100)))
@@ -535,16 +536,20 @@ DCS_TableData.StatData.MASTERY_RATING = {
 			statFrame:Hide();
 			return;
 		end
+		local color_rating = "Mastery Rating" 
 		if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
-			statFrame.numericValue = 0;
-			statFrame:Hide();
-			return;
+			color_rating = "|cff7f7f7f" .. color_rating .. "|r"
 		end
+		--if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
+		--	statFrame.numericValue = 0;
+		--	statFrame:Hide();
+		--	return;
+		--end
 		local _, bonuscoeff = GetMasteryEffect();
 		local stat = CR_MASTERY
 		local rating = GetCombatRating(stat)
 		local percentage = format("%.2f",GetCombatRatingBonus(stat)*bonuscoeff)
-		PaperDollFrame_SetLabelAndText(statFrame, "Mastery Rating", rating, false, rating);
+		PaperDollFrame_SetLabelAndText(statFrame, color_rating, rating, false, rating);
 		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE.."Mastery Rating".." "..rating..FONT_COLOR_CODE_CLOSE;
 		statFrame.tooltip2 = format("Mastery Rating of %s increases mastery by %.2f%%", BreakUpLargeNumbers(rating), percentage);
 		statFrame:Show();
