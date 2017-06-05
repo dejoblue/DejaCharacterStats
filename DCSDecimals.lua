@@ -2,15 +2,27 @@ local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
 
 -- Decimal Check
-
-local function DCS_Decimals(notinteger)
+local _, gdbprivate = ... 
+local notinteger 
+local my_floor = math.floor 
+local function round(x) 
+	return my_floor(x+0.5) 
+end 
+local statformat 
+local multiplier 
+local function DCS_Decimals() 
 	-- Crit Chance
 		local statformat
 		if notinteger then
 			statformat = "%.2f%%"
+			multiplier = 100 
 		else
 			statformat = "%.0f%%"
+			multiplier = 1
 		end
+		--local DCSstatus = gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked
+		--local notexactlyzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowIfNotExactlyZeroChecked.SetChecked 
+		local notexactlyzero = not gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked 
 		function PaperDollFrame_SetCritChance(statFrame, unit)
 			if ( unit ~= "player" ) then
 				statFrame:Hide();
@@ -46,9 +58,13 @@ local function DCS_Decimals(notinteger)
 				critChance = meleeCrit;
 				rating = CR_CRIT_MELEE;
 			end
-		-- PaperDollFrame_SetLabelAndText Format Change
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, format(statformat, critChance), false, critChance);
-
+			-- PaperDollFrame_SetLabelAndText Format Change
+			--PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, format(statformat, critChance), false, critChance);
+			if notexactlyzero then
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, format(statformat, critChance), false, critChance); 			
+			else 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, format(statformat, critChance), false, round(multiplier*critChance)/multiplier); 
+			end 
 			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_CRITICAL_STRIKE).." "..format("%.2f%%", critChance)..FONT_COLOR_CODE_CLOSE;
 			local extraCritChance = GetCombatRatingBonus(rating);
 			local extraCritRating = GetCombatRating(rating);
@@ -76,9 +92,13 @@ local function DCS_Decimals(notinteger)
 			else
 				hasteFormatString = "+%s";
 			end
-		-- PaperDollFrame_SetLabelAndText Format Change
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, format(hasteFormatString, format(statformat, haste)), false, haste);
-
+			-- PaperDollFrame_SetLabelAndText Format Change
+			--PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, format(hasteFormatString, format(statformat, haste)), false, haste);
+			if notexactlyzero then 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, format(hasteFormatString, format(statformat, haste)), false, haste); 
+			else 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, format(hasteFormatString, format(statformat, haste)), false, round(multiplier*haste)/multiplier); 
+			end 
 			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_HASTE) .. " " .. format(hasteFormatString, format("%.2f%%", haste)) .. FONT_COLOR_CODE_CLOSE;
 
 			local _, class = UnitClass(unit);
@@ -101,9 +121,17 @@ local function DCS_Decimals(notinteger)
 			local versatility = GetCombatRating(CR_VERSATILITY_DAMAGE_DONE);
 			local versatilityDamageBonus = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE);
 			local versatilityDamageTakenReduction = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_TAKEN) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_TAKEN);
-		-- PaperDollFrame_SetLabelAndText Format Change
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, format(statformat, versatilityDamageBonus) .. " / " .. format(statformat, versatilityDamageTakenReduction), false, versatilityDamageBonus);
-
+			-- PaperDollFrame_SetLabelAndText Format Change
+			--PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, format(statformat, versatilityDamageBonus) .. " / " .. format(statformat, versatilityDamageTakenReduction), false, versatilityDamageBonus);
+			--local result 
+			if notexactlyzero then 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, format(statformat, versatilityDamageBonus) .. " / " .. format(statformat, versatilityDamageTakenReduction), false, versatilityDamageBonus); 
+				--result = versatilityDamageBonus 
+			else 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, format(statformat, versatilityDamageBonus) .. " / " .. format(statformat, versatilityDamageTakenReduction), false, round(multiplier*versatilityDamageBonus)/multiplier);
+				--result = round(multiplier*versatilityDamageBonus)/multiplier 
+			end
+			--print("versatility",result) 			
 			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. format(VERSATILITY_TOOLTIP_FORMAT, STAT_VERSATILITY, versatilityDamageBonus, versatilityDamageTakenReduction) .. FONT_COLOR_CODE_CLOSE;
 			statFrame.tooltip2 = format(CR_VERSATILITY_TOOLTIP, versatilityDamageBonus, versatilityDamageTakenReduction, BreakUpLargeNumbers(versatility), versatilityDamageBonus, versatilityDamageTakenReduction);
 
@@ -122,8 +150,13 @@ local function DCS_Decimals(notinteger)
 			end
 
 			local mastery = GetMasteryEffect();
-		-- PaperDollFrame_SetLabelAndText Format Change
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_MASTERY, format(statformat, mastery), false, mastery);
+			-- PaperDollFrame_SetLabelAndText Format Change
+			--PaperDollFrame_SetLabelAndText(statFrame, STAT_MASTERY, format(statformat, mastery), false, mastery);
+			if notexactlyzero then 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_MASTERY, format(statformat, mastery), false, mastery); 
+			else 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_MASTERY, format(statformat, mastery), false, round(multiplier*mastery)/multiplier);
+			end 
 			statFrame.onEnterFunc = Mastery_OnEnter;
 			statFrame:Show();
 		end
@@ -136,7 +169,16 @@ local function DCS_Decimals(notinteger)
 			end
 
 			local lifesteal = GetLifesteal();
-		-- PaperDollFrame_SetLabelAndText Format Change
+			-- PaperDollFrame_SetLabelAndText Format Change
+			--local result 
+			if notexactlyzero then 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_LIFESTEAL, format(statformat, lifesteal), false, lifesteal); 
+				--result = lifesteal 
+			else 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_LIFESTEAL, format(statformat, lifesteal), false, round(multiplier*lifesteal)/multiplier); 
+				--result = round(multiplier*lifesteal)/multiplier 
+			end 
+			--print("leech",result) 
 			PaperDollFrame_SetLabelAndText(statFrame, STAT_LIFESTEAL, format(statformat, lifesteal), false, lifesteal);
 			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_LIFESTEAL) .. " " .. format("%.2f%%", lifesteal) .. FONT_COLOR_CODE_CLOSE;
 
@@ -153,8 +195,13 @@ local function DCS_Decimals(notinteger)
 			end
 
 			local avoidance = GetAvoidance();
-		-- PaperDollFrame_SetLabelAndText Format Change
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, format(statformat, avoidance), false, avoidance);
+			-- PaperDollFrame_SetLabelAndText Format Change
+			--PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, format(statformat, avoidance), false, avoidance);
+			if notexactlyzero then 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, format(statformat, avoidance), false, avoidance); 
+			else 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, format(statformat, avoidance), false, round(multiplier*avoidance)/multiplier); 
+			end 
 			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_AVOIDANCE) .. " " .. format("%.2f%%", avoidance) .. FONT_COLOR_CODE_CLOSE;
 
 			statFrame.tooltip2 = format(CR_AVOIDANCE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_AVOIDANCE)), GetCombatRatingBonus(CR_AVOIDANCE));
@@ -170,8 +217,13 @@ local function DCS_Decimals(notinteger)
 			end
 
 			local chance = GetDodgeChance();
-		-- PaperDollFrame_SetLabelAndText Format Change
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, format(statformat, chance), false, chance);
+			-- PaperDollFrame_SetLabelAndText Format Change
+			--PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, format(statformat, chance), false, chance);
+			if notexactlyzero then 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, format(statformat, chance), false, chance); 
+			else 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, format(statformat, chance), false, round(multiplier*chance)/multiplier); 
+			end 
 			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, DODGE_CHANCE).." "..string.format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
 			statFrame.tooltip2 = format(CR_DODGE_TOOLTIP, GetCombatRating(CR_DODGE), GetCombatRatingBonus(CR_DODGE));
 			statFrame:Show();
@@ -185,8 +237,13 @@ local function DCS_Decimals(notinteger)
 			end
 
 			local chance = GetParryChance();
-		-- PaperDollFrame_SetLabelAndText Format Change
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, format(statformat, chance), false, chance);
+			-- PaperDollFrame_SetLabelAndText Format Change
+			--PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, format(statformat, chance), false, chance);
+			if notexactlyzero then 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, format(statformat, chance), false, chance); 
+			else 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, format(statformat, chance), false, round(multiplier*chance)/multiplier); 
+			end 
 			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, PARRY_CHANCE).." "..string.format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
 			statFrame.tooltip2 = format(CR_PARRY_TOOLTIP, GetCombatRating(CR_PARRY), GetCombatRatingBonus(CR_PARRY));
 			statFrame:Show();
@@ -200,8 +257,13 @@ local function DCS_Decimals(notinteger)
 			end
 
 			local chance = GetBlockChance();
-		-- PaperDollFrame_SetLabelAndText Format Change
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, format(statformat, chance), false, chance);
+			-- PaperDollFrame_SetLabelAndText Format Change
+			--PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, format(statformat, chance), false, chance);
+			if notexactlyzero then 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, format(statformat, chance), false, chance); 
+			else 
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, format(statformat, chance), false, round(multiplier*chance)/multiplier); 
+			end 
 			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, BLOCK_CHANCE).." "..string.format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
 			statFrame.tooltip2 = format(CR_BLOCK_TOOLTIP, GetShieldBlock());
 			statFrame:Show();
@@ -209,7 +271,7 @@ local function DCS_Decimals(notinteger)
 		PaperDollFrame_UpdateStats() -- needs to get called for checkbox Decimals
 end
 	
-local _, gdbprivate = ...
+
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowDecimalsChecked = {
 		SetChecked = true,
 	}	
@@ -223,17 +285,83 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 	
 	DCS_DecimalCheck:SetScript("OnEvent", function(self, event, arg1)
 		if event == "PLAYER_LOGIN" then
-			local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked
-			self:SetChecked(checked.SetChecked)
-			local status = self:GetChecked(true)
-			DCS_Decimals(status)
-			gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked = status
+ 			notinteger= gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked 
+			self:SetChecked(notinteger) 
+			DCS_Decimals() --does it need to be called?
 		end
 	end)
 
 	DCS_DecimalCheck:SetScript("OnClick", function(self,event,arg1) 
 		--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked
-		local status = self:GetChecked(true)
-		DCS_Decimals(status)
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked = status
+		notinteger = self:GetChecked(true) 
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked = notinteger 
+		DCS_Decimals() 
 	end)
+ 
+ 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsHideAtZeroChecked = { 
+ 		SetChecked = true, 
+ 	} 
+gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsDCSZeroChecked = { 
+	SetChecked = false, 
+} 
+	
+local dcshideatzeroFS = DejaCharacterStatsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	dcshideatzeroFS:SetText("Hide at zero:")
+	dcshideatzeroFS:SetPoint("TOPLEFT", 35, -145)
+	dcshideatzeroFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
+local DCS_BlizzlikeHide = CreateFrame("CheckButton", "DCS_ShowIfNotExactlyZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate") 
+--local notzerotext = L["Display enhancement stats if they \n are not exactly zero"] 
+local notzerotext = L["Blizzlike hide at zero"] 
+local graycode = "|cff7f7f7f" 
+local DCS_HideAtZero = CreateFrame("CheckButton", "DCS_HideAtZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate") 
+DCS_HideAtZero:RegisterEvent("PLAYER_LOGIN") 
+DCS_HideAtZero:ClearAllPoints() 
+--DCS_HideAtZero:SetPoint("TOPLEFT", 25, -150) 
+DCS_HideAtZero:SetPoint("TOPLEFT", 65, -165) 
+DCS_HideAtZero:SetScale(1) 
+DCS_HideAtZero.tooltipText = L['Hides enhancement stat if the displayed value would be zero.'] --Creates a tooltip on mouseover. 
+_G[DCS_HideAtZero:GetName() .. "Text"]:SetText(L["DCS hide at zero"]) 
+DCS_HideAtZero:SetScript("OnEvent", function(self, event, arg1) 
+	if event == "PLAYER_LOGIN" then 
+		--local status = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked
+		local DCSstatus = gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked
+		local hideatzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked
+		if hideatzero then
+			self:SetChecked(DCSstatus)
+			DCS_BlizzlikeHide:SetChecked(not DCSstatus) 
+		else
+			self:SetChecked(false)
+			DCS_BlizzlikeHide:SetChecked(false) 
+		end
+	end
+end) 
+ 
+DCS_HideAtZero:SetScript("OnClick", function(self,event,arg1) 
+	local status = self:GetChecked(true) 
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked = status 
+	if status then  
+		DCS_BlizzlikeHide:SetChecked(false) 
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = true 
+	end 
+	DCS_Decimals() 
+end) 
+
+ 
+ _G[DCS_BlizzlikeHide:GetName() .. "Text"]:SetText(notzerotext) 
+
+DCS_BlizzlikeHide:ClearAllPoints() 
+--DCS_BlizzlikeHide:SetPoint("TOPLEFT", 50, -220) 
+DCS_BlizzlikeHide:SetPoint("TOPLEFT", 65, -185) 
+DCS_BlizzlikeHide:SetScale(1) 
+DCS_BlizzlikeHide.tooltipText = L['Hides enchancement stat if numerical value is exactly zero.'] --Creates a tooltip on mouseover. 
+
+DCS_BlizzlikeHide:SetScript("OnClick", function(self,event,arg1)  
+	local status = self:GetChecked(true) 
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked = status
+	if status then  
+		DCS_HideAtZero:SetChecked(false) 
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = false 
+	end 
+	DCS_Decimals() 
+end) 
+ 
