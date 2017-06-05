@@ -536,10 +536,9 @@ DCS_TableData.StatData.MASTERY_RATING = {
 			statFrame:Hide();
 			return;
 		end
-		local color_rating = "Mastery Rating" 
-		if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
-			color_rating = "|cff7f7f7f" .. color_rating .. "|r"
-		end
+		local color_rating = "Mastery Rating"
+		local color_format = "%d"
+		local add_text = ""
 		--if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
 		--	statFrame.numericValue = 0;
 		--	statFrame:Hide();
@@ -548,9 +547,14 @@ DCS_TableData.StatData.MASTERY_RATING = {
 		local _, bonuscoeff = GetMasteryEffect();
 		local stat = CR_MASTERY
 		local rating = GetCombatRating(stat)
+		if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
+			color_rating = "|cff7f7f7f" .. color_rating .. "|r"
+			color_format = "|cff7f7f7f" .. color_format .. "|r"
+			add_text = " |cffff0000(Requires Level " .. SHOW_MASTERY_LEVEL ..")|r"
+		end
 		local percentage = format("%.2f",GetCombatRatingBonus(stat)*bonuscoeff)
-		PaperDollFrame_SetLabelAndText(statFrame, color_rating, rating, false, rating);
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE.."Mastery Rating".." "..rating..FONT_COLOR_CODE_CLOSE;
+		PaperDollFrame_SetLabelAndText(statFrame, color_rating, format(color_format,rating), false, rating);
+		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..color_rating.." "..format(color_format,rating)..add_text..FONT_COLOR_CODE_CLOSE;
 		statFrame.tooltip2 = format("Mastery Rating of %s increases mastery by %.2f%%", BreakUpLargeNumbers(rating), percentage);
 		statFrame:Show();
 	end
