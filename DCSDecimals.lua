@@ -241,3 +241,33 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 		DCS_Decimals(status)
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked = status
 	end)
+
+	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsHideatZeroChecked = {
+		SetChecked = true,
+	}
+
+local DCS_HideatZero = CreateFrame("CheckButton", "DCS_HideatZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
+	DCS_HideatZero:RegisterEvent("PLAYER_LOGIN")
+	DCS_HideatZero:ClearAllPoints()
+	DCS_HideatZero:SetPoint("TOPLEFT", 25, -150)
+	DCS_HideatZero:SetScale(1.25)
+	DCS_HideatZero.tooltipText = L['Hides enchancement stats if they are zero'] --Creates a tooltip on mouseover.
+	_G[DCS_HideatZero:GetName() .. "Text"]:SetText(L["Hide at zero"])
+
+	
+	DCS_HideatZero:SetScript("OnEvent", function(self, event, arg1)
+		if event == "PLAYER_LOGIN" then
+			local status = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideatZeroChecked.SetChecked
+			self:SetChecked(status)
+			PaperDollFrame_UpdateStats()
+		end
+	end)
+
+	DCS_HideatZero:SetScript("OnClick", function(self,event,arg1) 
+		--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideatZeroChecked
+		local status = self:GetChecked(true)
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideatZeroChecked.SetChecked = status
+		--print(status,"on click")
+		PaperDollFrame_UpdateStats()
+	end)
+	

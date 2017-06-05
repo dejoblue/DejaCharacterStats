@@ -181,10 +181,11 @@ local configMode = false
 local function ShowCharacterStats(unit)
     local stat
     local count, backgroundcount, height = 0, false, 4
-	local hideatzero = true --placeholder for the checkbox hideatzero
-	local butshowstatifchecked = false --placeholder for the checkbox butshowstatifchecked
+	local hideatzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideatZeroChecked.SetChecked --placeholder for the checkbox hideatzero
+	--print(hideatzero,"hide@zero")
     for _, v in ipairs(ShownData) do
         stat = DCS_TableData.StatData[v.statKey]
+		--print(v.statKey)
 		if stat then -- if some stat gets removed or if experimenting with adding stats
 			stat.updateFunc(stat.frame, unit)
 			if (configMode) then
@@ -197,7 +198,7 @@ local function ShowCharacterStats(unit)
 					stat.frame:SetAlpha(1)
 				end
 			else
-				if hideatzero and not butshowstatifchecked then
+				if hideatzero then
 					if v.hideAt then
 						if v.hideAt == stat.frame.numericValue then
 							stat.frame:Hide()
