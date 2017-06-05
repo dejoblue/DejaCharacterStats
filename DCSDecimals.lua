@@ -3,21 +3,6 @@ local L = namespace.L 				--localization
 
 -- Decimal Check
 
-local function get_gcd(haste)
-	--TODO checks for cases when cooldown is not according to formula
-	--print("INT",LE_UNIT_STAT_INTELLECT)
-	--print("STR",LE_UNIT_STAT_STRENGTH)
-	--print("AGI",LE_UNIT_STAT_AGILITY)
-	--print(primary)
-	local spec = GetSpecialization();
-	local primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
-	local fn = "";
-	if (primaryStat == LE_UNIT_STAT_INTELLECT) then
-		fn = format("; Global CD %.2fs", 1.5/(1+haste/100))
-	end
-	return fn
-end
-
 local function DCS_Decimals(notinteger)
 	-- Crit Chance
 		local statformat
@@ -94,7 +79,7 @@ local function DCS_Decimals(notinteger)
 		-- PaperDollFrame_SetLabelAndText Format Change
 			PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, format(hasteFormatString, format(statformat, haste)), false, haste);
 
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_HASTE) .. " " .. format(hasteFormatString, format("%.2f%%", haste)) .. get_gcd(haste) .. FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_HASTE) .. " " .. format(hasteFormatString, format("%.2f%%", haste)) .. FONT_COLOR_CODE_CLOSE;
 
 			local _, class = UnitClass(unit);
 			statFrame.tooltip2 = _G["STAT_HASTE_"..class.."_TOOLTIP"];
@@ -131,17 +116,21 @@ local function DCS_Decimals(notinteger)
 				statFrame:Hide();
 				return;
 			end
+			--if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
+			--	statFrame:Hide();
+			--	return;
+			--end
+			local color_mastery = STAT_MASTERY 
 			if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
-				statFrame:Hide();
-				return;
+				color_mastery = "|cff7f7f7f" .. color_mastery .. "|r"
 			end
-
 			local mastery = GetMasteryEffect();
 		-- PaperDollFrame_SetLabelAndText Format Change
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_MASTERY, format(statformat, mastery), false, mastery);
+			PaperDollFrame_SetLabelAndText(statFrame, color_mastery, format(statformat, mastery), false, mastery);
 			statFrame.onEnterFunc = Mastery_OnEnter;
 			statFrame:Show();
 		end
+			
 
 	-- Leech (Lifesteal)
 		function PaperDollFrame_SetLifesteal(statFrame, unit)
@@ -221,7 +210,7 @@ local function DCS_Decimals(notinteger)
 			statFrame.tooltip2 = format(CR_BLOCK_TOOLTIP, GetShieldBlock());
 			statFrame:Show();
 		end
-		PaperDollFrame_UpdateStats()
+		PaperDollFrame_UpdateStats() -- needs to get called for checkbox Decimals
 end
 	
 local _, gdbprivate = ...
