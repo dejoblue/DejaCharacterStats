@@ -536,16 +536,20 @@ DCS_TableData.StatData.MASTERY_RATING = {
 			statFrame:Hide();
 			return;
 		end
+		local color_rating = "Mastery Rating" 
 		if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
-			statFrame.numericValue = 0;
-			statFrame:Hide();
-			return;
+			color_rating = "|cff7f7f7f" .. color_rating .. "|r"
 		end
+		--if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
+		--	statFrame.numericValue = 0;
+		--	statFrame:Hide();
+		--	return;
+		--end
 		local _, bonuscoeff = GetMasteryEffect();
 		local stat = CR_MASTERY
 		local rating = GetCombatRating(stat)
 		local percentage = format("%.2f",GetCombatRatingBonus(stat)*bonuscoeff)
-		PaperDollFrame_SetLabelAndText(statFrame, "Mastery Rating", rating, false, rating);
+		PaperDollFrame_SetLabelAndText(statFrame, color_rating, rating, false, rating);
 		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE.."Mastery Rating".." "..rating..FONT_COLOR_CODE_CLOSE;
 		statFrame.tooltip2 = format("Mastery Rating of %s increases mastery by %.2f%%", BreakUpLargeNumbers(rating), percentage);
 		statFrame:Show();
