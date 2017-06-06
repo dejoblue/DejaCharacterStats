@@ -288,7 +288,7 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 			self:SetChecked(notinteger)
 			--local status = self:GetChecked(true) --???
 			--DCS_Decimals(status)
-			DCS_Decimals()
+			--DCS_Decimals()
 			--gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked = status --???
 		end
 	end)
@@ -332,7 +332,7 @@ local DCS_HideatZero = CreateFrame("CheckButton", "DCS_HideatZero", DejaCharacte
 			end
 			--PaperDollFrame_UpdateStats()
 			--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked
-			DCS_Decimals() -- is it needed?
+			--DCS_Decimals() -- is it needed?
 		end
 	end)
 
@@ -374,7 +374,7 @@ local DCS_HideatZero = CreateFrame("CheckButton", "DCS_HideatZero", DejaCharacte
 			self:SetChecked(status)
 			--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked
 			--DCS_Decimals(checked)
-			DCS_Decimals() --is it needed?
+			--DCS_Decimals() --is it needed?
 		end
 	end)
 
