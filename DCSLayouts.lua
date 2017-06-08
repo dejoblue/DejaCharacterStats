@@ -181,14 +181,18 @@ local configMode = false
 local function ShowCharacterStats(unit)
     local stat
     local count, backgroundcount, height = 0, false, 4
-	local hideatzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideatZeroChecked.SetChecked --placeholder for the checkbox hideatzero
+	local hideatzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked --placeholder for the checkbox hideatzero
 	--print(hideatzero,"hide@zero")
     for _, v in ipairs(ShownData) do
         stat = DCS_TableData.StatData[v.statKey]
 		--print(v.statKey)
 		if stat then -- if some stat gets removed or if experimenting with adding stats
 			stat.updateFunc(stat.frame, unit)
-			--print(v.statKey,stat.frame.numericValue) -- to verify that recorded numeric value is the one intended - either rounded or with many decimal digits
+			--[[
+			if v.statKey == "CRITCHANCE" then
+				print(v.statKey,stat.frame.numericValue) -- to verify that recorded numeric value is the one intended - either rounded or with many decimal digits
+			end
+			--]]
 			if (configMode) then
 				stat.frame:Show()
 				stat.frame.checkButton:Show()
@@ -868,7 +872,8 @@ local DCS_ScrollbarCheck = CreateFrame("CheckButton", "DCS_ScrollbarCheck", Deja
 local DCS_ClassBackgroundCheck = CreateFrame("CheckButton", "DCS_ClassBackgroundCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ClassBackgroundCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ClassBackgroundCheck:ClearAllPoints()
-	DCS_ClassBackgroundCheck:SetPoint("TOPLEFT", 25, -120)
+	--DCS_ClassBackgroundCheck:SetPoint("TOPLEFT", 25, -120)
+	DCS_ClassBackgroundCheck:SetPoint("TOPLEFT", 25, -165)
 	DCS_ClassBackgroundCheck:SetScale(1.25)
 	DCS_ClassBackgroundCheck.tooltipText = L["Displays the class crest background."] --Creates a tooltip on mouseover.
 	_G[DCS_ClassBackgroundCheck:GetName() .. "Text"]:SetText(L["Class Crest Background"])
