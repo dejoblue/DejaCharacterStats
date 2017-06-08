@@ -515,7 +515,7 @@ DCS_TableData.StatData.CRITCHANCE_RATING = { -- maybe add 3 different stats - me
 		local minCrit = GetSpellCritChance(holySchool);
 		statFrame.spellCrit = {};
 		statFrame.spellCrit[holySchool] = minCrit;
-		local spellCrit;
+		--local spellCrit;
 		for i=(holySchool+1), MAX_SPELL_SCHOOLS do
 			spellCrit = GetSpellCritChance(i);
 			minCrit = min(minCrit, spellCrit);
