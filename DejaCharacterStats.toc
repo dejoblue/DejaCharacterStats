@@ -1,9 +1,10 @@
 ## Interface: 70200
-## Version: 725b105
+## Version: 720b105
 ## Title: DejaCharacterStats
 ## Authors: Dejablue, Kakjens, loudsoul
 ## Notes: Dejablue's improved character stats panel view.
-## SavedVariables: DejaCharacterStatsDB, DCS_ClassSpecDB
+## SavedVariables: DejaCharacterStatsDB
+## SavedVariables: DCS_ClassSpecDB
 ## SavedVariablesPerCharacter: DejaCharacterStatsDBPC
 
 Localization\localization.core.lua
