@@ -36,7 +36,7 @@ local function DCS_Decimals()
 			local minCrit = GetSpellCritChance(holySchool);
 			statFrame.spellCrit = {};
 			statFrame.spellCrit[holySchool] = minCrit;
-			--local spellCrit;
+			local spellCrit;
 			for i=(holySchool+1), MAX_SPELL_SCHOOLS do
 				spellCrit = GetSpellCritChance(i);
 				minCrit = min(minCrit, spellCrit);
