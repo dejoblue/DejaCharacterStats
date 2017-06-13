@@ -458,7 +458,7 @@ local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDura
 	DCS_ShowAverageDuraCheck:SetScript("OnClick", function(self)
 		local checked = self:GetChecked()
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowAverageRepairChecked.ShowAverageRepairSetChecked = checked
-		if ckecked then
+		if checked then
 			DCS_Mean_Durability()
 			if addon.duraMean == 100 then --check after calculation
 				duraMeanFS:SetFormattedText("")
@@ -606,7 +606,8 @@ end)
 DCS_ShowItemRepairCheck:SetScript("OnClick", function(self)
 	local checked = self:GetChecked()
 	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked = checked
-	if ckecked then
+	DCS_Set_Dura_Item_Positions()
+	if checked then
 		DCS_Item_RepairCostBottom()
 	else
 		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
