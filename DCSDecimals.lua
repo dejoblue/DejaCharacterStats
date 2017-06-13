@@ -36,7 +36,7 @@ local function DCS_Decimals()
 			local minCrit = GetSpellCritChance(holySchool);
 			statFrame.spellCrit = {};
 			statFrame.spellCrit[holySchool] = minCrit;
-			local spellCrit;
+			--local spellCrit;
 			for i=(holySchool+1), MAX_SPELL_SCHOOLS do
 				spellCrit = GetSpellCritChance(i);
 				minCrit = min(minCrit, spellCrit);
@@ -145,7 +145,7 @@ local function DCS_Decimals()
 			--	statFrame:Hide();
 			--	return;
 			--end
-			local color_mastery = STAT_MASTERY
+			local color_mastery = STAT_MASTERY ..":"
 			local color_format = statformat
 			if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
 				color_mastery = "|cff7f7f7f" .. color_mastery .. "|r"
@@ -155,11 +155,11 @@ local function DCS_Decimals()
 		-- PaperDollFrame_SetLabelAndText Format Change
     
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, color_mastery, format(color_format, mastery), false, round(multiplier*mastery)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, "", format(color_format, mastery), false, round(multiplier*mastery)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, color_mastery, format(color_format, mastery), false, mastery);
+				PaperDollFrame_SetLabelAndText(statFrame, "", format(color_format, mastery), false, mastery);
 			end
-
+			statFrame.Label:SetText(color_mastery)
 			statFrame.onEnterFunc = Mastery_OnEnter;
 			statFrame:Show();
 		end

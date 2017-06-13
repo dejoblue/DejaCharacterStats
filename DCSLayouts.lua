@@ -5,7 +5,7 @@ local L = namespace.L 				--localization
 DCS_ClassSpecDB = {}
 
 local _, DCS_TableData = ...
-
+local scrollbarchecked
 local _, gdbprivate = ...
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsScrollbarChecked = {
 		ScrollbarSetChecked = false,
@@ -24,10 +24,17 @@ local StatScrollFrame = CreateFrame("ScrollFrame", nil, CharacterFrameInsetRight
 	StatScrollFrame.ScrollBar:Hide()
 	
 	StatScrollFrame:HookScript("OnScrollRangeChanged", function(self, xrange, yrange)
+		--[[
 		local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked
 		if checked.ScrollbarSetChecked == true then
 			self.ScrollBar:SetShown(floor(yrange) ~= 0)
 		elseif not checked.ScrollbarSetChecked == true then
+			self.ScrollBar:Hide()
+		end
+		--]]
+		if scrollbarchecked then
+			self.ScrollBar:SetShown(floor(yrange) ~= 0)
+		else
 			self.ScrollBar:Hide()
 		end
 	end)
@@ -249,8 +256,9 @@ local function ShowCharacterStats(unit)
 		UpdateStatFrameWidth(191)
 		StatScrollFrame.ScrollBar:Hide()
 	else
-		local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked
-		if checked.ScrollbarSetChecked == true then
+		--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked
+		--if checked.ScrollbarSetChecked == true then
+		if scrollbarchecked then
 			UpdateStatFrameWidth(180)
 			StatScrollFrame.ScrollBar:Show()
 		else
@@ -822,7 +830,7 @@ local function DCS_InterfaceOptConfigButton_OnLeave(self)
 		configMode = not configMode
 		if (configMode) then
 			self:SetNormalTexture("Interface\\Buttons\\LockButton-Unlocked-Up")
-			set_config_mode(true)
+			set_config_mode(true) --might get improved into set_config_mode(configMode)
 		else
 			self:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
 			set_config_mode(false)
@@ -843,17 +851,22 @@ local DCS_ScrollbarCheck = CreateFrame("CheckButton", "DCS_ScrollbarCheck", Deja
 	DCS_ScrollbarCheck.tooltipText = L["Displays the DCS scrollbar."] --Creates a tooltip on mouseover.
 	_G[DCS_ScrollbarCheck:GetName() .. "Text"]:SetText(L["Scrollbar"])
 	
-	DCS_ScrollbarCheck:SetScript("OnEvent", function(self, event, arg1)
+	DCS_ScrollbarCheck:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_LOGIN" then
-			local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked
-			self:SetChecked(checked.ScrollbarSetChecked)
+			--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked
+			--self:SetChecked(checked.ScrollbarSetChecked)
+			local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked.ScrollbarSetChecked
+			self:SetChecked(checked)
+			scrollbarchecked = checked
+			self:UnregisterEvent(event)
 			--Logic is built into ShowCharacterStats("player")
 		end
-		DCS_ScrollbarCheck:UnregisterAllEvents();
-        ShowCharacterStats("player")
+		--DCS_ScrollbarCheck:UnregisterAllEvents();
+        --ShowCharacterStats("player") --during login no need to display stats
 	end)
 
-	DCS_ScrollbarCheck:SetScript("OnClick", function(self,event,arg1) 
+	DCS_ScrollbarCheck:SetScript("OnClick", function(self) 
+		--[[
 		local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked
 		if self:GetChecked(true) then
 			--Show/Hide Logic is built into ShowCharacterStats("player")
@@ -862,6 +875,17 @@ local DCS_ScrollbarCheck = CreateFrame("CheckButton", "DCS_ScrollbarCheck", Deja
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked.ScrollbarSetChecked = false
 		end		
         ShowCharacterStats("player")
+		--]]
+		local checked = self:GetChecked() 
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked.ScrollbarSetChecked = checked 
+		scrollbarchecked = checked
+		ShowCharacterStats("player")
+		--later will try
+		--[[
+		scrollbarchecked = not scrollbarchecked
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsScrollbarChecked.ScrollbarSetChecked = scrollbarchecked 
+		ShowCharacterStats("player")
+		--]]		
 	end)
 
 
@@ -878,8 +902,8 @@ local DCS_ClassBackgroundCheck = CreateFrame("CheckButton", "DCS_ClassBackground
 	DCS_ClassBackgroundCheck.tooltipText = L["Displays the class crest background."] --Creates a tooltip on mouseover.
 	_G[DCS_ClassBackgroundCheck:GetName() .. "Text"]:SetText(L["Class Crest Background"])
 	
-	DCS_ClassBackgroundCheck:SetScript("OnEvent", function(self, event, arg1)
-		if event == "PLAYER_LOGIN" then
+	DCS_ClassBackgroundCheck:SetScript("OnEvent", function(self, event)
+		--[[if event == "PLAYER_LOGIN" then
 		local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsClassBackgroundChecked
 			self:SetChecked(checked.ClassBackgroundChecked)
 			if self:GetChecked(true) then
@@ -891,9 +915,21 @@ local DCS_ClassBackgroundCheck = CreateFrame("CheckButton", "DCS_ClassBackground
 			end
 		end
 		DCS_ClassBackgroundCheck:UnregisterAllEvents();
+		--]]
+		if event == "PLAYER_LOGIN" then
+			local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsClassBackgroundChecked.ClassBackgroundChecked
+			self:SetChecked(checked)
+			if checked then
+				CharacterStatsPane.ClassBackground:Show() 
+			else
+				CharacterStatsPane.ClassBackground:Hide() 
+			end
+			self:UnregisterEvent(event);
+		end
 	end)
 
-	DCS_ClassBackgroundCheck:SetScript("OnClick", function(self,event,arg1) 
+	DCS_ClassBackgroundCheck:SetScript("OnClick", function(self)
+		--[[
 		local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsClassBackgroundChecked
 		if self:GetChecked(true) then
 			CharacterStatsPane.ClassBackground:Show() 
@@ -903,6 +939,15 @@ local DCS_ClassBackgroundCheck = CreateFrame("CheckButton", "DCS_ClassBackground
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsClassBackgroundChecked.ClassBackgroundChecked = false
 		end		
         ShowCharacterStats("player")
+		--]]
+		local checked = self:GetChecked()
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsClassBackgroundChecked.ClassBackgroundChecked = checked
+		if checked then
+			CharacterStatsPane.ClassBackground:Show()
+		else
+			CharacterStatsPane.ClassBackground:Hide()
+		end
+        ShowCharacterStats("player") --does it need to be called?
 	end)
 
 InterfaceOptionsFrame:HookScript("OnShow", function(self)
