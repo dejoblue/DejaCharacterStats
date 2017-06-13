@@ -84,6 +84,7 @@ local DCS_ExpandButtonCheck = CreateFrame("CheckButton", "DCS_ExpandButtonCheck"
 	DCS_ExpandButtonCheck:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_LOGIN" then
 			local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsExpandButtonChecked.ExpandButtonSetChecked
+			self:SetChecked(checked)
 			if checked then
 				PaperDollFrame.ExpandButton:Show()
 			else
