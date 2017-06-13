@@ -300,7 +300,7 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 		DCS_Decimals()
 	end)
 
-	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsHideatZeroChecked = {
+	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsHideAtZeroChecked = {
 		SetChecked = true,
 	}
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsDCSZeroChecked = { 
