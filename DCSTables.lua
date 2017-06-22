@@ -1,7 +1,12 @@
 local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
 local name,addon = ...
-
+local _, doll_tooltip_format = ...
+doll_tooltip_format = PAPERDOLLFRAME_TOOLTIP_FORMAT
+local _, highlight_code = ...
+highlight_code = HIGHLIGHT_FONT_COLOR_CODE
+local _, font_color_close = ...
+font_color_close = FONT_COLOR_CODE_CLOSE
 --local _, private = ...
 --local _, gdbprivate = ...
 local dcs_format = format
@@ -200,7 +205,7 @@ DCS_TableData.StatData.ItemLevelFrame = {
 		end
 		avgItemLevel = floor(multiplier*avgItemLevel)/multiplier;
 		avgItemLevelEquipped = floor(multiplier*avgItemLevelEquipped)/multiplier;
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_AVERAGE_ITEM_LEVEL).." "..dcs_format(DCS_DecimalPlaces, avgItemLevel);
+		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, STAT_AVERAGE_ITEM_LEVEL).." "..dcs_format(DCS_DecimalPlaces, avgItemLevel);
 		if not DCS_ILvl_EQ_AV_Check:GetChecked(true) or (avgItemLevel == avgItemLevelEquipped) then
 			PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped), false, avgItemLevelEquipped)
 		else
@@ -209,7 +214,7 @@ DCS_TableData.StatData.ItemLevelFrame = {
 			local format_for_avg_equipped = gsub(STAT_AVERAGE_ITEM_LEVEL_EQUIPPED, "d%)", temp,  1)
 			statFrame.tooltip = statFrame.tooltip .. "  " .. dcs_format(format_for_avg_equipped, avgItemLevelEquipped);
 		end
-		statFrame.tooltip = statFrame.tooltip .. FONT_COLOR_CODE_CLOSE;
+		statFrame.tooltip = statFrame.tooltip .. font_color_close;
 		statFrame.tooltip2 = STAT_AVERAGE_ITEM_LEVEL_TOOLTIP;
 		statFrame:Show()
     end
@@ -233,7 +238,7 @@ DCS_TableData.StatData.DCS_POWER = {
 		local powerText = BreakUpLargeNumbers(power);
 		if power > 0 then
 			PaperDollFrame_SetLabelAndText(statFrame, MANA, powerText, false, power);
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, MANA).." "..powerText..FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, MANA).." "..powerText..font_color_close;
 			statFrame.tooltip2 = _G["STAT_MANA_TOOLTIP"];
 			statFrame:Show();
 		else
@@ -254,7 +259,7 @@ DCS_TableData.StatData.DCS_ALTERNATEMANA = {
 		
 		if (powerToken and _G[powerToken]) then
 			PaperDollFrame_SetLabelAndText(statFrame, _G[powerToken], powerText, false, power);
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, _G[powerToken]).." "..powerText..FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, _G[powerToken]).." "..powerText..font_color_close;
 			statFrame.tooltip2 = _G["STAT_"..powerToken.."_TOOLTIP"];
 			statFrame:Show();
 		else
@@ -279,7 +284,7 @@ DCS_TableData.StatData.DCS_ATTACK_ATTACKSPEED = {
 		end
 		PaperDollFrame_SetLabelAndText(statFrame, WEAPON_SPEED, displaySpeed, false, speed);
 
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, ATTACK_SPEED).." "..displaySpeed..FONT_COLOR_CODE_CLOSE;
+		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, ATTACK_SPEED).." "..displaySpeed..font_color_close;
 		statFrame.tooltip2 = dcs_format(STAT_ATTACK_SPEED_BASE_TOOLTIP, BreakUpLargeNumbers(meleeHaste));
 
 		statFrame:Show();
@@ -307,7 +312,7 @@ DCS_TableData.StatData.DCS_RUNEREGEN = {
 		
 		local regenRateText = (dcs_format(STAT_RUNE_REGEN_FORMAT, regenRate));
 		PaperDollFrame_SetLabelAndText(statFrame, STAT_RUNE_REGEN, regenRateText, false, regenRate);
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_RUNE_REGEN).." "..regenRateText..FONT_COLOR_CODE_CLOSE;
+		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, STAT_RUNE_REGEN).." "..regenRateText..font_color_close;
 		statFrame.tooltip2 = STAT_RUNE_REGEN_TOOLTIP;
 		statFrame:Show();
 	end
@@ -342,7 +347,7 @@ DCS_TableData.StatData.WEAPON_DPS = {
 		white_dps = white_dps*(1 + GetCritChance()/100)/misses_etc --assumes crits do twice as damage
 		white_dps = dcs_format("%.2f", white_dps)
 		PaperDollFrame_SetLabelAndText(statFrame, L["Weapon DPS"], white_dps, false, white_dps)
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, dcs_format(L["Weapon DPS"], main_oh_dps)).." "..dcs_format("%s", main_oh_dps)..FONT_COLOR_CODE_CLOSE;
+		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, dcs_format(L["Weapon DPS"], main_oh_dps)).." "..dcs_format("%s", main_oh_dps)..font_color_close;
 		statFrame.tooltip2 = (tooltip2);
 	end
 }
@@ -382,7 +387,7 @@ DCS_TableData.StatData.GCD = {
 			end
 		end
 		PaperDollFrame_SetLabelAndText(statFrame, L["Global Cooldown"], dcs_format("%.2fs",gcd), false, gcd)
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, dcs_format(L["Global Cooldown"], gcd)).." "..dcs_format("%.2fs", gcd)..FONT_COLOR_CODE_CLOSE;
+		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, dcs_format(L["Global Cooldown"], gcd)).." "..dcs_format("%.2fs", gcd)..font_color_close;
 		statFrame.tooltip2 = (L["General global cooldown refresh time."]);
 	end
 }
@@ -450,7 +455,7 @@ DCS_TableData.StatData.REPAIR_COST = {
 		-- PaperDollFrame_SetLabelAndText(statFrame, label, text, isPercentage, numericValue) -- Formatting
 
 		PaperDollFrame_SetLabelAndText(statFrame, (L["Repair Total"]), totalRepairCost, false, displayRepairTotal);
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, dcs_format(L["Repair Total"], totalRepairCost)).." "..dcs_format("%s", totalRepairCost)..FONT_COLOR_CODE_CLOSE;
+		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, dcs_format(L["Repair Total"], totalRepairCost)).." "..dcs_format("%s", totalRepairCost)..font_color_close;
 		statFrame.tooltip2 = (L["Total equipped item repair cost before discounts."]);
     end
 }
@@ -468,7 +473,7 @@ DCS_TableData.StatData.DURABILITY_STAT = {
 		local displayDura = dcs_format("%.2f%%", addon.duraMean);
 
 		PaperDollFrame_SetLabelAndText(statFrame, (L["Durability"]), displayDura, false, addon.duraMean);
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, dcs_format(L["Durability %s"], displayDura));
+		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, dcs_format(L["Durability %s"], displayDura));
 		statFrame.tooltip2 = (L["Average equipped item durability percentage."]);
 
 		local duraFinite = 0
@@ -497,7 +502,7 @@ local function statframeratings(statFrame, unit, stat)
 	local ratingname = statnames [stat].name1
 	local name = statnames [stat].name2
 	PaperDollFrame_SetLabelAndText(statFrame, ratingname, rating, false, rating);
-	statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..ratingname.." "..rating..FONT_COLOR_CODE_CLOSE;
+	statFrame.tooltip = highlight_code..ratingname.." "..rating..font_color_close;
 	statFrame.tooltip2 = dcs_format(rating_and_percentage, ratingname, BreakUpLargeNumbers(rating), name, percentage);
 	statFrame:Show();
 end
@@ -535,7 +540,7 @@ DCS_TableData.StatData.CRITCHANCE_RATING = { -- maybe add 3 different stats - me
 		local rating = GetCombatRating(stat);
 		local percentage = dcs_format("%.2f",GetCombatRatingBonus(stat));
 		PaperDollFrame_SetLabelAndText(statFrame, "Critical Strike Rating", rating, false, rating);
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE.."Critical Strike Rating".." "..percentage..FONT_COLOR_CODE_CLOSE;
+		statFrame.tooltip = highlight_code.."Critical Strike Rating".." "..percentage..font_color_close;
 		--statFrame.tooltip2 = dcs_format("Critical Strike Rating of %s increases chance to crit by %.2f%%", BreakUpLargeNumbers(rating), percentage);
 		statFrame.tooltip2 = dcs_format(rating_and_percentage, "Critical Strike", BreakUpLargeNumbers(rating), "crit", percentage);
 		statFrame:Show();
@@ -552,7 +557,7 @@ DCS_TableData.StatData.VERSATILITY_RATING = {
 		local versatilityDamageBonus = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE);
 		--local versatilityDamageTakenReduction = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_TAKEN) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_TAKEN);
 		PaperDollFrame_SetLabelAndText(statFrame, "Versatility Rating", versatility, false, versatility);
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE.."Versatility Rating".." "..versatility..FONT_COLOR_CODE_CLOSE;
+		statFrame.tooltip = highlight_code.."Versatility Rating".." "..versatility..font_color_close;
 		statFrame.tooltip2 = dcs_format(rating_and_percentage,"Versatility Rating", BreakUpLargeNumbers(versatility), "versatility", versatilityDamageBonus);
 		--statFrame.tooltip2 = dcs_format("Versatility Rating of %s increases damage and healing done by %.2f%% and reduces damage taken by %.2f%%", BreakUpLargeNumbers(versatility), versatilityDamageBonus, versatilityDamageTakenReduction);
 		statFrame:Show();
@@ -587,7 +592,7 @@ DCS_TableData.StatData.MASTERY_RATING = {
 		local percentage = format("%.2f",GetCombatRatingBonus(stat)*bonuscoeff)
 		PaperDollFrame_SetLabelAndText(statFrame, "", format(color_format,rating), false, rating);
 		statFrame.Label:SetText(color_rating2)
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..color_rating1.." "..format(color_format,rating)..add_text..FONT_COLOR_CODE_CLOSE;
+		statFrame.tooltip = highlight_code..color_rating1.." "..format(color_format,rating)..add_text..font_color_close;
 		statFrame.tooltip2 = format("Mastery Rating of %s increases mastery by %.2f%%", BreakUpLargeNumbers(rating), percentage);
 		statFrame:Show();
 	end
