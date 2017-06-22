@@ -208,7 +208,8 @@ local dcsresetcheck = CreateFrame("Button", "DCSResetButton", DejaCharacterStats
 	dcsresetcheck:SetPoint("BOTTOMLEFT", 5, 5)
 	dcsresetcheck:SetScale(1.25)
 
-	local LOCALE = GetLocale()
+	--local LOCALE = GetLocale()
+	local _, LOCALE = ...
 		--print (LOCALE)
 
 	if (LOCALE == "ptBR" or LOCALE == "frFR" or LOCALE == "deDE") then

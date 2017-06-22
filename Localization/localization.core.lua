@@ -1,5 +1,7 @@
 --Phanx localization code @ phanx.net
 
+local _, LOCALE = ...
+LOCALE = GetLocale
 local _, namespace = ...
 
 local L = setmetatable({}, { __index = function(t, k)
