@@ -565,7 +565,7 @@ DCS_TableData.StatData.VERSATILITY_RATING = {
 }
 
 DCS_TableData.StatData.MASTERY_RATING = {
-	--TODO: localisation of format here
+	--TODO: localisation of font colors (highlight_code and font_color_close)
 	updateFunc = function(statFrame, unit)
 		if ( unit ~= "player" ) then
 			statFrame:Hide();
@@ -592,7 +592,7 @@ DCS_TableData.StatData.MASTERY_RATING = {
 		local percentage = format("%.2f",GetCombatRatingBonus(stat)*bonuscoeff)
 		PaperDollFrame_SetLabelAndText(statFrame, "", format(color_format,rating), false, rating);
 		statFrame.Label:SetText(color_rating2)
-		statFrame.tooltip = highlight_code..color_rating1.." "..format(color_format,rating)..add_text..font_color_close;
+		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..color_rating1.." "..format(color_format,rating)..add_text..FONT_COLOR_CODE_CLOSE;
 		statFrame.tooltip2 = format("Mastery Rating of %s increases mastery by %.2f%%", BreakUpLargeNumbers(rating), percentage);
 		statFrame:Show();
 	end
