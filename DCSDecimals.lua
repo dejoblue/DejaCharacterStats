@@ -4,7 +4,8 @@ local _, gdbprivate = ...
 -- Decimal Check
 local notinteger
 local my_floor = math.floor
-
+--local _, dcs_format = ... --seems like shared upvaluing of tables isn't so easy
+local dcs_format = format
 local function round(x)
 	return my_floor(x+0.5)
 end
@@ -58,18 +59,18 @@ local function DCS_Decimals()
 			end
 		-- PaperDollFrame_SetLabelAndText Format Change
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, format(statformat, critChance), false, round(multiplier*critChance)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, dcs_format(statformat, critChance), false, round(multiplier*critChance)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, format(statformat, critChance), false, critChance);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, dcs_format(statformat, critChance), false, critChance);
 			end
 			--PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, format(statformat1, critChance), true, format(statformat1, critChance)); --can't do it because PaperDollFrame_SetLabelAndText converts to integer
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_CRITICAL_STRIKE).." "..format("%.2f%%", critChance)..FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_CRITICAL_STRIKE).." "..dcs_format("%.2f%%", critChance)..FONT_COLOR_CODE_CLOSE;
 			local extraCritChance = GetCombatRatingBonus(rating);
 			local extraCritRating = GetCombatRating(rating);
 			if (GetCritChanceProvidesParryEffect()) then
-				statFrame.tooltip2 = format(CR_CRIT_PARRY_RATING_TOOLTIP, BreakUpLargeNumbers(extraCritRating), extraCritChance, GetCombatRatingBonusForCombatRatingValue(CR_PARRY, extraCritRating));
+				statFrame.tooltip2 = dcs_format(CR_CRIT_PARRY_RATING_TOOLTIP, BreakUpLargeNumbers(extraCritRating), extraCritChance, GetCombatRatingBonusForCombatRatingValue(CR_PARRY, extraCritRating));
 			else
-				statFrame.tooltip2 = format(CR_CRIT_TOOLTIP, BreakUpLargeNumbers(extraCritRating), extraCritChance);
+				statFrame.tooltip2 = dcs_format(CR_CRIT_TOOLTIP, BreakUpLargeNumbers(extraCritRating), extraCritChance);
 			end
 			statFrame:Show();
 		end
@@ -92,19 +93,19 @@ local function DCS_Decimals()
 			end
 		-- PaperDollFrame_SetLabelAndText Format Change
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, format(hasteFormatString, format(statformat, haste)), false, round(multiplier*haste)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, dcs_format(hasteFormatString, dcs_format(statformat, haste)), false, round(multiplier*haste)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, format(hasteFormatString, format(statformat, haste)), false, haste);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, dcs_format(hasteFormatString, dcs_format(statformat, haste)), false, haste);
 			end
 
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_HASTE) .. " " .. format(hasteFormatString, format("%.2f%%", haste)) .. FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_HASTE) .. " " .. dcs_format(hasteFormatString, dcs_format("%.2f%%", haste)) .. FONT_COLOR_CODE_CLOSE;
 
 			local _, class = UnitClass(unit);
 			statFrame.tooltip2 = _G["STAT_HASTE_"..class.."_TOOLTIP"];
 			if (not statFrame.tooltip2) then
 				statFrame.tooltip2 = STAT_HASTE_TOOLTIP;
 			end
-			statFrame.tooltip2 = statFrame.tooltip2 .. format(STAT_HASTE_BASE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(rating)), GetCombatRatingBonus(rating));
+			statFrame.tooltip2 = statFrame.tooltip2 .. dcs_format(STAT_HASTE_BASE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(rating)), GetCombatRatingBonus(rating));
 
 			statFrame:Show();
 		end
@@ -122,15 +123,15 @@ local function DCS_Decimals()
 		-- PaperDollFrame_SetLabelAndText Format Change
 			--local result
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, format(statformat, versatilityDamageBonus) .. " / " .. format(statformat, versatilityDamageTakenReduction), false, round(multiplier*versatilityDamageBonus)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, dcs_format(statformat, versatilityDamageBonus) .. " / " .. dcs_format(statformat, versatilityDamageTakenReduction), false, round(multiplier*versatilityDamageBonus)/multiplier);
 				--result = round(multiplier*versatilityDamageBonus)/multiplier
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, format(statformat, versatilityDamageBonus) .. " / " .. format(statformat, versatilityDamageTakenReduction), false, versatilityDamageBonus);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, dcs_format(statformat, versatilityDamageBonus) .. " / " .. dcs_format(statformat, versatilityDamageTakenReduction), false, versatilityDamageBonus);
 				--result = versatilityDamageBonus
 			end
 			--print("vesratility",result)
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. format(VERSATILITY_TOOLTIP_FORMAT, STAT_VERSATILITY, versatilityDamageBonus, versatilityDamageTakenReduction) .. FONT_COLOR_CODE_CLOSE;
-			statFrame.tooltip2 = format(CR_VERSATILITY_TOOLTIP, versatilityDamageBonus, versatilityDamageTakenReduction, BreakUpLargeNumbers(versatility), versatilityDamageBonus, versatilityDamageTakenReduction);
+			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. dcs_format(VERSATILITY_TOOLTIP_FORMAT, STAT_VERSATILITY, versatilityDamageBonus, versatilityDamageTakenReduction) .. FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip2 = dcs_format(CR_VERSATILITY_TOOLTIP, versatilityDamageBonus, versatilityDamageTakenReduction, BreakUpLargeNumbers(versatility), versatilityDamageBonus, versatilityDamageTakenReduction);
 
 			statFrame:Show();
 		end
@@ -155,9 +156,9 @@ local function DCS_Decimals()
 		-- PaperDollFrame_SetLabelAndText Format Change
     
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, "", format(color_format, mastery), false, round(multiplier*mastery)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, "", dcs_format(color_format, mastery), false, round(multiplier*mastery)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, "", format(color_format, mastery), false, mastery);
+				PaperDollFrame_SetLabelAndText(statFrame, "", dcs_format(color_format, mastery), false, mastery);
 			end
 			statFrame.Label:SetText(color_mastery)
 			statFrame.onEnterFunc = Mastery_OnEnter;
@@ -176,16 +177,16 @@ local function DCS_Decimals()
 		-- PaperDollFrame_SetLabelAndText Format Change
 			--local result
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_LIFESTEAL, format(statformat, lifesteal), false, round(multiplier*lifesteal)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_LIFESTEAL, dcs_format(statformat, lifesteal), false, round(multiplier*lifesteal)/multiplier);
 				--result = round(multiplier*lifesteal)/multiplier
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_LIFESTEAL, format(statformat, lifesteal), false, lifesteal);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_LIFESTEAL, dcs_format(statformat, lifesteal), false, lifesteal);
 				--result = lifesteal
 			end
 			--print("leech",result)
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_LIFESTEAL) .. " " .. format("%.2f%%", lifesteal) .. FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_LIFESTEAL) .. " " .. dcs_format("%.2f%%", lifesteal) .. FONT_COLOR_CODE_CLOSE;
 
-			statFrame.tooltip2 = format(CR_LIFESTEAL_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_LIFESTEAL)), GetCombatRatingBonus(CR_LIFESTEAL));
+			statFrame.tooltip2 = dcs_format(CR_LIFESTEAL_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_LIFESTEAL)), GetCombatRatingBonus(CR_LIFESTEAL));
 
 			statFrame:Show();
 		end
@@ -200,13 +201,13 @@ local function DCS_Decimals()
 			local avoidance = GetAvoidance();
 		-- PaperDollFrame_SetLabelAndText Format Change
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, format(statformat, avoidance), false, round(multiplier*avoidance)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, dcs_format(statformat, avoidance), false, round(multiplier*avoidance)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, format(statformat, avoidance), false, avoidance);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, dcs_format(statformat, avoidance), false, avoidance);
 			end
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_AVOIDANCE) .. " " .. format("%.2f%%", avoidance) .. FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_AVOIDANCE) .. " " .. dcs_format("%.2f%%", avoidance) .. FONT_COLOR_CODE_CLOSE;
 
-			statFrame.tooltip2 = format(CR_AVOIDANCE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_AVOIDANCE)), GetCombatRatingBonus(CR_AVOIDANCE));
+			statFrame.tooltip2 = dcs_format(CR_AVOIDANCE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_AVOIDANCE)), GetCombatRatingBonus(CR_AVOIDANCE));
 
 			statFrame:Show();
 		end
@@ -221,12 +222,12 @@ local function DCS_Decimals()
 			local chance = GetDodgeChance();
 		-- PaperDollFrame_SetLabelAndText Format Change
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, format(statformat, chance), false, round(multiplier*chance)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, dcs_format(statformat, chance), false, round(multiplier*chance)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, format(statformat, chance), false, chance);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, dcs_format(statformat, chance), false, chance);
 			end
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, DODGE_CHANCE).." "..string.format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
-			statFrame.tooltip2 = format(CR_DODGE_TOOLTIP, GetCombatRating(CR_DODGE), GetCombatRatingBonus(CR_DODGE));
+			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, DODGE_CHANCE).." "..string.format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip2 = dcs_format(CR_DODGE_TOOLTIP, GetCombatRating(CR_DODGE), GetCombatRatingBonus(CR_DODGE));
 			statFrame:Show();
 		end
 
@@ -240,12 +241,12 @@ local function DCS_Decimals()
 			local chance = GetParryChance();
 		-- PaperDollFrame_SetLabelAndText Format Change
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, format(statformat, chance), false, round(multiplier*chance)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, dcs_format(statformat, chance), false, round(multiplier*chance)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, format(statformat, chance), false, chance);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, dcs_format(statformat, chance), false, chance);
 			end
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, PARRY_CHANCE).." "..string.format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
-			statFrame.tooltip2 = format(CR_PARRY_TOOLTIP, GetCombatRating(CR_PARRY), GetCombatRatingBonus(CR_PARRY));
+			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, PARRY_CHANCE).." "..dcs_format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip2 = dcs_format(CR_PARRY_TOOLTIP, GetCombatRating(CR_PARRY), GetCombatRatingBonus(CR_PARRY));
 			statFrame:Show();
 		end
 
@@ -259,12 +260,12 @@ local function DCS_Decimals()
 			local chance = GetBlockChance();
 		-- PaperDollFrame_SetLabelAndText Format Change
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, format(statformat, chance), false, round(multiplier*chance)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, dcs_format(statformat, chance), false, round(multiplier*chance)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, format(statformat, chance), false, chance);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, dcs_format(statformat, chance), false, chance);
 			end
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, BLOCK_CHANCE).." "..string.format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
-			statFrame.tooltip2 = format(CR_BLOCK_TOOLTIP, GetShieldBlock());
+			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, BLOCK_CHANCE).." "..dcs_format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip2 = dcs_format(CR_BLOCK_TOOLTIP, GetShieldBlock());
 			statFrame:Show();
 		end
 		PaperDollFrame_UpdateStats() -- needs to get called for checkbox Decimals
