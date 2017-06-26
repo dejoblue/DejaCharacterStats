@@ -1,6 +1,9 @@
 local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
 local _, gdbprivate = ...
+local _, doll_tooltip_format = ... --needs previous pulls to be completed --PAPERDOLLFRAME_TOOLTIP_FORMAT
+local _, highlight_code = ... --needs previous pulls to be completed --HIGHLIGHT_FONT_COLOR_CODE
+local _, font_color_close = ...--needs previous pulls to be completed --FONT_COLOR_CODE_CLOSE
 -- Decimal Check
 local notinteger
 local my_floor = math.floor
@@ -12,6 +15,9 @@ end
 local statformat
 local multiplier
 local function DCS_Decimals()
+		--TODO: localisation of doll_tooltip_format
+		--TODO: localisation of highlight_code
+		--TODO: localisation of font_color_close
 	-- Crit Chance
 		--TODO: is notinteger needed? might be more efficient to set statformat and multiplier in checkboxes
 		if notinteger then
