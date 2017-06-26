@@ -2,9 +2,8 @@ local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
 
 --local LOCALE = GetLocale()
-local _, LOCALE = ...
 
-if LOCALE == "ruRU" then
+if namespace.locale == "ruRU" then
 	-- The EU English game client also
 	-- uses the US English locale code.
 

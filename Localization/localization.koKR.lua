@@ -2,9 +2,8 @@ local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
 
 --local LOCALE = GetLocale()
-local _, LOCALE = ...
 
-if LOCALE == "koKR" then
+if namespace.locale == "koKR" then
 	-- The EU English game client also
 	-- uses the US English locale code.
 
