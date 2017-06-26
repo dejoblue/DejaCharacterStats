@@ -9,7 +9,15 @@ local _, font_color_close = ...
 font_color_close = FONT_COLOR_CODE_CLOSE
 --local _, private = ...
 --local _, gdbprivate = ...
+--[[]
+--seems like shared upvaluing of tables isn't so easy
+local _, dcs_format = ...
+dcs_format = format
+local _, char_ctats_pane = ...
+char_ctats_pane = CharacterStatsPane
+--]]
 local dcs_format = format
+local char_ctats_pane = CharacterStatsPane
 local _, DCS_TableData = ...
 local _, gdbprivate = ...
 local ilvl_two_decimals, ilvl_one_decimals
@@ -186,8 +194,8 @@ DCS_TableData.StatData = DCS_TableData:CopyTable(PAPERDOLL_STATINFO)
 
 DCS_TableData.StatData.ItemLevelFrame = {
     category   = true,
-    frame      = CharacterStatsPane.ItemLevelFrame,
-    updateFunc = function(statFrame, unit)
+    frame      = char_ctats_pane.ItemLevelFrame,
+    updateFunc = function(statFrame)
 		local avgItemLevel, avgItemLevelEquipped = GetAverageItemLevel()
 		local DCS_DecimalPlaces
 		local multiplier
@@ -222,12 +230,12 @@ DCS_TableData.StatData.ItemLevelFrame = {
 
 DCS_TableData.StatData.AttributesCategory = {
     category   = true,
-    frame      = CharacterStatsPane.AttributesCategory,
+    frame      = char_ctats_pane.AttributesCategory,
     updateFunc = function() end
 }
 DCS_TableData.StatData.EnhancementsCategory = {
     category   = true,
-    frame      = CharacterStatsPane.EnhancementsCategory,
+    frame      = char_ctats_pane.EnhancementsCategory,
     updateFunc = function() end
 }
 
@@ -359,7 +367,7 @@ local function casterGCD()
 end
 
 DCS_TableData.StatData.GCD = {
-    updateFunc = function(statFrame, unit)
+    updateFunc = function(statFrame)
 		local spec = GetSpecialization();
 		local primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
 		local gcd
@@ -565,7 +573,9 @@ DCS_TableData.StatData.VERSATILITY_RATING = {
 }
 
 DCS_TableData.StatData.MASTERY_RATING = {
+
 	--TODO: localisation of font colors (highlight_code and font_color_close)
+
 	updateFunc = function(statFrame, unit)
 		if ( unit ~= "player" ) then
 			statFrame:Hide();
@@ -589,11 +599,11 @@ DCS_TableData.StatData.MASTERY_RATING = {
 			color_format = "|cff7f7f7f" .. color_format .. "|r"
 			add_text = " |cffff0000(Requires Level " .. SHOW_MASTERY_LEVEL ..")|r"
 		end
-		local percentage = format("%.2f",GetCombatRatingBonus(stat)*bonuscoeff)
-		PaperDollFrame_SetLabelAndText(statFrame, "", format(color_format,rating), false, rating);
+		local percentage = dcs_format("%.2f",GetCombatRatingBonus(stat)*bonuscoeff)
+		PaperDollFrame_SetLabelAndText(statFrame, "", dcs_format(color_format,rating), false, rating);
 		statFrame.Label:SetText(color_rating2)
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..color_rating1.." "..format(color_format,rating)..add_text..FONT_COLOR_CODE_CLOSE;
-		statFrame.tooltip2 = format("Mastery Rating of %s increases mastery by %.2f%%", BreakUpLargeNumbers(rating), percentage);
+		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..color_rating1.." "..dcs_format(color_format,rating)..add_text..FONT_COLOR_CODE_CLOSE;
+		statFrame.tooltip2 = dcs_format("Mastery Rating of %s increases mastery by %.2f%%", BreakUpLargeNumbers(rating), percentage);
 		statFrame:Show();
 	end
 }
