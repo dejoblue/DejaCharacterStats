@@ -20,7 +20,7 @@ local dcs_format = format
 local char_ctats_pane = CharacterStatsPane
 local _, DCS_TableData = ...
 local _, gdbprivate = ...
-local ilvl_two_decimals, ilvl_one_decimals
+local ilvl_two_decimals, ilvl_one_decimals, ilvl_eq_av
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsItemLevelChecked = {
 		ItemLevelEQ_AV_SetChecked = true,
 		ItemLevelDecimalsSetChecked = false,
@@ -42,14 +42,18 @@ local ilvl_two_decimals, ilvl_one_decimals
 	
 	DCS_ILvl_EQ_AV_Check:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_LOGIN" then
-			local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelEQ_AV_SetChecked
-			self:SetChecked(checked)
+			--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelEQ_AV_SetChecked
+			--self:SetChecked(checked)
+			ilvl_eq_av = gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelEQ_AV_SetChecked
+			self:SetChecked(ilvl_eq_av)
 		end
 	end)
 
 	DCS_ILvl_EQ_AV_Check:SetScript("OnClick", function(self)
-		local checked = self:GetChecked()
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelEQ_AV_SetChecked = checked
+		--local checked = self:GetChecked()
+		--gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelEQ_AV_SetChecked = checked
+		ilvl_eq_av = not ilvl_eq_av
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelEQ_AV_SetChecked = ilvl_eq_av
 		--[[
 		if self:GetChecked(true) then
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelEQ_AV_SetChecked = true
@@ -70,17 +74,25 @@ local DCS_ItemLevelDecimalPlacesCheck = CreateFrame("CheckButton", "DCS_ItemLeve
 	
 	DCS_ItemLevelDecimalPlacesCheck:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_LOGIN" then
+			--[[
 			local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelDecimalsSetChecked
 			ilvl_one_decimals = checked
 			self:SetChecked(checked)
+			--]]
+			ilvl_one_decimals = gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelDecimalsSetChecked
+			self:SetChecked(ilvl_one_decimals)
 		end
 	end)
 
 	DCS_ItemLevelDecimalPlacesCheck:SetScript("OnClick", function(self)
+		--[[
 		local checked = self:GetChecked()
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelDecimalsSetChecked = checked
 		ilvl_one_decimals = checked
-		if checked then
+		--]]
+		ilvl_one_decimals = self:GetChecked() --can't be improved into ilvl_one_decimals = not ilvl_one_decimals ?
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelDecimalsSetChecked = ilvl_one_decimals
+		if ilvl_one_decimals then
 			DCS_ItemLevelTwoDecimalsCheck:SetChecked(false)
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelTwoDecimalsSetChecked = false
 			ilvl_two_decimals = false
@@ -108,17 +120,25 @@ local DCS_ItemLevelTwoDecimalsCheck = CreateFrame("CheckButton", "DCS_ItemLevelT
 	
 	DCS_ItemLevelTwoDecimalsCheck:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_LOGIN" then
+			--[[
 			local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelTwoDecimalsSetChecked
 			self:SetChecked(checked)
 			ilvl_two_decimals = checked
+			--]]
+			ilvl_two_decimals = gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelTwoDecimalsSetChecked
+			self:SetChecked(ilvl_two_decimals)
 		end
 	end)
 
-	DCS_ItemLevelTwoDecimalsCheck:SetScript("OnClick", function(self) 
+	DCS_ItemLevelTwoDecimalsCheck:SetScript("OnClick", function(self)
+		--[[
 		local checked = self:GetChecked()
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelTwoDecimalsSetChecked = checked
 		ilvl_two_decimals = checked
-		if checked then
+		--]]
+		ilvl_two_decimals = self:GetChecked()
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelTwoDecimalsSetChecked = ilvl_two_decimals
+		if ilvl_two_decimals then
 			DCS_ItemLevelDecimalPlacesCheck:SetChecked(false)
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelDecimalsSetChecked = false
 			ilvl_one_decimals = false
@@ -214,6 +234,7 @@ DCS_TableData.StatData.ItemLevelFrame = {
 		avgItemLevel = floor(multiplier*avgItemLevel)/multiplier;
 		avgItemLevelEquipped = floor(multiplier*avgItemLevelEquipped)/multiplier;
 		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, STAT_AVERAGE_ITEM_LEVEL).." "..dcs_format(DCS_DecimalPlaces, avgItemLevel);
+		--[[-
 		if not DCS_ILvl_EQ_AV_Check:GetChecked(true) or (avgItemLevel == avgItemLevelEquipped) then
 			PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped), false, avgItemLevelEquipped)
 		else
@@ -221,6 +242,17 @@ DCS_TableData.StatData.ItemLevelFrame = {
 			local temp = DCS_DecimalPlaces .. ")"
 			local format_for_avg_equipped = gsub(STAT_AVERAGE_ITEM_LEVEL_EQUIPPED, "d%)", temp,  1)
 			statFrame.tooltip = statFrame.tooltip .. "  " .. dcs_format(format_for_avg_equipped, avgItemLevelEquipped);
+		end
+		-]]
+		
+		--if ilvl_eq_av and (avgItemLevel ~= avgItemLevelEquipped) then
+		if ilvl_eq_av and (avgItemLevel > avgItemLevelEquipped) then
+			PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces .. ("/") .. DCS_DecimalPlaces,avgItemLevelEquipped,avgItemLevel), false, avgItemLevelEquipped)
+			local temp = DCS_DecimalPlaces .. ")"
+			local format_for_avg_equipped = gsub(STAT_AVERAGE_ITEM_LEVEL_EQUIPPED, "d%)", temp,  1)
+			statFrame.tooltip = statFrame.tooltip .. "  " .. dcs_format(format_for_avg_equipped, avgItemLevelEquipped);
+		else
+			PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped), false, avgItemLevelEquipped)
 		end
 		statFrame.tooltip = statFrame.tooltip .. font_color_close;
 		statFrame.tooltip2 = STAT_AVERAGE_ITEM_LEVEL_TOOLTIP;
