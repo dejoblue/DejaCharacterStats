@@ -316,57 +316,57 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 
 	
 local dcshideatzeroFS = DejaCharacterStatsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-	dcshideatzeroFS:SetText("Hide at zero:")
+	dcshideatzeroFS:SetText('|cffffffff' .. L["Hide at zero:"] .. '|r')
 	dcshideatzeroFS:SetPoint("TOPLEFT", 35, -145)
 	dcshideatzeroFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
-local DCS_BlizzlikeHide = CreateFrame("CheckButton", "DCS_BlizzlikeHide", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate") 
-local DCS_HideAtZero = CreateFrame("CheckButton", "DCS_HideAtZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate") 
-DCS_HideAtZero:RegisterEvent("PLAYER_LOGIN") 
-DCS_HideAtZero:ClearAllPoints() 
---DCS_HideAtZero:SetPoint("TOPLEFT", 25, -150) 
-DCS_HideAtZero:SetPoint("TOPLEFT", 65, -165) 
-DCS_HideAtZero:SetScale(1) 
-DCS_HideAtZero.tooltipText = L['Hides enhancement stat if the displayed value would be zero. Checking "Decimals" changes the displayed value.'] --Creates a tooltip on mouseover. 
-_G[DCS_HideAtZero:GetName() .. "Text"]:SetText(L["DCS hide at zero"]) 
-DCS_HideAtZero:SetScript("OnEvent", function(self, event) 
+local DCS_BlizHideAtZero = CreateFrame("CheckButton", "DCS_BlizHideAtZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate") 
+local DCS_DCSHideAtZero = CreateFrame("CheckButton", "DCS_DCSHideAtZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate") 
+DCS_DCSHideAtZero:RegisterEvent("PLAYER_LOGIN") 
+DCS_DCSHideAtZero:ClearAllPoints() 
+--DCS_DCSHideAtZero:SetPoint("TOPLEFT", 25, -150) 
+DCS_DCSHideAtZero:SetPoint("TOPLEFT", 65, -165) 
+DCS_DCSHideAtZero:SetScale(1) 
+DCS_DCSHideAtZero.tooltipText = L['Hides enhancement stat if the displayed value would be zero. Checking "Decimals" changes the displayed value.'] --Creates a tooltip on mouseover. 
+_G[DCS_DCSHideAtZero:GetName() .. "Text"]:SetText(L["DCS's hide at zero"]) 
+DCS_DCSHideAtZero:SetScript("OnEvent", function(self, event) 
 	if event == "PLAYER_LOGIN" then 
 		--local status = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked
 		local DCSstatus = gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked
 		local hideatzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked
 		if hideatzero then
 			self:SetChecked(DCSstatus)
-			DCS_BlizzlikeHide:SetChecked(not DCSstatus) 
+			DCS_BlizHideAtZero:SetChecked(not DCSstatus) 
 		else
 			self:SetChecked(false)
-			DCS_BlizzlikeHide:SetChecked(false)
+			DCS_BlizHideAtZero:SetChecked(false)
 		end
 	end
 end) 
  
-DCS_HideAtZero:SetScript("OnClick", function(self) 
+DCS_DCSHideAtZero:SetScript("OnClick", function(self) 
 	local status = self:GetChecked() 
 	gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked = status
 	gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = status
 	if status then  
-		DCS_BlizzlikeHide:SetChecked(false)  
+		DCS_BlizHideAtZero:SetChecked(false)  
 	end 
 	DCS_Decimals() 
 end) 
 
  
- _G[DCS_BlizzlikeHide:GetName() .. "Text"]:SetText(L["Blizzlike hide at zero"] ) 
+ _G[DCS_BlizHideAtZero:GetName() .. "Text"]:SetText(L["Blizzard's hide at zero"] ) 
 
-DCS_BlizzlikeHide:ClearAllPoints() 
---DCS_BlizzlikeHide:SetPoint("TOPLEFT", 50, -220) 
-DCS_BlizzlikeHide:SetPoint("TOPLEFT", 65, -185) 
-DCS_BlizzlikeHide:SetScale(1) 
-DCS_BlizzlikeHide.tooltipText = L['Hides enchancement stat only if its numerical value is exactly zero.'] --Creates a tooltip on mouseover. 
+DCS_BlizHideAtZero:ClearAllPoints() 
+--DCS_BlizHideAtZero:SetPoint("TOPLEFT", 50, -220) 
+DCS_BlizHideAtZero:SetPoint("TOPLEFT", 65, -185) 
+DCS_BlizHideAtZero:SetScale(1) 
+DCS_BlizHideAtZero.tooltipText = L['Hides enhancement stat only if its numerical value is exactly zero. For example, if stat value is 0.001%, then it would be displayed as 0%.'] --Creates a tooltip on mouseover. 
 
-DCS_BlizzlikeHide:SetScript("OnClick", function(self)  
+DCS_BlizHideAtZero:SetScript("OnClick", function(self)  
 	local status = self:GetChecked() 
 	gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked = status
 	if status then  
-		DCS_HideAtZero:SetChecked(false) 
+		DCS_DCSHideAtZero:SetChecked(false) 
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = false 
 	end 
 	DCS_Decimals() 
