@@ -57,6 +57,9 @@ for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
     v.itemrepair = v:CreateFontString("FontString","OVERLAY","GameTooltipText")
     v.itemrepair:SetFormattedText("")
 end
+--TODO - setting of their values and checkbox states in frame meant for this purpose
+
+local showavgdur --display of average durability on shirt
 
 local function DCS_Set_Dura_Item_Positions()
 	--It encompasses item repair, durability and, indirectly, durability bars.
@@ -230,7 +233,7 @@ local DCS_ShowDuraCheck = CreateFrame("CheckButton", "DCS_ShowDuraCheck", DejaCh
 	DCS_ShowDuraCheck:SetScale(1.25)
 	DCS_ShowDuraCheck.tooltipText = L["Displays each equipped item's durability."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowDuraCheck:GetName() .. "Text"]:SetText(L["Item Durability"])
-	
+local event	--TODO: delete second variable event that might appear after merging
 DCS_ShowDuraCheck:SetScript("OnEvent", function(self, ...)
 	local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked
 	self:SetChecked(checked)
@@ -424,9 +427,12 @@ local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDura
 	_G[DCS_ShowAverageDuraCheck:GetName() .. "Text"]:SetText(L["Average Durability"])
 	
 	DCS_ShowAverageDuraCheck:SetScript("OnEvent", function(self, ...)
-		local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowAverageRepairChecked.ShowAverageRepairSetChecked
-		self:SetChecked(checked)
-		if checked then
+		event = ...
+		if event == "PLAYER_LOGIN" then
+			showavgdur = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowAverageRepairChecked.ShowAverageRepairSetChecked
+			self:SetChecked(showavgdur)
+		end
+		if showavgdur then
 			DCS_Mean_Durability()
 			if addon.duraMean == 100 then --check after calculation
 				duraMeanFS:SetFormattedText("")
@@ -456,6 +462,20 @@ local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDura
 	end)
 
 	DCS_ShowAverageDuraCheck:SetScript("OnClick", function(self)
+		showavgdur = not showavgdur
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowAverageRepairChecked.ShowAverageRepairSetChecked = showavgdur
+		if showavgdur then
+			DCS_Mean_Durability()
+			if addon.duraMean == 100 then --check after calculation
+				duraMeanFS:SetFormattedText("")
+			else
+				duraMeanFS:SetFormattedText("%.0f%%", addon.duraMean)
+			end
+		else
+			duraMeanFS:SetFormattedText("")
+			duraDurabilityFrameFS:Hide()
+		end
+		--[[
 		local checked = self:GetChecked()
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowAverageRepairChecked.ShowAverageRepairSetChecked = checked
 		if checked then
@@ -469,6 +489,7 @@ local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDura
 			duraMeanFS:SetFormattedText("")
 			duraDurabilityFrameFS:Hide()
 		end
+		--]]
 		--[[
 		local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowAverageRepairChecked
 		if self:GetChecked(true) then
