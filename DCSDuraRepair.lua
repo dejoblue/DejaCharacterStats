@@ -57,14 +57,18 @@ for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
     v.itemrepair = v:CreateFontString("FontString","OVERLAY","GameTooltipText")
     v.itemrepair:SetFormattedText("")
 end
+--TODO - setting of their values and checkbox states in frame meant for this purpose
+local showdura --display of durability percentage on items
+local showrepair --display of item repair cost
 
 local function DCS_Set_Dura_Item_Positions()
 	--It encompasses item repair, durability and, indirectly, durability bars.
-	--TODO: making it work with local to DCSDuraRepair.lua variable
-	local showdura = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked
+	--making it work with local to DCSDuraRepair.lua variable
+	--showdura = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked
 	--local showdura = DCS_ShowDuraCheck:GetChecked()
 	--local showrepair = DCS_ShowItemRepairCheck:GetChecked()
-	local showrepair = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked
+	--local showrepair = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked
+	--print("called DCS_Set_Dura_Item_Positions") --debug for later
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		v.durability:ClearAllPoints()
 		v.itemrepair:ClearAllPoints()
@@ -230,8 +234,22 @@ local DCS_ShowDuraCheck = CreateFrame("CheckButton", "DCS_ShowDuraCheck", DejaCh
 	DCS_ShowDuraCheck:SetScale(1.25)
 	DCS_ShowDuraCheck.tooltipText = L["Displays each equipped item's durability."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowDuraCheck:GetName() .. "Text"]:SetText(L["Item Durability"])
-	
+local event	--TODO: delete second variable event that might appear after merging
 DCS_ShowDuraCheck:SetScript("OnEvent", function(self, ...)
+	event = ...
+	if event == "PLAYER_LOGIN" then
+		showdura = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked
+		self:SetChecked(showdura)
+		DCS_Set_Dura_Item_Positions()
+	end
+	if showdura then
+		DCS_Item_DurabilityTop()
+	else
+		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
+			v.durability:SetFormattedText("")
+		end
+	end
+	--[[
 	local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked
 	self:SetChecked(checked)
 	DCS_Set_Dura_Item_Positions()
@@ -242,23 +260,21 @@ DCS_ShowDuraCheck:SetScript("OnEvent", function(self, ...)
 			v.durability:SetFormattedText("")
 		end
 	end
-	--[[
-	local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked
-	self:SetChecked(checked.ShowDuraSetChecked)
-	DCS_Set_Dura_Item_Positions()
-	if self:GetChecked(true) then
-		DCS_Item_DurabilityTop()
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked = true
-	else
-		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
-			v.durability:SetFormattedText("")
-		end
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked = false
-	end
 	--]]
 end)
 
 DCS_ShowDuraCheck:SetScript("OnClick", function(self)
+	showdura = not showdura
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked = showdura
+	DCS_Set_Dura_Item_Positions() --same line irrespectfully of the condtition
+	if showdura then
+		DCS_Item_DurabilityTop()
+	else
+		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
+			v.durability:SetFormattedText("")
+		end
+	end
+	--[[
 	local checked = self:GetChecked()
 	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked = checked
 	DCS_Set_Dura_Item_Positions() --same line irrespectfully of the condtition
@@ -268,17 +284,6 @@ DCS_ShowDuraCheck:SetScript("OnClick", function(self)
 		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 			v.durability:SetFormattedText("")
 		end
-	end
-	--[[
-	DCS_Set_Dura_Item_Positions() --same line irrespectfully of the condtition
-	if self:GetChecked(true) then
-		DCS_Item_DurabilityTop()
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked = true
-	else
-		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
-			v.durability:SetFormattedText("")
-		end
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked = false
 	end
 	--]]
 end)
@@ -577,6 +582,20 @@ local DCS_ShowItemRepairCheck = CreateFrame("CheckButton", "DCS_ShowItemRepairCh
 	_G[DCS_ShowItemRepairCheck:GetName() .. "Text"]:SetText(L["Item Repair Cost"])
 	
 DCS_ShowItemRepairCheck:SetScript("OnEvent", function(self, ...)
+	event = ...
+	if event == "PLAYER_LOGIN" then
+		showrepair = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked
+		self:SetChecked(showdura)
+		DCS_Set_Dura_Item_Positions()
+	end
+	if showrepair then
+		DCS_Item_RepairCostBottom()
+	else
+		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
+			v.itemrepair:SetFormattedText("")
+		end
+	end
+	--[[
 	local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked
 	self:SetChecked(checked)
 	DCS_Set_Dura_Item_Positions()
@@ -587,23 +606,21 @@ DCS_ShowItemRepairCheck:SetScript("OnEvent", function(self, ...)
 			v.itemrepair:SetFormattedText("")
 		end
 	end
-	--[[
-	local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked
-	self:SetChecked(checked.ShowItemRepairSetChecked)
-	DCS_Set_Dura_Item_Positions()
-	if self:GetChecked(true) then
-		DCS_Item_RepairCostBottom()
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked = true
-	else
-		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
-			v.itemrepair:SetFormattedText("")
-		end
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked = false
-	end
 	--]]
 end)
 
 DCS_ShowItemRepairCheck:SetScript("OnClick", function(self)
+	showrepair = not showrepair
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked = checked
+	DCS_Set_Dura_Item_Positions()
+	if showrepair then
+		DCS_Item_RepairCostBottom()
+	else
+		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
+			v.itemrepair:SetFormattedText("")
+		end
+	end
+	--[[
 	local checked = self:GetChecked()
 	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked = checked
 	DCS_Set_Dura_Item_Positions()
@@ -613,18 +630,6 @@ DCS_ShowItemRepairCheck:SetScript("OnClick", function(self)
 		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 			v.itemrepair:SetFormattedText("")
 		end
-	end
-	--[[
-	local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked
-	DCS_Set_Dura_Item_Positions() --same line irrespectfully of the condtition
-	if self:GetChecked(true) then
-		DCS_Item_RepairCostBottom()
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked = true
-	else
-		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
-			v.itemrepair:SetFormattedText("")
-		end
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked = false
 	end
 	--]]
 end)
