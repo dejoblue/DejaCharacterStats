@@ -57,6 +57,9 @@ for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
     v.itemrepair = v:CreateFontString("FontString","OVERLAY","GameTooltipText")
     v.itemrepair:SetFormattedText("")
 end
+--TODO - setting of their values and checkbox states in frame meant for this purpose
+
+local showtextures --display of durability textures
 
 local function DCS_Set_Dura_Item_Positions()
 	--It encompasses item repair, durability and, indirectly, durability bars.
@@ -231,6 +234,7 @@ local DCS_ShowDuraCheck = CreateFrame("CheckButton", "DCS_ShowDuraCheck", DejaCh
 	DCS_ShowDuraCheck.tooltipText = L["Displays each equipped item's durability."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowDuraCheck:GetName() .. "Text"]:SetText(L["Item Durability"])
 	
+local event	--TODO: delete second variable event that might appear after merging
 DCS_ShowDuraCheck:SetScript("OnEvent", function(self, ...)
 	local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraChecked.ShowDuraSetChecked
 	self:SetChecked(checked)
@@ -343,6 +347,23 @@ local DCS_ShowDuraTextureCheck = CreateFrame("CheckButton", "DCS_ShowDuraTexture
 	_G[DCS_ShowDuraTextureCheck:GetName() .. "Text"]:SetText(L["Durability Bars"])
 	
 DCS_ShowDuraTextureCheck:SetScript("OnEvent", function(self, ...)
+	event = ...
+	if event == "PLAYER_LOGIN" then
+		showtextures = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraTextureChecked.ShowDuraTextureSetChecked
+		self:SetChecked(showtextures)
+	end
+	if showtextures then
+		DCS_Durability_Bar_Textures()
+		DCS_Mean_Durability()
+		DCS_Item_DurabilityTop()
+		duraMeanTexture:Show()
+	else
+		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
+			v.duratexture:Hide()
+		end
+		duraMeanTexture:Hide()
+	end
+	--[[
 	local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraTextureChecked.ShowDuraTextureSetChecked
 	self:SetChecked(checked)
 	if checked then
@@ -356,26 +377,24 @@ DCS_ShowDuraTextureCheck:SetScript("OnEvent", function(self, ...)
 		end
 		duraMeanTexture:Hide()
 	end
-	--[[
-	local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraTextureChecked
-	self:SetChecked(checked.ShowDuraTextureSetChecked)
-	if self:GetChecked(true) then
+	--]]
+end)
+
+DCS_ShowDuraTextureCheck:SetScript("OnClick", function(self)
+	showtextures = not showtextures
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraTextureChecked.ShowDuraTextureSetChecked = showtextures
+	if showtextures then
 		DCS_Durability_Bar_Textures()
 		DCS_Mean_Durability()
 		DCS_Item_DurabilityTop()
 		duraMeanTexture:Show()
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraTextureChecked.ShowDuraTextureSetChecked = true
 	else
 		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 			v.duratexture:Hide()
 		end
 		duraMeanTexture:Hide()
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraTextureChecked.ShowDuraTextureSetChecked = false
 	end
-	--]]
-end)
-
-DCS_ShowDuraTextureCheck:SetScript("OnClick", function(self)
+	--[[
 	local checked = self:GetChecked()
 	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraTextureChecked.ShowDuraTextureSetChecked = checked
 	if checked then
@@ -388,20 +407,6 @@ DCS_ShowDuraTextureCheck:SetScript("OnClick", function(self)
 			v.duratexture:Hide()
 		end
 		duraMeanTexture:Hide()
-	end
-	--[[
-	if self:GetChecked(true) then
-		DCS_Durability_Bar_Textures()
-		DCS_Mean_Durability()
-		DCS_Item_DurabilityTop()
-		duraMeanTexture:Show()
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraTextureChecked.ShowDuraTextureSetChecked = true
-	else
-		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
-			v.duratexture:Hide()
-		end
-		duraMeanTexture:Hide()
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraTextureChecked.ShowDuraTextureSetChecked = false
 	end
 	--]]
 end)
