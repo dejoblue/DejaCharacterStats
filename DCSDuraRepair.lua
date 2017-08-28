@@ -310,7 +310,7 @@ local function DCS_Durability_Bar_Textures()
 		--v.duratexture:SetSize(4, (31*(duraFinite/100)))
 		v.duratexture:SetSize(4, (31*duraFinite))
 		v.duratexture:Show()
-		duraMeanTexture:Show()
+		--duraMeanTexture:Show() --no need to show the texture for shirt within loop; will be done by later code in DCS_ShowDuraTextureCheck
 	end
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES_LEFT) do
 		local slotId = v:GetID()
@@ -329,7 +329,7 @@ local function DCS_Durability_Bar_Textures()
 		--v.duratexture:SetSize(3, (31*(duraFinite/100)))
 		v.duratexture:SetSize(3, (31*duraFinite))
 		v.duratexture:Show()
-		duraMeanTexture:Show()
+		--duraMeanTexture:Show() --no need to show the texture for shirt within loop; will be done by later code in DCS_ShowDuraTextureCheck
 	end
 end
 
