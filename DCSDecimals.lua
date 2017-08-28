@@ -27,7 +27,7 @@ local function DCS_Decimals()
 			statformat = "%.0f%%"
 			multiplier = 1
 		end
-		local notexactlyzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAlsoIfNotExactlyZeroChecked.SetChecked
+		local notexactlyzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked
 		function PaperDollFrame_SetCritChance(statFrame, unit)
 			if ( unit ~= "player" ) then
 				statFrame:Hide();
@@ -307,90 +307,68 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 		DCS_Decimals()
 	end)
 
-	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsHideatZeroChecked = {
+	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsHideAtZeroChecked = {
 		SetChecked = true,
 	}
+	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsDCSZeroChecked = { 
+		SetChecked = false, 
+	} 
 
-local DCS_AlsoIfnotExactlyZero = CreateFrame("CheckButton", "DCS_AlsoIfnotExactlyZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
-local notzerotext = L["Also if not exactly zero"]
-local graycode = "|cff7f7f7f"
 	
-
-local DCS_HideatZero = CreateFrame("CheckButton", "DCS_HideatZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
-	DCS_HideatZero:RegisterEvent("PLAYER_LOGIN")
-	DCS_HideatZero:ClearAllPoints()
-	DCS_HideatZero:SetPoint("TOPLEFT", 25, -150)
-	DCS_HideatZero:SetScale(1.25)
-	DCS_HideatZero.tooltipText = L['Hides enchancement stats if they are zero.'] --Creates a tooltip on mouseover.
-	_G[DCS_HideatZero:GetName() .. "Text"]:SetText(L["Hide at zero"])
-	
-	DCS_HideatZero:SetScript("OnEvent", function(self, event, arg1)
-		if event == "PLAYER_LOGIN" then
-			local status = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideatZeroChecked.SetChecked
-			self:SetChecked(status)
-			if status then 
-				DCS_AlsoIfnotExactlyZero:Enable()
-				_G[DCS_AlsoIfnotExactlyZero:GetName() .. "Text"]:SetText(notzerotext)
-			else
-				DCS_AlsoIfnotExactlyZero:Disable()
-				DCS_AlsoIfnotExactlyZero:SetChecked(false)
-				_G[DCS_AlsoIfnotExactlyZero:GetName() .. "Text"]:SetText(graycode .. notzerotext .. "|r")
-				gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAlsoIfNotExactlyZeroChecked.SetChecked = false
-			end
-			--PaperDollFrame_UpdateStats()
-			--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked
-			DCS_Decimals() -- is it needed?
-		end
-	end)
-
-	DCS_HideatZero:SetScript("OnClick", function(self,event,arg1) 
-		--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideatZeroChecked
-		local status = self:GetChecked(true)
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideatZeroChecked.SetChecked = status
-		--print(status,"on click")
-		if status then 
-			DCS_AlsoIfnotExactlyZero:Enable()
-			_G[DCS_AlsoIfnotExactlyZero:GetName() .. "Text"]:SetText(notzerotext)
+local dcshideatzeroFS = DejaCharacterStatsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	dcshideatzeroFS:SetText('|cffffffff' .. L["Hide at zero:"] .. '|r')
+	dcshideatzeroFS:SetPoint("TOPLEFT", 35, -145)
+	dcshideatzeroFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
+local DCS_BlizHideAtZero = CreateFrame("CheckButton", "DCS_BlizHideAtZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate") 
+local DCS_DCSHideAtZero = CreateFrame("CheckButton", "DCS_DCSHideAtZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate") 
+DCS_DCSHideAtZero:RegisterEvent("PLAYER_LOGIN") 
+DCS_DCSHideAtZero:ClearAllPoints() 
+--DCS_DCSHideAtZero:SetPoint("TOPLEFT", 25, -150) 
+DCS_DCSHideAtZero:SetPoint("TOPLEFT", 65, -165) 
+DCS_DCSHideAtZero:SetScale(1) 
+DCS_DCSHideAtZero.tooltipText = L['Hides enhancement stat if the displayed value would be zero. Checking "Decimals" changes the displayed value.'] --Creates a tooltip on mouseover. 
+_G[DCS_DCSHideAtZero:GetName() .. "Text"]:SetText(L["DCS's hide at zero"]) 
+DCS_DCSHideAtZero:SetScript("OnEvent", function(self, event) 
+	if event == "PLAYER_LOGIN" then 
+		--local status = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked
+		local DCSstatus = gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked
+		local hideatzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked
+		if hideatzero then
+			self:SetChecked(DCSstatus)
+			DCS_BlizHideAtZero:SetChecked(not DCSstatus) 
 		else
-			DCS_AlsoIfnotExactlyZero:Disable()
-			DCS_AlsoIfnotExactlyZero:SetChecked(false)
-			_G[DCS_AlsoIfnotExactlyZero:GetName() .. "Text"]:SetText(graycode .. notzerotext .. "|r")
-			gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAlsoIfNotExactlyZeroChecked.SetChecked = false
+			self:SetChecked(false)
+			DCS_BlizHideAtZero:SetChecked(false)
 		end
-		--PaperDollFrame_UpdateStats()
-		--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked
-		DCS_Decimals()
-	end)
-	
-	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsHideAlsoIfNotExactlyZeroChecked = {
-		SetChecked = true,
-	}
+	end
+end) 
+ 
+DCS_DCSHideAtZero:SetScript("OnClick", function(self) 
+	local status = self:GetChecked() 
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked = status
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = status
+	if status then  
+		DCS_BlizHideAtZero:SetChecked(false)  
+	end 
+	DCS_Decimals() 
+end) 
 
+ 
+ _G[DCS_BlizHideAtZero:GetName() .. "Text"]:SetText(L["Blizzard's hide at zero"] ) 
 
-	DCS_AlsoIfnotExactlyZero:RegisterEvent("PLAYER_LOGIN")
-	DCS_AlsoIfnotExactlyZero:ClearAllPoints()
-	DCS_AlsoIfnotExactlyZero:SetPoint("TOPLEFT", 50, -220)
-	DCS_AlsoIfnotExactlyZero:SetScale(1)
-	DCS_AlsoIfnotExactlyZero.tooltipText = L['Hides enchancement even if just displayed value is zero.'] --Creates a tooltip on mouseover.
+DCS_BlizHideAtZero:ClearAllPoints() 
+--DCS_BlizHideAtZero:SetPoint("TOPLEFT", 50, -220) 
+DCS_BlizHideAtZero:SetPoint("TOPLEFT", 65, -185) 
+DCS_BlizHideAtZero:SetScale(1) 
+DCS_BlizHideAtZero.tooltipText = L['Hides enhancement stat only if its numerical value is exactly zero. For example, if stat value is 0.001%, then it would be displayed as 0%.'] --Creates a tooltip on mouseover. 
 
-
-	
-	DCS_AlsoIfnotExactlyZero:SetScript("OnEvent", function(self, event, arg1)
-		if event == "PLAYER_LOGIN" then
-			local status = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAlsoIfNotExactlyZeroChecked.SetChecked
-			self:SetChecked(status)
-			--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked
-			--DCS_Decimals(checked)
-			DCS_Decimals() --is it needed?
-		end
-	end)
-
-	DCS_AlsoIfnotExactlyZero:SetScript("OnClick", function(self,event,arg1) 
-		--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAlsoIfNotExactlyZeroChecked
-		local status = self:GetChecked(true)
-		gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAlsoIfNotExactlyZeroChecked.SetChecked = status
-		--print(status,"on click")
-		--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked
-		--DCS_Decimals(checked)
-		DCS_Decimals()
-	end)
+DCS_BlizHideAtZero:SetScript("OnClick", function(self)  
+	local status = self:GetChecked() 
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked = status
+	if status then  
+		DCS_DCSHideAtZero:SetChecked(false) 
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = false 
+	end 
+	DCS_Decimals() 
+end) 
+ 		
