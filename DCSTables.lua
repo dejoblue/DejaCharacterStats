@@ -1,12 +1,12 @@
 local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
 local name,addon = ...
-local _, doll_tooltip_format = ...
-doll_tooltip_format = PAPERDOLLFRAME_TOOLTIP_FORMAT
-local _, highlight_code = ...
-highlight_code = HIGHLIGHT_FONT_COLOR_CODE
-local _, font_color_close = ...
-font_color_close = FONT_COLOR_CODE_CLOSE
+local doll_tooltip_format = PAPERDOLLFRAME_TOOLTIP_FORMAT
+namespace.doll_tooltip_format = doll_tooltip_format
+local highlight_code = HIGHLIGHT_FONT_COLOR_CODE
+namespace.highlight_code = highlight_code
+local font_color_close = FONT_COLOR_CODE_CLOSE
+namespace.font_color_close = font_color_close
 --local _, private = ...
 --local _, gdbprivate = ...
 --[[]
@@ -606,7 +606,7 @@ DCS_TableData.StatData.VERSATILITY_RATING = {
 
 DCS_TableData.StatData.MASTERY_RATING = {
 
-	--TODO: localisation of font colors (highlight_code and font_color_close)
+	--localisation of font colors (highlight_code and font_color_close)
 
 	updateFunc = function(statFrame, unit)
 		if ( unit ~= "player" ) then
@@ -634,7 +634,7 @@ DCS_TableData.StatData.MASTERY_RATING = {
 		local percentage = dcs_format("%.2f",GetCombatRatingBonus(stat)*bonuscoeff)
 		PaperDollFrame_SetLabelAndText(statFrame, "", dcs_format(color_format,rating), false, rating);
 		statFrame.Label:SetText(color_rating2)
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..color_rating1.." "..dcs_format(color_format,rating)..add_text..FONT_COLOR_CODE_CLOSE;
+		statFrame.tooltip = highlight_code..color_rating1.." "..dcs_format(color_format,rating)..add_text..font_color_close;
 		statFrame.tooltip2 = dcs_format("Mastery Rating of %s increases mastery by %.2f%%", BreakUpLargeNumbers(rating), percentage);
 		statFrame:Show();
 	end

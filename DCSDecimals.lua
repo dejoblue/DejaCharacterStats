@@ -1,9 +1,9 @@
 local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
 local _, gdbprivate = ...
-local _, doll_tooltip_format = ... --needs previous pulls to be completed --PAPERDOLLFRAME_TOOLTIP_FORMAT
-local _, highlight_code = ... --needs previous pulls to be completed --HIGHLIGHT_FONT_COLOR_CODE
-local _, font_color_close = ...--needs previous pulls to be completed --FONT_COLOR_CODE_CLOSE
+local doll_tooltip_format = namespace.doll_tooltip_format --PAPERDOLLFRAME_TOOLTIP_FORMAT
+local highlight_code = namespace.highlight_code --HIGHLIGHT_FONT_COLOR_CODE
+local font_color_close = namespace.font_color_close --FONT_COLOR_CODE_CLOSE
 -- Decimal Check
 local notinteger
 local my_floor = math.floor
@@ -15,9 +15,7 @@ end
 local statformat
 local multiplier
 local function DCS_Decimals()
-		--TODO: localisation of doll_tooltip_format
-		--TODO: localisation of highlight_code
-		--TODO: localisation of font_color_close
+		--version with localisation of PAPERDOLLFRAME_TOOLTIP_FORMAT, HIGHLIGHT_FONT_COLOR_CODE and FONT_COLOR_CODE_CLOSE (doll_tooltip_format, highlight_code and font_color_close)
 	-- Crit Chance
 		--TODO: is notinteger needed? might be more efficient to set statformat and multiplier in checkboxes
 		if notinteger then
@@ -70,7 +68,7 @@ local function DCS_Decimals()
 				PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, dcs_format(statformat, critChance), false, critChance);
 			end
 			--PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, format(statformat1, critChance), true, format(statformat1, critChance)); --can't do it because PaperDollFrame_SetLabelAndText converts to integer
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_CRITICAL_STRIKE).." "..dcs_format("%.2f%%", critChance)..FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, STAT_CRITICAL_STRIKE).." "..dcs_format("%.2f%%", critChance)..font_color_close;
 			local extraCritChance = GetCombatRatingBonus(rating);
 			local extraCritRating = GetCombatRating(rating);
 			if (GetCritChanceProvidesParryEffect()) then
@@ -93,7 +91,7 @@ local function DCS_Decimals()
 
 			local hasteFormatString;
 			if (haste < 0) then
-				hasteFormatString = RED_FONT_COLOR_CODE.."%s"..FONT_COLOR_CODE_CLOSE;
+				hasteFormatString = RED_FONT_COLOR_CODE.."%s"..font_color_close;
 			else
 				hasteFormatString = "+%s";
 			end
@@ -104,7 +102,7 @@ local function DCS_Decimals()
 				PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, dcs_format(hasteFormatString, dcs_format(statformat, haste)), false, haste);
 			end
 
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_HASTE) .. " " .. dcs_format(hasteFormatString, dcs_format("%.2f%%", haste)) .. FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = highlight_code .. dcs_format(doll_tooltip_format, STAT_HASTE) .. " " .. dcs_format(hasteFormatString, dcs_format("%.2f%%", haste)) .. font_color_close;
 
 			local _, class = UnitClass(unit);
 			statFrame.tooltip2 = _G["STAT_HASTE_"..class.."_TOOLTIP"];
@@ -136,7 +134,7 @@ local function DCS_Decimals()
 				--result = versatilityDamageBonus
 			end
 			--print("vesratility",result)
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. dcs_format(VERSATILITY_TOOLTIP_FORMAT, STAT_VERSATILITY, versatilityDamageBonus, versatilityDamageTakenReduction) .. FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = highlight_code .. dcs_format(VERSATILITY_TOOLTIP_FORMAT, STAT_VERSATILITY, versatilityDamageBonus, versatilityDamageTakenReduction) .. font_color_close;
 			statFrame.tooltip2 = dcs_format(CR_VERSATILITY_TOOLTIP, versatilityDamageBonus, versatilityDamageTakenReduction, BreakUpLargeNumbers(versatility), versatilityDamageBonus, versatilityDamageTakenReduction);
 
 			statFrame:Show();
@@ -190,7 +188,7 @@ local function DCS_Decimals()
 				--result = lifesteal
 			end
 			--print("leech",result)
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_LIFESTEAL) .. " " .. dcs_format("%.2f%%", lifesteal) .. FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = highlight_code .. dcs_format(doll_tooltip_format, STAT_LIFESTEAL) .. " " .. dcs_format("%.2f%%", lifesteal) .. font_color_close;
 
 			statFrame.tooltip2 = dcs_format(CR_LIFESTEAL_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_LIFESTEAL)), GetCombatRatingBonus(CR_LIFESTEAL));
 
@@ -211,7 +209,7 @@ local function DCS_Decimals()
 			else
 				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, dcs_format(statformat, avoidance), false, avoidance);
 			end
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE .. dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_AVOIDANCE) .. " " .. dcs_format("%.2f%%", avoidance) .. FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = highlight_code .. dcs_format(doll_tooltip_format, STAT_AVOIDANCE) .. " " .. dcs_format("%.2f%%", avoidance) .. font_color_close;
 
 			statFrame.tooltip2 = dcs_format(CR_AVOIDANCE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_AVOIDANCE)), GetCombatRatingBonus(CR_AVOIDANCE));
 
@@ -232,7 +230,7 @@ local function DCS_Decimals()
 			else
 				PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, dcs_format(statformat, chance), false, chance);
 			end
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, DODGE_CHANCE).." "..string.format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, DODGE_CHANCE).." "..string.format("%.2f", chance).."%"..font_color_close;
 			statFrame.tooltip2 = dcs_format(CR_DODGE_TOOLTIP, GetCombatRating(CR_DODGE), GetCombatRatingBonus(CR_DODGE));
 			statFrame:Show();
 		end
@@ -251,7 +249,7 @@ local function DCS_Decimals()
 			else
 				PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, dcs_format(statformat, chance), false, chance);
 			end
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, PARRY_CHANCE).." "..dcs_format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, PARRY_CHANCE).." "..dcs_format("%.2f", chance).."%"..font_color_close;
 			statFrame.tooltip2 = dcs_format(CR_PARRY_TOOLTIP, GetCombatRating(CR_PARRY), GetCombatRatingBonus(CR_PARRY));
 			statFrame:Show();
 		end
@@ -270,7 +268,7 @@ local function DCS_Decimals()
 			else
 				PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, dcs_format(statformat, chance), false, chance);
 			end
-			statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..dcs_format(PAPERDOLLFRAME_TOOLTIP_FORMAT, BLOCK_CHANCE).." "..dcs_format("%.2f", chance).."%"..FONT_COLOR_CODE_CLOSE;
+			statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, BLOCK_CHANCE).." "..dcs_format("%.2f", chance).."%"..font_color_close;
 			statFrame.tooltip2 = dcs_format(CR_BLOCK_TOOLTIP, GetShieldBlock());
 			statFrame:Show();
 		end
