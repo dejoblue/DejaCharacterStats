@@ -608,7 +608,7 @@ DCS_ShowItemRepairCheck:SetScript("OnEvent", function(self, ...)
 	event = ...
 	if event == "PLAYER_LOGIN" then
 		showrepair = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked
-		self:SetChecked(showdura)
+		self:SetChecked(showrepair)
 		DCS_Set_Dura_Item_Positions()
 	end
 	if showrepair then
@@ -634,7 +634,7 @@ end)
 
 DCS_ShowItemRepairCheck:SetScript("OnClick", function(self)
 	showrepair = not showrepair
-	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked = checked
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemRepairChecked.ShowItemRepairSetChecked = showrepair
 	DCS_Set_Dura_Item_Positions()
 	if showrepair then
 		DCS_Item_RepairCostBottom()
