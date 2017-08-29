@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Version: 730r100
 ## Title: DejaCharacterStats
 ## Authors: Dejablue, Kakjens, loudsoul
