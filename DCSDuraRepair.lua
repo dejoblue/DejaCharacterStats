@@ -59,6 +59,7 @@ for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 end
 --TODO - setting of their values and checkbox states in frame meant for this purpose
 
+local showavgdur --display of average durability on shirt
 local showtextures --display of durability textures
 local showdura --display of durability percentage on items
 local showrepair --display of item repair cost
@@ -433,9 +434,12 @@ local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDura
 	_G[DCS_ShowAverageDuraCheck:GetName() .. "Text"]:SetText(L["Average Durability"])
 	
 	DCS_ShowAverageDuraCheck:SetScript("OnEvent", function(self, ...)
-		local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowAverageRepairChecked.ShowAverageRepairSetChecked
-		self:SetChecked(checked)
-		if checked then
+		event = ...
+		if event == "PLAYER_LOGIN" then
+			showavgdur = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowAverageRepairChecked.ShowAverageRepairSetChecked
+			self:SetChecked(showavgdur)
+		end
+		if showavgdur then
 			DCS_Mean_Durability()
 			if addon.duraMean == 100 then --check after calculation
 				duraMeanFS:SetFormattedText("")
@@ -465,6 +469,20 @@ local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDura
 	end)
 
 	DCS_ShowAverageDuraCheck:SetScript("OnClick", function(self)
+		showavgdur = not showavgdur
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowAverageRepairChecked.ShowAverageRepairSetChecked = showavgdur
+		if showavgdur then
+			DCS_Mean_Durability()
+			if addon.duraMean == 100 then --check after calculation
+				duraMeanFS:SetFormattedText("")
+			else
+				duraMeanFS:SetFormattedText("%.0f%%", addon.duraMean)
+			end
+		else
+			duraMeanFS:SetFormattedText("")
+			duraDurabilityFrameFS:Hide()
+		end
+		--[[
 		local checked = self:GetChecked()
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowAverageRepairChecked.ShowAverageRepairSetChecked = checked
 		if checked then
@@ -478,6 +496,7 @@ local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDura
 			duraMeanFS:SetFormattedText("")
 			duraDurabilityFrameFS:Hide()
 		end
+		--]]
 		--[[
 		local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowAverageRepairChecked
 		if self:GetChecked(true) then
