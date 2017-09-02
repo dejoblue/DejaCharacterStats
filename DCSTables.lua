@@ -20,11 +20,13 @@ local dcs_format = format
 local char_ctats_pane = CharacterStatsPane
 local _, DCS_TableData = ...
 local _, gdbprivate = ...
-local ilvl_two_decimals, ilvl_one_decimals, ilvl_eq_av
+local ilvl_two_decimals, ilvl_one_decimals, ilvl_eq_av, ilvl_class_color
+local unitclass, classColorString
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsItemLevelChecked = {
 		ItemLevelEQ_AV_SetChecked = true,
 		ItemLevelDecimalsSetChecked = false,
 		ItemLevelTwoDecimalsSetChecked = true,
+		ItemLevelClassColorSetChecked = false,
 	}	
 
 
@@ -156,6 +158,34 @@ local DCS_ItemLevelTwoDecimalsCheck = CreateFrame("CheckButton", "DCS_ItemLevelT
 		PaperDollFrame_UpdateStats()
 	end)
 
+
+
+
+local DCS_ILvl_Class_Color_Check = CreateFrame("CheckButton", "DCS_ILvl_Class_Color_Check", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
+	DCS_ILvl_Class_Color_Check:RegisterEvent("PLAYER_LOGIN")
+	DCS_ILvl_Class_Color_Check:ClearAllPoints()
+	DCS_ILvl_Class_Color_Check:SetPoint("TOPLEFT", 25, -190)
+	DCS_ILvl_Class_Color_Check:SetScale(1.25)
+	DCS_ILvl_Class_Color_Check.tooltipText = L["Displays item levels with class colors."] --Creates a tooltip on mouseover.
+	_G[DCS_ILvl_Class_Color_Check:GetName() .. "Text"]:SetText(L["Item Level Class Colors"]) --wording for both texts is really bad
+	
+	DCS_ILvl_Class_Color_Check:SetScript("OnEvent", function(self, event)
+		if event == "PLAYER_LOGIN" then
+			_, unitclass = UnitClass("player");
+			--TODO: use of gotten unitclass in other places as well (including DCSDecimals.lua). Will need to wait for this puill to be merged.
+			--TODO: rethinking of checkbox placement. Maybe there's more natural order.
+			classColorString = "|c"..RAID_CLASS_COLORS[unitclass].colorStr;
+			ilvl_class_color = gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelClassColorSetChecked
+			self:SetChecked(ilvl_class_color)
+		end
+	end)
+
+	DCS_ILvl_Class_Color_Check:SetScript("OnClick", function(self)
+		ilvl_class_color = not ilvl_class_color
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelClassColorSetChecked = ilvl_class_color
+		PaperDollFrame_UpdateStats()
+	end)
+
 	
 ----------------------------
 -- DCS Functions & Arrays --
@@ -247,12 +277,20 @@ DCS_TableData.StatData.ItemLevelFrame = {
 		
 		--if ilvl_eq_av and (avgItemLevel ~= avgItemLevelEquipped) then
 		if ilvl_eq_av and (avgItemLevel > avgItemLevelEquipped) then
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces .. ("/") .. DCS_DecimalPlaces,avgItemLevelEquipped,avgItemLevel), false, avgItemLevelEquipped)
+			if ilvl_class_color then
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, classColorString .. dcs_format(DCS_DecimalPlaces .. ("/") .. DCS_DecimalPlaces,avgItemLevelEquipped,avgItemLevel), false, avgItemLevelEquipped)
+			else
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces .. ("/") .. DCS_DecimalPlaces,avgItemLevelEquipped,avgItemLevel), false, avgItemLevelEquipped)
+			end
 			local temp = DCS_DecimalPlaces .. ")"
 			local format_for_avg_equipped = gsub(STAT_AVERAGE_ITEM_LEVEL_EQUIPPED, "d%)", temp,  1)
 			statFrame.tooltip = statFrame.tooltip .. "  " .. dcs_format(format_for_avg_equipped, avgItemLevelEquipped);
 		else
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped), false, avgItemLevelEquipped)
+			if ilvl_class_color then
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, classColorString .. dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped), false, avgItemLevelEquipped)
+			else
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped), false, avgItemLevelEquipped)
+			end
 		end
 		statFrame.tooltip = statFrame.tooltip .. font_color_close;
 		statFrame.tooltip2 = STAT_AVERAGE_ITEM_LEVEL_TOOLTIP;
