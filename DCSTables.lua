@@ -483,12 +483,15 @@ DCS_TableData.StatData.REPAIR_COST = {
 		statFrame.MoneyFrame:Hide()
 		
 		local totalRepairCost = GetCoinTextureString(totalCost)
-		
-		local gold = floor(abs(totalCost / 10000))
-		local silver = floor(abs(mod(totalCost / 100, 100)))
-		local copper = floor(abs(mod(totalCost, 100)))
+		--are variables gold, silver, copper, and , consequently, displayRepairTotal needed? by uncommenting next line I see no difference
+		--totalCost = 0 
+		--local gold = floor(abs(totalCost / 10000))
+		--local silver = floor(abs(mod(totalCost / 100, 100)))
+		--local copper = floor(abs(mod(totalCost, 100)))
+		local gold = floor(totalCost / 10000)
+		local silver = floor(mod(totalCost / 100, 100)) 
+		local copper = mod(totalCost, 100)
 		--print(dcs_format("I have %d gold %d silver %d copper.", gold, silver, copper))
-
 		local displayRepairTotal = dcs_format("%dg %ds %dc", gold, silver, copper);
 
 		--STAT_FORMAT
