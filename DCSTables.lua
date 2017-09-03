@@ -445,8 +445,8 @@ DCS_TableData.StatData.REPAIR_COST = {
             statFrame.Label:SetFont(font, size, flag)
         end
 		--beware of strange mathematical calculations below
-		local try_to_predict_more_accurately = false -- placeholder for the checkbox
-		local multiplier
+		--[[local try_to_predict_more_accurately = false -- placeholder for the checkbox
+		--local multiplier
 		local upperbound, lowerbound
 		local reaction
 		if try_to_predict_more_accurately then
@@ -457,6 +457,7 @@ DCS_TableData.StatData.REPAIR_COST = {
 			--print("mult= ",multiplier)
 			upperbound, lowerbound = 0, 0
 		end
+		--]]
         local totalCost = 0
         local _, repairCost
         for _, index in ipairs({1,3,5,6,7,8,9,10,16,17}) do
@@ -464,21 +465,21 @@ DCS_TableData.StatData.REPAIR_COST = {
             _, _, repairCost = statFrame.scanTooltip:SetInventoryItem(unit, index)
             if (repairCost and repairCost > 0) then
                 totalCost = totalCost + repairCost
-				if try_to_predict_more_accurately then
-					upperbound = upperbound + floor((repairCost+0.5)/multiplier)
-					lowerbound = lowerbound + ceil((repairCost-0.5)/multiplier)
-				end
+				--if try_to_predict_more_accurately then
+				--	upperbound = upperbound + floor((repairCost+0.5)/multiplier)
+				--	lowerbound = lowerbound + ceil((repairCost-0.5)/multiplier)
+				--end
             end
         end
 
 		--local repairAllCost, canRepair = GetRepairAllCost()
 		--print(repairAllCost)
 --		print("----")
-		if try_to_predict_more_accurately then
+		--if try_to_predict_more_accurately then
 			--print("between ",lowerbound," and ",upperbound)
-			totalCost = floor(0.5+multiplier*(upperbound + lowerbound)/2)
+		--	totalCost = floor(0.5+multiplier*(upperbound + lowerbound)/2)
 			--print(totalCost)
-		end
+		--end
         MoneyFrame_Update(statFrame.MoneyFrame, totalCost)
 		statFrame.MoneyFrame:Hide()
 		
