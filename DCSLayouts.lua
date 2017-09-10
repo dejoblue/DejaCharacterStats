@@ -94,6 +94,7 @@ local DefaultData = DCS_TableData:MergeTable({
         { statKey = "MASTERY", hideAt = 0 },
         { statKey = "LIFESTEAL", hideAt = 0 },
         { statKey = "AVOIDANCE", hideAt = 0 },
+	{ statKey = "Separator", hidden = true },
         { statKey = "DODGE", hideAt = 0 },
         { statKey = "PARRY", hideAt = 0 },
         { statKey = "BLOCK", hideAt = 0 },
@@ -114,6 +115,9 @@ for k, v in pairs(DCS_TableData.StatData) do
 	if (not v.frame) then
 		if (v.category) then
 			v.frame = CreateFrame("FRAME", nil, StatFrame, "CharacterStatFrameCategoryTemplate")
+			if k == "Separator" then
+				v.frame.Title:SetText(L["Defense Stats"])
+			end
 		else
 			v.frame = CreateFrame("FRAME", nil, StatFrame, "CharacterStatFrameTemplate")
 		end
@@ -339,6 +343,7 @@ local function DCS_Table_Relevant()
 		if v.statKey == "DODGE_RATING" then v.hidden = true end
 		if v.statKey == "PARRY_RATING" then v.hidden = true end
 		if v.statKey == "ITEMLEVEL" then v.hidden = true end
+		if v.statKey == "Separator" then v.hidden = true end
 	end
 	--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
 	ShownData.uniqueKey = uniqueKey

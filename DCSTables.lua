@@ -271,6 +271,11 @@ DCS_TableData.StatData.EnhancementsCategory = {
     updateFunc = function() end
 }
 
+DCS_TableData.StatData.Separator = {
+    category   = true,
+    updateFunc = function()	end
+}
+
 DCS_TableData.StatData.DCS_POWER = {
 	updateFunc = function(statFrame, unit)
 		local powerType = SPELL_POWER_MANA --changing here as well for similarity
