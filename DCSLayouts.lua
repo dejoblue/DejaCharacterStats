@@ -866,8 +866,8 @@ local function DCS_InterfaceOptConfigButton_OnLeave(self)
 local DCS_ScrollbarCheck = CreateFrame("CheckButton", "DCS_ScrollbarCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ScrollbarCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ScrollbarCheck:ClearAllPoints()
-	DCS_ScrollbarCheck:SetPoint("LEFT", 25, -175)
-	DCS_ScrollbarCheck:SetScale(1.25)
+	DCS_ScrollbarCheck:SetPoint("LEFT", 30, -225)
+	DCS_ScrollbarCheck:SetScale(1)
 	DCS_ScrollbarCheck.tooltipText = L["Displays the DCS scrollbar."] --Creates a tooltip on mouseover.
 	_G[DCS_ScrollbarCheck:GetName() .. "Text"]:SetText(L["Scrollbar"])
 	
@@ -917,8 +917,8 @@ local DCS_ClassBackgroundCheck = CreateFrame("CheckButton", "DCS_ClassBackground
 	DCS_ClassBackgroundCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ClassBackgroundCheck:ClearAllPoints()
 	--DCS_ClassBackgroundCheck:SetPoint("TOPLEFT", 25, -120)
-	DCS_ClassBackgroundCheck:SetPoint("TOPLEFT", 25, -165)
-	DCS_ClassBackgroundCheck:SetScale(1.25)
+	DCS_ClassBackgroundCheck:SetPoint("LEFT", 30, -185)
+	DCS_ClassBackgroundCheck:SetScale(1)
 	DCS_ClassBackgroundCheck.tooltipText = L["Displays the class crest background."] --Creates a tooltip on mouseover.
 	_G[DCS_ClassBackgroundCheck:GetName() .. "Text"]:SetText(L["Class Crest Background"])
 	

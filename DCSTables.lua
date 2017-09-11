@@ -26,10 +26,9 @@ local unitclass, classColorString
 		ItemLevelEQ_AV_SetChecked = true,
 		ItemLevelDecimalsSetChecked = false,
 		ItemLevelTwoDecimalsSetChecked = true,
-		ItemLevelClassColorSetChecked = false,
+		ItemLevelClassColorSetChecked = true,
 	}	
-
-
+	
 -----------------------
 -- Item Level Checks --
 -----------------------
@@ -37,8 +36,8 @@ local unitclass, classColorString
 	local DCS_ILvl_EQ_AV_Check = CreateFrame("CheckButton", "DCS_ILvl_EQ_AV_Check", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ILvl_EQ_AV_Check:RegisterEvent("PLAYER_LOGIN")
 	DCS_ILvl_EQ_AV_Check:ClearAllPoints()
-	DCS_ILvl_EQ_AV_Check:SetPoint("TOPLEFT", 25, -35)
-	DCS_ILvl_EQ_AV_Check:SetScale(1.25)
+	DCS_ILvl_EQ_AV_Check:SetPoint("TOPLEFT", 30, -55)
+	DCS_ILvl_EQ_AV_Check:SetScale(1)
 	DCS_ILvl_EQ_AV_Check.tooltipText = L["Displays Equipped/Available item levels unless equal."] --Creates a tooltip on mouseover.
 	_G[DCS_ILvl_EQ_AV_Check:GetName() .. "Text"]:SetText(L["Equipped/Available"])
 	
@@ -69,10 +68,10 @@ local unitclass, classColorString
 local DCS_ItemLevelDecimalPlacesCheck = CreateFrame("CheckButton", "DCS_ItemLevelDecimalPlacesCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ItemLevelDecimalPlacesCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ItemLevelDecimalPlacesCheck:ClearAllPoints()
-	DCS_ItemLevelDecimalPlacesCheck:SetPoint("TOPLEFT", 65, -100)
+	DCS_ItemLevelDecimalPlacesCheck:SetPoint("TOPLEFT", 30, -95)
 	DCS_ItemLevelDecimalPlacesCheck:SetScale(1.00)
 	DCS_ItemLevelDecimalPlacesCheck.tooltipText = L["Displays average item level to one decimal place."] --Creates a tooltip on mouseover.
-	_G[DCS_ItemLevelDecimalPlacesCheck:GetName() .. "Text"]:SetText(L["Item Level 1 Decimal Place"])
+	_G[DCS_ItemLevelDecimalPlacesCheck:GetName() .. "Text"]:SetText(L["One Decimal Place"])
 	
 	DCS_ItemLevelDecimalPlacesCheck:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_LOGIN" then
@@ -115,10 +114,10 @@ local DCS_ItemLevelDecimalPlacesCheck = CreateFrame("CheckButton", "DCS_ItemLeve
 local DCS_ItemLevelTwoDecimalsCheck = CreateFrame("CheckButton", "DCS_ItemLevelTwoDecimalsCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ItemLevelTwoDecimalsCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ItemLevelTwoDecimalsCheck:ClearAllPoints()
-	DCS_ItemLevelTwoDecimalsCheck:SetPoint("TOPLEFT", 65, -120)
+	DCS_ItemLevelTwoDecimalsCheck:SetPoint("TOPLEFT", 30, -115)
 	DCS_ItemLevelTwoDecimalsCheck:SetScale(1.00)
 	DCS_ItemLevelTwoDecimalsCheck.tooltipText = L["Displays average item level to two decimal places."] --Creates a tooltip on mouseover.
-	_G[DCS_ItemLevelTwoDecimalsCheck:GetName() .. "Text"]:SetText(L["Item Level 2 Decimal Places"])
+	_G[DCS_ItemLevelTwoDecimalsCheck:GetName() .. "Text"]:SetText(L["Two Decimal Places"])
 	
 	DCS_ItemLevelTwoDecimalsCheck:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_LOGIN" then
@@ -161,10 +160,10 @@ local DCS_ItemLevelTwoDecimalsCheck = CreateFrame("CheckButton", "DCS_ItemLevelT
 local DCS_ILvl_Class_Color_Check = CreateFrame("CheckButton", "DCS_ILvl_Class_Color_Check", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ILvl_Class_Color_Check:RegisterEvent("PLAYER_LOGIN")
 	DCS_ILvl_Class_Color_Check:ClearAllPoints()
-	DCS_ILvl_Class_Color_Check:SetPoint("TOPLEFT", 25, -190)
-	DCS_ILvl_Class_Color_Check:SetScale(1.25)
+	DCS_ILvl_Class_Color_Check:SetPoint("TOPLEFT", 30, -75)
+	DCS_ILvl_Class_Color_Check:SetScale(1)
 	DCS_ILvl_Class_Color_Check.tooltipText = L["Displays total average item level with class colors."] --Creates a tooltip on mouseover.
-	_G[DCS_ILvl_Class_Color_Check:GetName() .. "Text"]:SetText(L["Class Color Item Level"]) --wording for both texts is really bad
+	_G[DCS_ILvl_Class_Color_Check:GetName() .. "Text"]:SetText(L["Class Colors"]) --wording for both texts is really bad
 	
 	DCS_ILvl_Class_Color_Check:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_LOGIN" then

@@ -297,8 +297,8 @@ end
 local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_DecimalCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_DecimalCheck:ClearAllPoints()
-	DCS_DecimalCheck:SetPoint("TOPLEFT", 25, -60)
-	DCS_DecimalCheck:SetScale(1.25)
+	DCS_DecimalCheck:SetPoint("TOPLEFT", 30, -205)
+	DCS_DecimalCheck:SetScale(1)
 	DCS_DecimalCheck.tooltipText = L['Displays "Enhancements" category stats to two decimal places.'] --Creates a tooltip on mouseover.
 	_G[DCS_DecimalCheck:GetName() .. "Text"]:SetText(L["Decimals"])
 	
@@ -329,19 +329,16 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 		SetChecked = false, 
 	} 
 	
-local dcshideatzeroFS = DejaCharacterStatsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-	dcshideatzeroFS:SetText('|cffffffff' .. L["Hide at zero:"] .. '|r')
-	dcshideatzeroFS:SetPoint("TOPLEFT", 35, -145)
-	dcshideatzeroFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
 local DCS_BlizHideAtZero = CreateFrame("CheckButton", "DCS_BlizHideAtZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate") 
 local DCS_DCSHideAtZero = CreateFrame("CheckButton", "DCS_DCSHideAtZero", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate") 
-DCS_DCSHideAtZero:RegisterEvent("PLAYER_LOGIN") 
-DCS_DCSHideAtZero:ClearAllPoints() 
---DCS_DCSHideAtZero:SetPoint("TOPLEFT", 25, -150) 
-DCS_DCSHideAtZero:SetPoint("TOPLEFT", 65, -165) 
-DCS_DCSHideAtZero:SetScale(1) 
-DCS_DCSHideAtZero.tooltipText = L['Hides enhancement stat if the displayed value would be zero. Checking "Decimals" changes the displayed value.'] --Creates a tooltip on mouseover. 
-_G[DCS_DCSHideAtZero:GetName() .. "Text"]:SetText(L["DCS's hide at zero"]) 
+	DCS_DCSHideAtZero:RegisterEvent("PLAYER_LOGIN") 
+	DCS_DCSHideAtZero:ClearAllPoints() 
+	--DCS_DCSHideAtZero:SetPoint("TOPLEFT", 25, -150) 
+	DCS_DCSHideAtZero:SetPoint("TOPLEFT", 30, -165) 
+	DCS_DCSHideAtZero:SetScale(1) 
+	DCS_DCSHideAtZero.tooltipText = L['Hides enhancement stat if the displayed value would be zero. Checking "Decimals" changes the displayed value.'] --Creates a tooltip on mouseover. 
+	_G[DCS_DCSHideAtZero:GetName() .. "Text"]:SetText(L["DCS's Hide At Zero"]) 
+	
 DCS_DCSHideAtZero:SetScript("OnEvent", function(self, event) 
 	if event == "PLAYER_LOGIN" then 
 		--local status = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked
@@ -371,11 +368,11 @@ DCS_DCSHideAtZero:SetScript("OnClick", function(self)
 	DCS_Decimals() 
 end) 
 
- _G[DCS_BlizHideAtZero:GetName() .. "Text"]:SetText(L["Blizzard's hide at zero"] ) 
+ _G[DCS_BlizHideAtZero:GetName() .. "Text"]:SetText(L["Blizzard's Hide At Zero"] ) 
 
 DCS_BlizHideAtZero:ClearAllPoints() 
 --DCS_BlizHideAtZero:SetPoint("TOPLEFT", 50, -220) 
-DCS_BlizHideAtZero:SetPoint("TOPLEFT", 65, -185) 
+DCS_BlizHideAtZero:SetPoint("TOPLEFT", 30, -185) 
 DCS_BlizHideAtZero:SetScale(1) 
 DCS_BlizHideAtZero.tooltipText = L['Hides enhancement stat only if its numerical value is exactly zero. For example, if stat value is 0.001%, then it would be displayed as 0%.'] --Creates a tooltip on mouseover. 
 
