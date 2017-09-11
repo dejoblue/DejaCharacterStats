@@ -14,10 +14,13 @@ local function round(x)
 end
 local statformat
 local multiplier
+local notexactlyzero
+--hideatzero gets used in DCSLayouts, so there's small use to make faster access to it here.
 local function DCS_Decimals()
 		--version with localisation of PAPERDOLLFRAME_TOOLTIP_FORMAT, HIGHLIGHT_FONT_COLOR_CODE and FONT_COLOR_CODE_CLOSE (doll_tooltip_format, highlight_code and font_color_close)
 	-- Crit Chance
-		--TODO: is notinteger needed? might be more efficient to set statformat and multiplier in checkboxes
+		--setting of statformat and multiplier values is done by calling function for checkbox (in OnEvent and OnClick)
+		--[[
 		if notinteger then
 			statformat = "%.2f%%"
 			multiplier = 100
@@ -25,7 +28,9 @@ local function DCS_Decimals()
 			statformat = "%.0f%%"
 			multiplier = 1
 		end
+
 		local notexactlyzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked
+
 		function PaperDollFrame_SetCritChance(statFrame, unit)
 			if ( unit ~= "player" ) then
 				statFrame:Hide();
@@ -279,6 +284,17 @@ end
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowDecimalsChecked = {
 		SetChecked = true,
 	}	
+
+local function set_statformat_multiplier_value()
+		if notinteger then
+			statformat = "%.2f%%"
+			multiplier = 100
+		else
+			statformat = "%.0f%%"
+			multiplier = 1
+		end
+end
+
 local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_DecimalCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_DecimalCheck:ClearAllPoints()
@@ -291,6 +307,7 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 		if event == "PLAYER_LOGIN" then
 			notinteger= gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked
 			self:SetChecked(notinteger)
+			set_statformat_multiplier_value()
 			--local status = self:GetChecked(true) --???
 			--DCS_Decimals(status)
 			DCS_Decimals()
@@ -301,6 +318,7 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 	DCS_DecimalCheck:SetScript("OnClick", function(self,event,arg1) 
 		--local checked = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked
 		notinteger = self:GetChecked(true)
+		set_statformat_multiplier_value()
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked = notinteger
 		DCS_Decimals()
 	end)
@@ -329,11 +347,12 @@ _G[DCS_DCSHideAtZero:GetName() .. "Text"]:SetText(L["DCS's hide at zero"])
 DCS_DCSHideAtZero:SetScript("OnEvent", function(self, event) 
 	if event == "PLAYER_LOGIN" then 
 		--local status = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked
-		local DCSstatus = gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked
+		--local DCSstatus = gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked
+		notexactlyzero = gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked
 		local hideatzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked
 		if hideatzero then
-			self:SetChecked(DCSstatus)
-			DCS_BlizHideAtZero:SetChecked(not DCSstatus) 
+			self:SetChecked(notexactlyzero)
+			DCS_BlizHideAtZero:SetChecked(not notexactlyzero) 
 		else
 			self:SetChecked(false)
 			DCS_BlizHideAtZero:SetChecked(false)
@@ -342,10 +361,13 @@ DCS_DCSHideAtZero:SetScript("OnEvent", function(self, event)
 end) 
  
 DCS_DCSHideAtZero:SetScript("OnClick", function(self) 
-	local status = self:GetChecked() 
-	gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked = status
-	gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = status
-	if status then  
+	--local status = self:GetChecked() 
+	--gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked = status
+	--gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = status
+	notexactlyzero = not notexactlyzero
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked = notexactlyzero
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = notexactlyzero
+	if notexactlyzero then  
 		DCS_BlizHideAtZero:SetChecked(false)  
 	end 
 	DCS_Decimals() 
@@ -365,6 +387,7 @@ DCS_BlizHideAtZero:SetScript("OnClick", function(self)
 	gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked = status
 	if status then  
 		DCS_DCSHideAtZero:SetChecked(false) 
+		notexactlyzero = false
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = false 
 	end 
 	DCS_Decimals() 
