@@ -20,14 +20,15 @@ local dcs_format = format
 local char_ctats_pane = CharacterStatsPane
 local _, DCS_TableData = ...
 local _, gdbprivate = ...
-local ilvl_two_decimals, ilvl_one_decimals, ilvl_eq_av
+local ilvl_two_decimals, ilvl_one_decimals, ilvl_eq_av, ilvl_class_color
+local unitclass, classColorString
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsItemLevelChecked = {
 		ItemLevelEQ_AV_SetChecked = true,
 		ItemLevelDecimalsSetChecked = false,
 		ItemLevelTwoDecimalsSetChecked = true,
+		ItemLevelClassColorSetChecked = true,
 	}	
-
-
+	
 -----------------------
 -- Item Level Checks --
 -----------------------
@@ -35,8 +36,8 @@ local ilvl_two_decimals, ilvl_one_decimals, ilvl_eq_av
 	local DCS_ILvl_EQ_AV_Check = CreateFrame("CheckButton", "DCS_ILvl_EQ_AV_Check", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ILvl_EQ_AV_Check:RegisterEvent("PLAYER_LOGIN")
 	DCS_ILvl_EQ_AV_Check:ClearAllPoints()
-	DCS_ILvl_EQ_AV_Check:SetPoint("TOPLEFT", 25, -35)
-	DCS_ILvl_EQ_AV_Check:SetScale(1.25)
+	DCS_ILvl_EQ_AV_Check:SetPoint("TOPLEFT", 30, -55)
+	DCS_ILvl_EQ_AV_Check:SetScale(1)
 	DCS_ILvl_EQ_AV_Check.tooltipText = L["Displays Equipped/Available item levels unless equal."] --Creates a tooltip on mouseover.
 	_G[DCS_ILvl_EQ_AV_Check:GetName() .. "Text"]:SetText(L["Equipped/Available"])
 	
@@ -67,10 +68,10 @@ local ilvl_two_decimals, ilvl_one_decimals, ilvl_eq_av
 local DCS_ItemLevelDecimalPlacesCheck = CreateFrame("CheckButton", "DCS_ItemLevelDecimalPlacesCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ItemLevelDecimalPlacesCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ItemLevelDecimalPlacesCheck:ClearAllPoints()
-	DCS_ItemLevelDecimalPlacesCheck:SetPoint("TOPLEFT", 65, -100)
+	DCS_ItemLevelDecimalPlacesCheck:SetPoint("TOPLEFT", 30, -95)
 	DCS_ItemLevelDecimalPlacesCheck:SetScale(1.00)
 	DCS_ItemLevelDecimalPlacesCheck.tooltipText = L["Displays average item level to one decimal place."] --Creates a tooltip on mouseover.
-	_G[DCS_ItemLevelDecimalPlacesCheck:GetName() .. "Text"]:SetText(L["Item Level 1 Decimal Place"])
+	_G[DCS_ItemLevelDecimalPlacesCheck:GetName() .. "Text"]:SetText(L["One Decimal Place"])
 	
 	DCS_ItemLevelDecimalPlacesCheck:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_LOGIN" then
@@ -113,10 +114,10 @@ local DCS_ItemLevelDecimalPlacesCheck = CreateFrame("CheckButton", "DCS_ItemLeve
 local DCS_ItemLevelTwoDecimalsCheck = CreateFrame("CheckButton", "DCS_ItemLevelTwoDecimalsCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ItemLevelTwoDecimalsCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ItemLevelTwoDecimalsCheck:ClearAllPoints()
-	DCS_ItemLevelTwoDecimalsCheck:SetPoint("TOPLEFT", 65, -120)
+	DCS_ItemLevelTwoDecimalsCheck:SetPoint("TOPLEFT", 30, -115)
 	DCS_ItemLevelTwoDecimalsCheck:SetScale(1.00)
 	DCS_ItemLevelTwoDecimalsCheck.tooltipText = L["Displays average item level to two decimal places."] --Creates a tooltip on mouseover.
-	_G[DCS_ItemLevelTwoDecimalsCheck:GetName() .. "Text"]:SetText(L["Item Level 2 Decimal Places"])
+	_G[DCS_ItemLevelTwoDecimalsCheck:GetName() .. "Text"]:SetText(L["Two Decimal Places"])
 	
 	DCS_ItemLevelTwoDecimalsCheck:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_LOGIN" then
@@ -153,6 +154,31 @@ local DCS_ItemLevelTwoDecimalsCheck = CreateFrame("CheckButton", "DCS_ItemLevelT
 			gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelTwoDecimalsSetChecked = false
 		end
 		--]]
+		PaperDollFrame_UpdateStats()
+	end)
+
+local DCS_ILvl_Class_Color_Check = CreateFrame("CheckButton", "DCS_ILvl_Class_Color_Check", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
+	DCS_ILvl_Class_Color_Check:RegisterEvent("PLAYER_LOGIN")
+	DCS_ILvl_Class_Color_Check:ClearAllPoints()
+	DCS_ILvl_Class_Color_Check:SetPoint("TOPLEFT", 30, -75)
+	DCS_ILvl_Class_Color_Check:SetScale(1)
+	DCS_ILvl_Class_Color_Check.tooltipText = L["Displays total average item level with class colors."] --Creates a tooltip on mouseover.
+	_G[DCS_ILvl_Class_Color_Check:GetName() .. "Text"]:SetText(L["Class Colors"]) --wording for both texts is really bad
+	
+	DCS_ILvl_Class_Color_Check:SetScript("OnEvent", function(self, event)
+		if event == "PLAYER_LOGIN" then
+			_, unitclass = UnitClass("player");
+			--TODO: use of gotten unitclass in other places as well (including DCSDecimals.lua). Will need to wait for this puill to be merged.
+			--TODO: rethinking of checkbox placement. Maybe there's more natural order.
+			classColorString = "|c"..RAID_CLASS_COLORS[unitclass].colorStr;
+			ilvl_class_color = gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelClassColorSetChecked
+			self:SetChecked(ilvl_class_color)
+		end
+	end)
+
+	DCS_ILvl_Class_Color_Check:SetScript("OnClick", function(self)
+		ilvl_class_color = not ilvl_class_color
+		gdbprivate.gdb.gdbdefaults.dejacharacterstatsItemLevelChecked.ItemLevelClassColorSetChecked = ilvl_class_color
 		PaperDollFrame_UpdateStats()
 	end)
 
@@ -247,12 +273,20 @@ DCS_TableData.StatData.ItemLevelFrame = {
 		
 		--if ilvl_eq_av and (avgItemLevel ~= avgItemLevelEquipped) then
 		if ilvl_eq_av and (avgItemLevel > avgItemLevelEquipped) then
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces .. ("/") .. DCS_DecimalPlaces,avgItemLevelEquipped,avgItemLevel), false, avgItemLevelEquipped)
+			if ilvl_class_color then
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, classColorString .. dcs_format(DCS_DecimalPlaces .. ("/") .. DCS_DecimalPlaces,avgItemLevelEquipped,avgItemLevel), false, avgItemLevelEquipped)
+			else
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces .. ("/") .. DCS_DecimalPlaces,avgItemLevelEquipped,avgItemLevel), false, avgItemLevelEquipped)
+			end
 			local temp = DCS_DecimalPlaces .. ")"
 			local format_for_avg_equipped = gsub(STAT_AVERAGE_ITEM_LEVEL_EQUIPPED, "d%)", temp,  1)
 			statFrame.tooltip = statFrame.tooltip .. "  " .. dcs_format(format_for_avg_equipped, avgItemLevelEquipped);
 		else
-			PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped), false, avgItemLevelEquipped)
+			if ilvl_class_color then
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, classColorString .. dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped), false, avgItemLevelEquipped)
+			else
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped), false, avgItemLevelEquipped)
+			end
 		end
 		statFrame.tooltip = statFrame.tooltip .. font_color_close;
 		statFrame.tooltip2 = STAT_AVERAGE_ITEM_LEVEL_TOOLTIP;
@@ -260,16 +294,45 @@ DCS_TableData.StatData.ItemLevelFrame = {
     end
 }
 
+DCS_TableData.StatData.GeneralCategory = {
+    category   = true,
+    frame      = char_ctats_pane.GeneralCategory,
+    updateFunc = function()	end
+}
+
 DCS_TableData.StatData.AttributesCategory = {
     category   = true,
     frame      = char_ctats_pane.AttributesCategory,
     updateFunc = function() end
 }
+
 DCS_TableData.StatData.EnhancementsCategory = {
     category   = true,
     frame      = char_ctats_pane.EnhancementsCategory,
     updateFunc = function() end
 }
+
+DCS_TableData.StatData.AttackCategory = {
+    category   = true,
+    frame      = char_ctats_pane.AttackCategory,
+    updateFunc = function()	end
+}
+
+DCS_TableData.StatData.DefenseCategory = {
+    category   = true,
+    frame      = char_ctats_pane.DefenseCategory,
+    updateFunc = function()	end
+}
+
+DCS_TableData.StatData.RatingCategory = {
+    category   = true,
+    frame      = char_ctats_pane.RatingCategory,
+    updateFunc = function()	end
+}
+
+hooksecurefunc("MovementSpeed_OnUpdate", function(statFrame)
+	statFrame.Label:SetText(L["Movement Speed"])
+end)
 
 DCS_TableData.StatData.DCS_POWER = {
 	updateFunc = function(statFrame, unit)
@@ -484,12 +547,15 @@ DCS_TableData.StatData.REPAIR_COST = {
 		statFrame.MoneyFrame:Hide()
 		
 		local totalRepairCost = GetCoinTextureString(totalCost)
-		
-		local gold = floor(abs(totalCost / 10000))
-		local silver = floor(abs(mod(totalCost / 100, 100)))
-		local copper = floor(abs(mod(totalCost, 100)))
+		--are variables gold, silver, copper, and , consequently, displayRepairTotal needed? by uncommenting next line I see no difference
+		--totalCost = 0 
+		--local gold = floor(abs(totalCost / 10000))
+		--local silver = floor(abs(mod(totalCost / 100, 100)))
+		--local copper = floor(abs(mod(totalCost, 100)))
+		local gold = floor(totalCost / 10000)
+		local silver = floor(mod(totalCost / 100, 100)) 
+		local copper = mod(totalCost, 100)
 		--print(dcs_format("I have %d gold %d silver %d copper.", gold, silver, copper))
-
 		local displayRepairTotal = dcs_format("%dg %ds %dc", gold, silver, copper);
 
 		--STAT_FORMAT

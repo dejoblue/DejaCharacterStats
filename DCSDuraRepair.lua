@@ -13,8 +13,10 @@ local DCS_CharacterShirtSlot = CharacterShirtSlot
 -- ---------------------------
 
 local DCSITEM_SLOT_FRAMES = {
-	CharacterHeadSlot,CharacterShoulderSlot,CharacterChestSlot,CharacterWristSlot,CharacterSecondaryHandSlot,
-	CharacterHandsSlot,CharacterWaistSlot,CharacterLegsSlot,CharacterFeetSlot,CharacterMainHandSlot,
+	CharacterHeadSlot,CharacterNeckSlot,CharacterShoulderSlot,CharacterBackSlot,CharacterChestSlot,CharacterWristSlot,
+	CharacterHandsSlot,CharacterWaistSlot,CharacterLegsSlot,CharacterFeetSlot,
+	CharacterFinger0Slot,CharacterFinger1Slot,CharacterTrinket0Slot,CharacterTrinket1Slot,
+	CharacterMainHandSlot,CharacterSecondaryHandSlot,
 }
 
 local DCSITEM_SLOT_FRAMES_RIGHT = {
@@ -56,13 +58,19 @@ for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
     --v.itemrepair = itemrepairFS
     v.itemrepair = v:CreateFontString("FontString","OVERLAY","GameTooltipText")
     v.itemrepair:SetFormattedText("")
+	
+    --v.ilevel = itemrepairFS
+    v.ilevel = v:CreateFontString("FontString","OVERLAY","GameTooltipText")
+    v.ilevel:SetFormattedText("")
 end
+
 --TODO - setting of their values and checkbox states in frame meant for this purpose
 
 local showavgdur --display of average durability on shirt
 local showtextures --display of durability textures
 local showdura --display of durability percentage on items
 local showrepair --display of item repair cost
+local showitemlevel --display of item's item level
 
 local function DCS_Set_Dura_Item_Positions()
 	--It encompasses item repair, durability and, indirectly, durability bars.
@@ -75,23 +83,36 @@ local function DCS_Set_Dura_Item_Positions()
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		v.durability:ClearAllPoints()
 		v.itemrepair:ClearAllPoints()
-		if showdura then 
-			if showrepair then
-				v.durability:SetPoint("TOP",v,"TOP",3,-3)
+		v.ilevel:ClearAllPoints()		
+		if showitemlevel then 
+			v.ilevel:SetPoint("CENTER",v,"CENTER",1,-2)
+			v.ilevel:SetFont("Fonts\\FRIZQT__.TTF", 14, "THINOUTLINE")
+			if showdura then 
+				v.durability:SetPoint("TOP",v,"TOP",3,-2)
 				v.durability:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
-				v.itemrepair:SetPoint("BOTTOM",v,"BOTTOM",1,3)
-				v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
-			else --not showrepair
-				v.durability:SetPoint("CENTER",v,"CENTER",1,-2)
-				v.durability:SetFont("Fonts\\FRIZQT__.TTF", 15, "THINOUTLINE")
 			end
-		else --not showdura
 			if showrepair then
-				v.itemrepair:SetPoint("CENTER",v,"CENTER",0,-2)
-				v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 12, "THINOUTLINE")
+				v.itemrepair:SetPoint("BOTTOM",v,"BOTTOM",1,0)
+				v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
 			end
-		end
-		
+		else
+			if showdura then 
+				if showrepair then
+					v.durability:SetPoint("TOP",v,"TOP",3,-2)
+					v.durability:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
+					v.itemrepair:SetPoint("BOTTOM",v,"BOTTOM",1,0)
+					v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 11, "THINOUTLINE")
+				else --not showrepair
+					v.durability:SetPoint("CENTER",v,"CENTER",1,-2)
+					v.durability:SetFont("Fonts\\FRIZQT__.TTF", 15, "THINOUTLINE")
+				end
+			else --not showdura
+				if showrepair then
+					v.itemrepair:SetPoint("CENTER",v,"CENTER",0,-2)
+					v.itemrepair:SetFont("Fonts\\FRIZQT__.TTF", 12, "THINOUTLINE")
+				end
+			end
+		end		
 	end
 end
 
@@ -184,9 +205,9 @@ local function DCS_Mean_Durability()
 	DCS_Durability_Frame_Mean_Display()
 end
 
--------------------------
--- Item Durability Top --
--------------------------
+----------------------------
+-- Item Durability Colors --
+----------------------------
 local function DCS_Item_DurabilityTop()
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		local slotId = v:GetID()
@@ -233,8 +254,8 @@ local DCS_ShowDuraCheck = CreateFrame("CheckButton", "DCS_ShowDuraCheck", DejaCh
 	DCS_ShowDuraCheck:RegisterEvent("PLAYER_LOGIN")
     DCS_ShowDuraCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_ShowDuraCheck:ClearAllPoints()
-	DCS_ShowDuraCheck:SetPoint("LEFT", 25, -75)
-	DCS_ShowDuraCheck:SetScale(1.25)
+	DCS_ShowDuraCheck:SetPoint("TOPLEFT", 30, -315)
+	DCS_ShowDuraCheck:SetScale(1)
 	DCS_ShowDuraCheck.tooltipText = L["Displays each equipped item's durability."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowDuraCheck:GetName() .. "Text"]:SetText(L["Item Durability"])
 
@@ -346,8 +367,8 @@ local DCS_ShowDuraTextureCheck = CreateFrame("CheckButton", "DCS_ShowDuraTexture
 	DCS_ShowDuraTextureCheck:RegisterEvent("PLAYER_LOGIN")
     DCS_ShowDuraTextureCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_ShowDuraTextureCheck:ClearAllPoints()
-	DCS_ShowDuraTextureCheck:SetPoint("LEFT", 25, -25)
-	DCS_ShowDuraTextureCheck:SetScale(1.25)
+	DCS_ShowDuraTextureCheck:SetPoint("TOPLEFT", 30, -275)
+	DCS_ShowDuraTextureCheck:SetScale(1) 
 	DCS_ShowDuraTextureCheck.tooltipText = L["Displays a durability bar next to each item."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowDuraTextureCheck:GetName() .. "Text"]:SetText(L["Durability Bars"])
 	
@@ -428,8 +449,8 @@ local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDura
 	DCS_ShowAverageDuraCheck:RegisterEvent("PLAYER_LOGIN")
     DCS_ShowAverageDuraCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_ShowAverageDuraCheck:ClearAllPoints()
-	DCS_ShowAverageDuraCheck:SetPoint("LEFT", 25, -50)
-	DCS_ShowAverageDuraCheck:SetScale(1.25)
+	DCS_ShowAverageDuraCheck:SetPoint("TOPLEFT", 30, -295)
+	DCS_ShowAverageDuraCheck:SetScale(1)
 	DCS_ShowAverageDuraCheck.tooltipText = L["Displays average item durability on the character shirt slot and durability frames."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowAverageDuraCheck:GetName() .. "Text"]:SetText(L["Average Durability"])
 	
@@ -599,8 +620,8 @@ local DCS_ShowItemRepairCheck = CreateFrame("CheckButton", "DCS_ShowItemRepairCh
 	DCS_ShowItemRepairCheck:RegisterEvent("MERCHANT_SHOW")
 	DCS_ShowItemRepairCheck:RegisterEvent("MERCHANT_CLOSED")
 	DCS_ShowItemRepairCheck:ClearAllPoints()
-	DCS_ShowItemRepairCheck:SetPoint("LEFT", 25, -100)
-	DCS_ShowItemRepairCheck:SetScale(1.25)
+	DCS_ShowItemRepairCheck:SetPoint("TOPLEFT", 30, -335)
+	DCS_ShowItemRepairCheck:SetScale(1)
 	DCS_ShowItemRepairCheck.tooltipText = L["Displays each equipped item's repair cost."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowItemRepairCheck:GetName() .. "Text"]:SetText(L["Item Repair Cost"])
 	
@@ -655,4 +676,81 @@ DCS_ShowItemRepairCheck:SetScript("OnClick", function(self)
 		end
 	end
 	--]]
+end)
+
+------------------------------
+-- Item Level Display Check --
+------------------------------
+
+gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
+	ShowItemLevelSetChecked = true,
+}	
+
+local function DCS_Item_Level_Center()
+	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
+		local itemLink = GetInventoryItemLink("player", v:GetID())
+		if itemLink == nil then
+			v.ilevel:SetFormattedText("")
+		else
+			local _, _, itemRarity, itemLevel = GetItemInfo(itemLink)
+			if (v == CharacterSecondaryHandSlot) and (itemRarity == 6) then
+				v.ilevel:SetFormattedText("")
+			else
+				local r, g, b, hex = GetItemQualityColor(itemRarity)
+				--print(itemLink, itemLevel)
+				v.ilevel:SetTextColor(r, g, b)
+				v.ilevel:SetText(itemLevel)
+			end
+		end
+	end
+end
+
+local DCS_ShowItemLevelCheck = CreateFrame("CheckButton", "DCS_ShowItemLevelCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
+	DCS_ShowItemLevelCheck:RegisterEvent("PLAYER_LOGIN")
+	DCS_ShowItemLevelCheck:ClearAllPoints()
+	DCS_ShowItemLevelCheck:SetPoint("TOPLEFT", 30, -255)
+	DCS_ShowItemLevelCheck:SetScale(1)
+	DCS_ShowItemLevelCheck.tooltipText = L["Displays each equipped item's ILvl."] --Creates a tooltip on mouseover.
+	_G[DCS_ShowItemLevelCheck:GetName() .. "Text"]:SetText(L["Item Level"])
+	
+DCS_ShowItemLevelCheck:SetScript("OnEvent", function(self, ...)
+	showitemlevel = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemLevelChecked.ShowItemLevelSetChecked
+	self:SetChecked(showitemlevel)
+	DCS_Set_Dura_Item_Positions()
+end)
+
+DCS_ShowItemLevelCheck:SetScript("OnClick", function(self)
+	showitemlevel = not showitemlevel
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemLevelChecked.ShowItemLevelSetChecked = showitemlevel
+	DCS_Set_Dura_Item_Positions()
+	if showitemlevel then
+		DCS_Item_Level_Center()
+	else
+		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
+			v.ilevel:SetFormattedText("")
+		end
+	end
+end)
+
+local DCS_ShowItemLevelChange = CreateFrame("Frame", "DCS_ShowItemLevelChange", UIParent)
+	DCS_ShowItemLevelChange:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+	
+DCS_ShowItemLevelChange:SetScript("OnEvent", function(self, ...)
+	if showitemlevel then
+		DCS_Item_Level_Center()
+	else
+		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
+			v.ilevel:SetFormattedText("")
+		end
+	end
+end)
+
+PaperDollFrame:HookScript("OnShow", function(self)
+	if showitemlevel then
+		DCS_Item_Level_Center()
+	else
+		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
+			v.ilevel:SetFormattedText("")
+		end
+	end
 end)
