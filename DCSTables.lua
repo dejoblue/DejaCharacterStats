@@ -306,6 +306,10 @@ DCS_TableData.StatData.EnhancementsCategory = {
     updateFunc = function() end
 }
 
+hooksecurefunc("MovementSpeed_OnUpdate", function(statFrame)
+	statFrame.Label:SetText(L["Movement Speed"])
+end)
+
 DCS_TableData.StatData.DCS_POWER = {
 	updateFunc = function(statFrame, unit)
 		local powerType = SPELL_POWER_MANA --changing here as well for similarity
