@@ -16,11 +16,11 @@ local statformat
 local multiplier
 local notexactlyzero
 --hideatzero gets used in DCSLayouts, so there's small use to make faster access to it here.
+
 local function DCS_Decimals()
 		--version with localisation of PAPERDOLLFRAME_TOOLTIP_FORMAT, HIGHLIGHT_FONT_COLOR_CODE and FONT_COLOR_CODE_CLOSE (doll_tooltip_format, highlight_code and font_color_close)
 	-- Crit Chance
 		--setting of statformat and multiplier values is done by calling function for checkbox (in OnEvent and OnClick)
-		--[[
 		if notinteger then
 			statformat = "%.2f%%"
 			multiplier = 100
@@ -279,7 +279,6 @@ local function DCS_Decimals()
 		end
 		PaperDollFrame_UpdateStats() -- needs to get called for checkbox Decimals
 end
-	
 
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowDecimalsChecked = {
 		SetChecked = true,
@@ -329,7 +328,6 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsDCSZeroChecked = { 
 		SetChecked = false, 
 	} 
-
 	
 local dcshideatzeroFS = DejaCharacterStatsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	dcshideatzeroFS:SetText('|cffffffff' .. L["Hide at zero:"] .. '|r')
@@ -373,7 +371,6 @@ DCS_DCSHideAtZero:SetScript("OnClick", function(self)
 	DCS_Decimals() 
 end) 
 
- 
  _G[DCS_BlizHideAtZero:GetName() .. "Text"]:SetText(L["Blizzard's hide at zero"] ) 
 
 DCS_BlizHideAtZero:ClearAllPoints() 
@@ -391,5 +388,4 @@ DCS_BlizHideAtZero:SetScript("OnClick", function(self)
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = false 
 	end 
 	DCS_Decimals() 
-end) 
- 		
+end)
