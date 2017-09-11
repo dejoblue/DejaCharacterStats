@@ -251,7 +251,7 @@ local dcsresetcheck = CreateFrame("Button", "DCSResetButton", DejaCharacterStats
 	dcsILvlPanelCategoryFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
 	
 	--Character Stats 
-	local dcsStatsPanelcategoryFS = DejaCharacterStatsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	local dcsStatsPanelcategoryFS = DejaCharacterStatsPanel:CreateFontString("dcsStatsPanelcategoryFS", "OVERLAY", "GameFontNormal")
 	dcsStatsPanelcategoryFS:SetText('|cffffffff' .. L["Character Stats:"] .. '|r')
 	dcsStatsPanelcategoryFS:SetPoint("TOPLEFT", 25, -150)
 	dcsStatsPanelcategoryFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
