@@ -260,19 +260,39 @@ DCS_TableData.StatData.ItemLevelFrame = {
     end
 }
 
+DCS_TableData.StatData.GeneralCategory = {
+    category   = true,
+    frame      = char_ctats_pane.GeneralCategory,
+    updateFunc = function()	end
+}
+
 DCS_TableData.StatData.AttributesCategory = {
     category   = true,
     frame      = char_ctats_pane.AttributesCategory,
     updateFunc = function() end
 }
+
 DCS_TableData.StatData.EnhancementsCategory = {
     category   = true,
     frame      = char_ctats_pane.EnhancementsCategory,
     updateFunc = function() end
 }
 
-DCS_TableData.StatData.Separator = {
+DCS_TableData.StatData.AttackCategory = {
     category   = true,
+    frame      = char_ctats_pane.AttackCategory,
+    updateFunc = function()	end
+}
+
+DCS_TableData.StatData.DefenseCategory = {
+    category   = true,
+    frame      = char_ctats_pane.DefenseCategory,
+    updateFunc = function()	end
+}
+
+DCS_TableData.StatData.RatingCategory = {
+    category   = true,
+    frame      = char_ctats_pane.RatingCategory,
     updateFunc = function()	end
 }
 

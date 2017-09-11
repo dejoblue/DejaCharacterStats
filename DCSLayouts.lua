@@ -62,18 +62,30 @@ local StatScrollFrame = CreateFrame("ScrollFrame", nil, CharacterFrameInsetRight
 	char_ctats_pane.EnhancementsCategory:SetParent(StatFrame)
 	char_ctats_pane.EnhancementsCategory:SetHeight(28)
 	char_ctats_pane.EnhancementsCategory.Background:SetHeight(28)
-
+	
 local DefaultData = DCS_TableData:MergeTable({
     { statKey = "ItemLevelFrame" },
-    { statKey = "AttributesCategory" },
+	{ statKey = "GeneralCategory" },
         { statKey = "HEALTH" },
         { statKey = "DCS_POWER" },
         { statKey = "DCS_ALTERNATEMANA" },
-        { statKey = "ARMOR" },
+        { statKey = "ITEMLEVEL", hidden = true },
+        { statKey = "MOVESPEED" },
+		{ statKey = "DURABILITY_STAT" },
+        { statKey = "REPAIR_COST" },
+	{ statKey = "AttributesCategory" },
         { statKey = "STRENGTH" },
         { statKey = "AGILITY" },
         { statKey = "INTELLECT" },
         { statKey = "STAMINA" },
+    { statKey = "EnhancementsCategory" },
+        { statKey = "CRITCHANCE", hideAt = 0 },
+		{ statKey = "HASTE", hideAt = 0 },
+        { statKey = "VERSATILITY", hideAt = 0 },
+        { statKey = "MASTERY", hideAt = 0 },
+        { statKey = "LIFESTEAL", hideAt = 0 },
+        { statKey = "AVOIDANCE", hideAt = 0 },
+	{ statKey = "AttackCategory" },
         { statKey = "ATTACK_DAMAGE" },
         { statKey = "ATTACK_AP" },
         { statKey = "DCS_ATTACK_ATTACKSPEED" },
@@ -83,21 +95,13 @@ local DefaultData = DCS_TableData:MergeTable({
         { statKey = "ENERGY_REGEN" },
         { statKey = "DCS_RUNEREGEN" },
         { statKey = "FOCUS_REGEN" },		
-        { statKey = "MOVESPEED" },
         { statKey = "GCD" },
-		{ statKey = "DURABILITY_STAT" },
-        { statKey = "REPAIR_COST" },
-    { statKey = "EnhancementsCategory" },
-        { statKey = "CRITCHANCE", hideAt = 0 },
-		{ statKey = "HASTE", hideAt = 0 },
-        { statKey = "VERSATILITY", hideAt = 0 },
-        { statKey = "MASTERY", hideAt = 0 },
-        { statKey = "LIFESTEAL", hideAt = 0 },
-        { statKey = "AVOIDANCE", hideAt = 0 },
-	{ statKey = "Separator", hidden = true },
+	{ statKey = "DefenseCategory" },
+        { statKey = "ARMOR" },
         { statKey = "DODGE", hideAt = 0 },
         { statKey = "PARRY", hideAt = 0 },
         { statKey = "BLOCK", hideAt = 0 },
+	{ statKey = "RatingCategory" },
 		{ statKey = "CRITCHANCE_RATING", hideAt = 0 },
 		{ statKey = "HASTE_RATING", hideAt = 0 },
 		{ statKey = "VERSATILITY_RATING", hideAt = 0 },
@@ -106,7 +110,6 @@ local DefaultData = DCS_TableData:MergeTable({
 		{ statKey = "AVOIDANCE_RATING", hideAt = 0 },
 		{ statKey = "DODGE_RATING", hideAt = 0 },
 		{ statKey = "PARRY_RATING", hideAt = 0 },
-        { statKey = "ITEMLEVEL", hidden = true },
 })
 
 local ShownData = DefaultData
@@ -115,8 +118,19 @@ for k, v in pairs(DCS_TableData.StatData) do
 	if (not v.frame) then
 		if (v.category) then
 			v.frame = CreateFrame("FRAME", nil, StatFrame, "CharacterStatFrameCategoryTemplate")
-			if k == "Separator" then
-				v.frame.Title:SetText(L["Defense Stats"])
+			v.frame:SetHeight(28)
+			v.frame.Background:SetHeight(28)
+			if k == "GeneralCategory" then
+				v.frame.Title:SetText(L["General"])
+			end
+			if k == "AttackCategory" then
+				v.frame.Title:SetText(L["Attack"])
+			end
+			if k == "DefenseCategory" then
+				v.frame.Title:SetText(L["Defense"])
+			end
+			if k == "RatingCategory" then
+				v.frame.Title:SetText(L["Rating"])
 			end
 		else
 			v.frame = CreateFrame("FRAME", nil, StatFrame, "CharacterStatFrameTemplate")
@@ -154,10 +168,6 @@ end
 			return
 		end
 	end
-
-
-
-
 
 -----------------------
 -- Config Mode Setup --
@@ -343,7 +353,10 @@ local function DCS_Table_Relevant()
 		if v.statKey == "DODGE_RATING" then v.hidden = true end
 		if v.statKey == "PARRY_RATING" then v.hidden = true end
 		if v.statKey == "ITEMLEVEL" then v.hidden = true end
-		if v.statKey == "Separator" then v.hidden = true end
+		if v.statKey == "GeneralCategory" then v.hidden = true end
+		if v.statKey == "AttackCategory" then v.hidden = true end
+		if v.statKey == "DefenseCategory" then v.hidden = true end
+		if v.statKey == "RatingCategory" then v.hidden = true end
 	end
 	--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
 	ShownData.uniqueKey = uniqueKey
