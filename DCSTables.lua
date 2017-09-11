@@ -158,16 +158,13 @@ local DCS_ItemLevelTwoDecimalsCheck = CreateFrame("CheckButton", "DCS_ItemLevelT
 		PaperDollFrame_UpdateStats()
 	end)
 
-
-
-
 local DCS_ILvl_Class_Color_Check = CreateFrame("CheckButton", "DCS_ILvl_Class_Color_Check", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ILvl_Class_Color_Check:RegisterEvent("PLAYER_LOGIN")
 	DCS_ILvl_Class_Color_Check:ClearAllPoints()
 	DCS_ILvl_Class_Color_Check:SetPoint("TOPLEFT", 25, -190)
 	DCS_ILvl_Class_Color_Check:SetScale(1.25)
-	DCS_ILvl_Class_Color_Check.tooltipText = L["Displays item levels with class colors."] --Creates a tooltip on mouseover.
-	_G[DCS_ILvl_Class_Color_Check:GetName() .. "Text"]:SetText(L["Item Level Class Colors"]) --wording for both texts is really bad
+	DCS_ILvl_Class_Color_Check.tooltipText = L["Displays total average item level with class colors."] --Creates a tooltip on mouseover.
+	_G[DCS_ILvl_Class_Color_Check:GetName() .. "Text"]:SetText(L["Class Color Item Level"]) --wording for both texts is really bad
 	
 	DCS_ILvl_Class_Color_Check:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_LOGIN" then
