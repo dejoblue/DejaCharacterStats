@@ -239,3 +239,31 @@ local dcsresetcheck = CreateFrame("Button", "DCSResetButton", DejaCharacterStats
  		gdbprivate.gdb.gdbdefaults = gdbprivate.gdbdefaults.gdbdefaults;
 		ReloadUI();
 	end)
+	
+	----------------------
+	-- Panel Categories --
+	----------------------
+	
+	--Item Level
+	local dcsILvlPanelCategoryFS = DejaCharacterStatsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	dcsILvlPanelCategoryFS:SetText('|cffffffff' .. L["Item Level:"] .. '|r')
+	dcsILvlPanelCategoryFS:SetPoint("TOPLEFT", 25, -40)
+	dcsILvlPanelCategoryFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
+	
+	--Character Stats 
+	local dcsStatsPanelcategoryFS = DejaCharacterStatsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	dcsStatsPanelcategoryFS:SetText('|cffffffff' .. L["Character Stats:"] .. '|r')
+	dcsStatsPanelcategoryFS:SetPoint("TOPLEFT", 25, -150)
+	dcsStatsPanelcategoryFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
+	
+	--Item Slots
+	local dcsItemsPanelCategoryFS = DejaCharacterStatsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	dcsItemsPanelCategoryFS:SetText('|cffffffff' .. L["Item Slots:"] .. '|r')
+	dcsItemsPanelCategoryFS:SetPoint("TOPLEFT", 25, -240)
+	dcsItemsPanelCategoryFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
+	
+	--Miscellaneous
+	local dcsMiscPanelCategoryFS = DejaCharacterStatsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	dcsMiscPanelCategoryFS:SetText('|cffffffff' .. L["Miscellaneous:"] .. '|r')
+	dcsMiscPanelCategoryFS:SetPoint("LEFT", 25, -165)
+	dcsMiscPanelCategoryFS:SetFont("Fonts\\FRIZQT__.TTF", 15)

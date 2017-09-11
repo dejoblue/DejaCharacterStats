@@ -62,18 +62,30 @@ local StatScrollFrame = CreateFrame("ScrollFrame", nil, CharacterFrameInsetRight
 	char_ctats_pane.EnhancementsCategory:SetParent(StatFrame)
 	char_ctats_pane.EnhancementsCategory:SetHeight(28)
 	char_ctats_pane.EnhancementsCategory.Background:SetHeight(28)
-
+	
 local DefaultData = DCS_TableData:MergeTable({
     { statKey = "ItemLevelFrame" },
-    { statKey = "AttributesCategory" },
+	{ statKey = "GeneralCategory" },
         { statKey = "HEALTH" },
         { statKey = "DCS_POWER" },
         { statKey = "DCS_ALTERNATEMANA" },
-        { statKey = "ARMOR" },
+        { statKey = "ITEMLEVEL", hidden = true },
+        { statKey = "MOVESPEED" },
+		{ statKey = "DURABILITY_STAT" },
+        { statKey = "REPAIR_COST" },
+	{ statKey = "AttributesCategory" },
         { statKey = "STRENGTH" },
         { statKey = "AGILITY" },
         { statKey = "INTELLECT" },
         { statKey = "STAMINA" },
+    { statKey = "EnhancementsCategory" },
+        { statKey = "CRITCHANCE", hideAt = 0 },
+		{ statKey = "HASTE", hideAt = 0 },
+        { statKey = "VERSATILITY", hideAt = 0 },
+        { statKey = "MASTERY", hideAt = 0 },
+        { statKey = "LIFESTEAL", hideAt = 0 },
+        { statKey = "AVOIDANCE", hideAt = 0 },
+	{ statKey = "AttackCategory" },
         { statKey = "ATTACK_DAMAGE" },
         { statKey = "ATTACK_AP" },
         { statKey = "DCS_ATTACK_ATTACKSPEED" },
@@ -83,20 +95,13 @@ local DefaultData = DCS_TableData:MergeTable({
         { statKey = "ENERGY_REGEN" },
         { statKey = "DCS_RUNEREGEN" },
         { statKey = "FOCUS_REGEN" },		
-        { statKey = "MOVESPEED" },
         { statKey = "GCD" },
-		{ statKey = "DURABILITY_STAT" },
-        { statKey = "REPAIR_COST" },
-    { statKey = "EnhancementsCategory" },
-        { statKey = "CRITCHANCE", hideAt = 0 },
-		{ statKey = "HASTE", hideAt = 0 },
-        { statKey = "VERSATILITY", hideAt = 0 },
-        { statKey = "MASTERY", hideAt = 0 },
-        { statKey = "LIFESTEAL", hideAt = 0 },
-        { statKey = "AVOIDANCE", hideAt = 0 },
+	{ statKey = "DefenseCategory" },
+        { statKey = "ARMOR" },
         { statKey = "DODGE", hideAt = 0 },
         { statKey = "PARRY", hideAt = 0 },
         { statKey = "BLOCK", hideAt = 0 },
+	{ statKey = "RatingCategory" },
 		{ statKey = "CRITCHANCE_RATING", hideAt = 0 },
 		{ statKey = "HASTE_RATING", hideAt = 0 },
 		{ statKey = "VERSATILITY_RATING", hideAt = 0 },
@@ -105,7 +110,6 @@ local DefaultData = DCS_TableData:MergeTable({
 		{ statKey = "AVOIDANCE_RATING", hideAt = 0 },
 		{ statKey = "DODGE_RATING", hideAt = 0 },
 		{ statKey = "PARRY_RATING", hideAt = 0 },
-        { statKey = "ITEMLEVEL", hidden = true },
 })
 
 local ShownData = DefaultData
@@ -114,6 +118,20 @@ for k, v in pairs(DCS_TableData.StatData) do
 	if (not v.frame) then
 		if (v.category) then
 			v.frame = CreateFrame("FRAME", nil, StatFrame, "CharacterStatFrameCategoryTemplate")
+			v.frame:SetHeight(28)
+			v.frame.Background:SetHeight(28)
+			if k == "GeneralCategory" then
+				v.frame.Title:SetText(L["General"])
+			end
+			if k == "AttackCategory" then
+				v.frame.Title:SetText(L["Attack"])
+			end
+			if k == "DefenseCategory" then
+				v.frame.Title:SetText(L["Defense"])
+			end
+			if k == "RatingCategory" then
+				v.frame.Title:SetText(L["Rating"])
+			end
 		else
 			v.frame = CreateFrame("FRAME", nil, StatFrame, "CharacterStatFrameTemplate")
 		end
@@ -150,10 +168,6 @@ end
 			return
 		end
 	end
-
-
-
-
 
 -----------------------
 -- Config Mode Setup --
@@ -339,6 +353,10 @@ local function DCS_Table_Relevant()
 		if v.statKey == "DODGE_RATING" then v.hidden = true end
 		if v.statKey == "PARRY_RATING" then v.hidden = true end
 		if v.statKey == "ITEMLEVEL" then v.hidden = true end
+		if v.statKey == "GeneralCategory" then v.hidden = true end
+		if v.statKey == "AttackCategory" then v.hidden = true end
+		if v.statKey == "DefenseCategory" then v.hidden = true end
+		if v.statKey == "RatingCategory" then v.hidden = true end
 	end
 	--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
 	ShownData.uniqueKey = uniqueKey
@@ -848,8 +866,8 @@ local function DCS_InterfaceOptConfigButton_OnLeave(self)
 local DCS_ScrollbarCheck = CreateFrame("CheckButton", "DCS_ScrollbarCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ScrollbarCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ScrollbarCheck:ClearAllPoints()
-	DCS_ScrollbarCheck:SetPoint("LEFT", 25, -175)
-	DCS_ScrollbarCheck:SetScale(1.25)
+	DCS_ScrollbarCheck:SetPoint("LEFT", 30, -225)
+	DCS_ScrollbarCheck:SetScale(1)
 	DCS_ScrollbarCheck.tooltipText = L["Displays the DCS scrollbar."] --Creates a tooltip on mouseover.
 	_G[DCS_ScrollbarCheck:GetName() .. "Text"]:SetText(L["Scrollbar"])
 	
@@ -899,8 +917,8 @@ local DCS_ClassBackgroundCheck = CreateFrame("CheckButton", "DCS_ClassBackground
 	DCS_ClassBackgroundCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ClassBackgroundCheck:ClearAllPoints()
 	--DCS_ClassBackgroundCheck:SetPoint("TOPLEFT", 25, -120)
-	DCS_ClassBackgroundCheck:SetPoint("TOPLEFT", 25, -165)
-	DCS_ClassBackgroundCheck:SetScale(1.25)
+	DCS_ClassBackgroundCheck:SetPoint("LEFT", 30, -185)
+	DCS_ClassBackgroundCheck:SetScale(1)
 	DCS_ClassBackgroundCheck.tooltipText = L["Displays the class crest background."] --Creates a tooltip on mouseover.
 	_G[DCS_ClassBackgroundCheck:GetName() .. "Text"]:SetText(L["Class Crest Background"])
 	
