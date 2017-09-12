@@ -240,6 +240,45 @@ local dcsresetcheck = CreateFrame("Button", "DCSResetButton", DejaCharacterStats
 		ReloadUI();
 	end)
 	
+	--------------
+	--About DCS --
+	--------------
+
+	local DCSAboutDCSFrame = CreateFrame("Frame", "DCSAboutDCSFrame", DejaCharacterStatsPanel)
+		DCSAboutDCSFrame:ClearAllPoints()
+		DCSAboutDCSFrame:SetPoint("TOPLEFT", 0, 0)
+		DCSAboutDCSFrame:SetScale(1)
+		DCSAboutDCSFrame:SetSize(500, 650)
+
+		DCSAboutDCSFrame.mask = DCSAboutDCSFrame:CreateMaskTexture()
+		DCSAboutDCSFrame.mask:SetTexture("Interface\\QUESTFRAME\\UI-QUESTLOG-EMPTY-TOPLEFT", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+		DCSAboutDCSFrame.mask:SetSize(375, 565)
+		DCSAboutDCSFrame.mask:SetPoint("TOPLEFT", DCSAboutDCSFrame, "TOPLEFT")
+		
+		DCSAboutDCSFrame.texture = DCSAboutDCSFrame:CreateTexture(nil,"ARTWORK")
+		DCSAboutDCSFrame.texture:SetPoint("TOPLEFT", DCSAboutDCSFrame, "TOPLEFT")
+		DCSAboutDCSFrame.texture:SetTexture("Interface\\QUESTFRAME\\QuestBackgroundHordeAlliance")
+		DCSAboutDCSFrame.texture:SetSize(1275, 1450)
+		DCSAboutDCSFrame.texture:AddMaskTexture(DCSAboutDCSFrame.mask)
+		DCSAboutDCSFrame:Hide()
+
+
+
+		
+		
+		
+	local DCSAboutDCSButton = CreateFrame("Button", "DCSAboutDCSButton", DejaCharacterStatsPanel, "UIPanelButtonTemplate")
+		DCSAboutDCSButton:ClearAllPoints()
+		DCSAboutDCSButton:SetPoint("BOTTOMRIGHT", -113, 8)
+		DCSAboutDCSButton:SetScale(0.80)
+		DCSAboutDCSButton:SetWidth(118)
+		DCSAboutDCSButton:SetHeight(30)
+		_G[DCSAboutDCSButton:GetName() .. "Text"]:SetText(L["About DCS"])
+		
+		DCSAboutDCSButton:SetScript("OnClick", function(self, button, down)
+			DCSAboutDCSFrame:Show()
+		end)
+	
 	----------------------
 	-- Panel Categories --
 	----------------------
