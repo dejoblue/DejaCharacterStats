@@ -689,18 +689,21 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
 local function DCS_Item_Level_Center()
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		local itemLink = GetInventoryItemLink("player", v:GetID())
-		if itemLink == nil then
+		if not itemLink then
 			v.ilevel:SetFormattedText("")
 		else
-			local _, _, itemRarity, itemLevel = GetItemInfo(itemLink)
-			if (v == CharacterSecondaryHandSlot) and (itemRarity == 6) then
+			local _, _, itemRarity = GetItemInfo(itemLink)
+			--if itemRarity then --most probably isn't needed. if there will be more errorrs during login, uncomment
+			if (v == CharacterSecondaryHandSlot) and (itemRarity == 6) then --are there classes and specs where main artifact is offhand? for lore reasons, prot warriors should be this case
 				v.ilevel:SetFormattedText("")
 			else
-				local r, g, b, hex = GetItemQualityColor(itemRarity)
+				local effectiveLevel = GetDetailedItemLevelInfo(itemLink) --TODO: test whether it returns correct ilvl for both artifacts
+				local r, g, b = GetItemQualityColor(itemRarity)
 				--print(itemLink, itemLevel)
 				v.ilevel:SetTextColor(r, g, b)
-				v.ilevel:SetText(itemLevel)
+				v.ilevel:SetText(effectiveLevel)
 			end
+			--end  --most probably isn't needed. if there will be more errorrs during login, uncomment
 		end
 	end
 end
@@ -722,8 +725,8 @@ end)
 DCS_ShowItemLevelCheck:SetScript("OnClick", function(self)
 	showitemlevel = not showitemlevel
 	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemLevelChecked.ShowItemLevelSetChecked = showitemlevel
-	DCS_Set_Dura_Item_Positions()
-	if showitemlevel then
+	DCS_Set_Dura_Item_Positions() --is this call needed?
+	if showitemlevel then --TODO: rewrite of DCS_Item_Level_Center because in 3 places the same code
 		DCS_Item_Level_Center()
 	else
 		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
