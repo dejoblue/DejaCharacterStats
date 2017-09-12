@@ -166,7 +166,8 @@ local DCS_ILvl_Class_Color_Check = CreateFrame("CheckButton", "DCS_ILvl_Class_Co
 	--DCS_ILvl_Class_Color_Check:SetPoint("TOPLEFT", 30, -75)
 	DCS_ILvl_Class_Color_Check:SetPoint("TOPLEFT", "dcsILvlPanelCategoryFS", 7, -35)
 	DCS_ILvl_Class_Color_Check:SetScale(1)
-	DCS_ILvl_Class_Color_Check.tooltipText = L["Displays total average item level with class colors."] --Creates a tooltip on mouseover.
+	--DCS_ILvl_Class_Color_Check.tooltipText = L["Displays total average item level with class colors."] --Creates a tooltip on mouseover.
+	DCS_ILvl_Class_Color_Check.tooltipText = L["Displays average item level with class colors."] --Creates a tooltip on mouseover.
 	_G[DCS_ILvl_Class_Color_Check:GetName() .. "Text"]:SetText(L["Class Colors"]) --wording for both texts is really bad
 	
 	DCS_ILvl_Class_Color_Check:SetScript("OnEvent", function(self, event)

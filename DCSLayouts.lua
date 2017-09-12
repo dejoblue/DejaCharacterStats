@@ -353,10 +353,10 @@ local function DCS_Table_Relevant()
 		if v.statKey == "DODGE_RATING" then v.hidden = true end
 		if v.statKey == "PARRY_RATING" then v.hidden = true end
 		if v.statKey == "ITEMLEVEL" then v.hidden = true end
-		if v.statKey == "GeneralCategory" then v.hidden = true end
-		if v.statKey == "AttackCategory" then v.hidden = true end
-		if v.statKey == "DefenseCategory" then v.hidden = true end
-		if v.statKey == "RatingCategory" then v.hidden = true end
+		--if v.statKey == "GeneralCategory" then v.hidden = true end
+		--if v.statKey == "AttackCategory" then v.hidden = true end
+		--if v.statKey == "DefenseCategory" then v.hidden = true end
+		if v.statKey == "RatingCategory" then v.hidden = true end --ratings are invisible, so the category is also hidden
 	end
 	--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
 	ShownData.uniqueKey = uniqueKey
@@ -370,7 +370,7 @@ local function DCS_Login_Initialization()
 	--print(uniqueKey)
 	if (DCS_ClassSpecDB[uniqueKey]) then
 		if (ShownData.uniqueKey ~= uniqueKey) then
-		ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey])
+		ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey]) --not so easy to understand when gets here. is it during change of specialisation?
 		--print("Set saved variables.")
 		end
 		ShowCharacterStats("player")

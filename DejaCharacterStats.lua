@@ -244,9 +244,9 @@ local dcsresetcheck = CreateFrame("Button", "DCSResetButton", DejaCharacterStats
 	-- Panel Categories --
 	----------------------
 	
-	--Item Level
+	--Average Item Level
 	local dcsILvlPanelCategoryFS = DejaCharacterStatsPanel:CreateFontString("dcsILvlPanelCategoryFS", "OVERLAY", "GameFontNormal")
-	dcsILvlPanelCategoryFS:SetText('|cffffffff' .. L["Item Level:"] .. '|r')
+	dcsILvlPanelCategoryFS:SetText('|cffffffff' .. L["Average Item Level:"] .. '|r') --wouldn't be more efficient through format?
 	dcsILvlPanelCategoryFS:SetPoint("TOPLEFT", 25, -40)
 	dcsILvlPanelCategoryFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
 	
