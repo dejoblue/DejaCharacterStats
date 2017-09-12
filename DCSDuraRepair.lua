@@ -739,15 +739,11 @@ local DCS_ShowItemLevelChange = CreateFrame("Frame", "DCS_ShowItemLevelChange", 
 	DCS_ShowItemLevelChange:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
 	
 DCS_ShowItemLevelChange:SetScript("OnEvent", function(self, ...)
-	if PaperDollFrame:IsVisible() then
-		--print("PaperDollFrame:IsVisible")
-		if showitemlevel then
-		--print("showitemlevel")
-			DCS_Item_Level_Center()
-		else
-			for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
-				v.ilevel:SetFormattedText("")
-			end
+	if showitemlevel then
+		DCS_Item_Level_Center()
+	else
+		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
+			v.ilevel:SetFormattedText("")
 		end
 	end
 end)
