@@ -693,17 +693,11 @@ local function DCS_Item_Level_Center()
 			v.ilevel:SetFormattedText("")
 		else
 			local _, _, itemRarity = GetItemInfo(itemLink)
-			--if itemRarity then --most probably isn't needed. if there will be more errorrs during login, uncomment
-			if (v == CharacterSecondaryHandSlot) and (itemRarity == 6) then --are there classes and specs where main artifact is offhand? for lore reasons, prot warriors should be this case
-				v.ilevel:SetFormattedText("")
-			else
-				local effectiveLevel = GetDetailedItemLevelInfo(itemLink) --TODO: test whether it returns correct ilvl for both artifacts
-				local r, g, b = GetItemQualityColor(itemRarity)
-				--print(itemLink, itemLevel)
-				v.ilevel:SetTextColor(r, g, b)
-				v.ilevel:SetText(effectiveLevel)
-			end
-			--end  --most probably isn't needed. if there will be more errorrs during login, uncomment
+			local effectiveLevel = GetDetailedItemLevelInfo(itemLink)
+			local r, g, b = GetItemQualityColor(itemRarity)
+			--print(itemLink, itemLevel)
+			v.ilevel:SetTextColor(r, g, b)
+			v.ilevel:SetText(effectiveLevel)
 		end
 	end
 end
@@ -725,7 +719,7 @@ end)
 DCS_ShowItemLevelCheck:SetScript("OnClick", function(self)
 	showitemlevel = not showitemlevel
 	gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemLevelChecked.ShowItemLevelSetChecked = showitemlevel
-	DCS_Set_Dura_Item_Positions() --is this call needed?
+	DCS_Set_Dura_Item_Positions() --is this call needed? (Yes, it is -Deja)
 	if showitemlevel then --TODO: rewrite of DCS_Item_Level_Center because in 3 places the same code
 		DCS_Item_Level_Center()
 	else
