@@ -254,7 +254,8 @@ local DCS_ShowDuraCheck = CreateFrame("CheckButton", "DCS_ShowDuraCheck", DejaCh
 	DCS_ShowDuraCheck:RegisterEvent("PLAYER_LOGIN")
     DCS_ShowDuraCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_ShowDuraCheck:ClearAllPoints()
-	DCS_ShowDuraCheck:SetPoint("TOPLEFT", 30, -315)
+	--DCS_ShowDuraCheck:SetPoint("TOPLEFT", 30, -315)
+	DCS_ShowDuraCheck:SetPoint("TOPLEFT", "dcsItemsPanelCategoryFS", 7, -75)
 	DCS_ShowDuraCheck:SetScale(1)
 	DCS_ShowDuraCheck.tooltipText = L["Displays each equipped item's durability."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowDuraCheck:GetName() .. "Text"]:SetText(L["Item Durability"])
@@ -367,7 +368,8 @@ local DCS_ShowDuraTextureCheck = CreateFrame("CheckButton", "DCS_ShowDuraTexture
 	DCS_ShowDuraTextureCheck:RegisterEvent("PLAYER_LOGIN")
     DCS_ShowDuraTextureCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_ShowDuraTextureCheck:ClearAllPoints()
-	DCS_ShowDuraTextureCheck:SetPoint("TOPLEFT", 30, -275)
+	--DCS_ShowDuraTextureCheck:SetPoint("TOPLEFT", 30, -275)
+	DCS_ShowDuraTextureCheck:SetPoint("TOPLEFT", "dcsItemsPanelCategoryFS", 7, -35)
 	DCS_ShowDuraTextureCheck:SetScale(1) 
 	DCS_ShowDuraTextureCheck.tooltipText = L["Displays a durability bar next to each item."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowDuraTextureCheck:GetName() .. "Text"]:SetText(L["Durability Bars"])
@@ -449,7 +451,8 @@ local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDura
 	DCS_ShowAverageDuraCheck:RegisterEvent("PLAYER_LOGIN")
     DCS_ShowAverageDuraCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_ShowAverageDuraCheck:ClearAllPoints()
-	DCS_ShowAverageDuraCheck:SetPoint("TOPLEFT", 30, -295)
+	--DCS_ShowAverageDuraCheck:SetPoint("TOPLEFT", 30, -295)
+	DCS_ShowAverageDuraCheck:SetPoint("TOPLEFT", "dcsItemsPanelCategoryFS", 7, -55)
 	DCS_ShowAverageDuraCheck:SetScale(1)
 	DCS_ShowAverageDuraCheck.tooltipText = L["Displays average item durability on the character shirt slot and durability frames."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowAverageDuraCheck:GetName() .. "Text"]:SetText(L["Average Durability"])
@@ -620,7 +623,8 @@ local DCS_ShowItemRepairCheck = CreateFrame("CheckButton", "DCS_ShowItemRepairCh
 	DCS_ShowItemRepairCheck:RegisterEvent("MERCHANT_SHOW")
 	DCS_ShowItemRepairCheck:RegisterEvent("MERCHANT_CLOSED")
 	DCS_ShowItemRepairCheck:ClearAllPoints()
-	DCS_ShowItemRepairCheck:SetPoint("TOPLEFT", 30, -335)
+	--DCS_ShowItemRepairCheck:SetPoint("TOPLEFT", 30, -335)
+	DCS_ShowItemRepairCheck:SetPoint("TOPLEFT", "dcsItemsPanelCategoryFS", 7, -95)
 	DCS_ShowItemRepairCheck:SetScale(1)
 	DCS_ShowItemRepairCheck.tooltipText = L["Displays each equipped item's repair cost."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowItemRepairCheck:GetName() .. "Text"]:SetText(L["Item Repair Cost"])
@@ -711,7 +715,8 @@ end
 local DCS_ShowItemLevelCheck = CreateFrame("CheckButton", "DCS_ShowItemLevelCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowItemLevelCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ShowItemLevelCheck:ClearAllPoints()
-	DCS_ShowItemLevelCheck:SetPoint("TOPLEFT", 30, -255)
+	--DCS_ShowItemLevelCheck:SetPoint("TOPLEFT", 30, -255)
+	DCS_ShowItemLevelCheck:SetPoint("TOPLEFT", "dcsItemsPanelCategoryFS", 7, -15)
 	DCS_ShowItemLevelCheck:SetScale(1)
 	DCS_ShowItemLevelCheck.tooltipText = L["Displays each equipped item's ILvl."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowItemLevelCheck:GetName() .. "Text"]:SetText(L["Item Level"])
