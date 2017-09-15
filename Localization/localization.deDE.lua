@@ -120,7 +120,7 @@ if namespace.locale == "deDE" then
 	L["Movement Speed"] = "Lauftempo"
 	L["Bewegungsgeschwindigkeit"] = "Lauftempo"
 	L["Durability"] = "Haltbarkeit"
-	L["Repair Total"] = "Ges. Reparaturkosten"
+	L["Repair Total"] = "Reparaturkosten"
 
 -- ## Enhancements ##
 
