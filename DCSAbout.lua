@@ -1,7 +1,5 @@
 local ADDON_NAME, namespace = ... 	--localization
 local L = namespace.L 				--localization
-local version = GetAddOnMetadata(ADDON_NAME, "Version")
-local addoninfo = 'v'..version
 
 	--------------------
 	--About DCS Frame --
