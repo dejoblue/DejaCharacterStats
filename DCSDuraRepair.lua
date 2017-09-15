@@ -697,8 +697,11 @@ local function DCS_Item_Level_Center()
 			v.ilevel:SetFormattedText("")
 		else
 			local _, _, itemRarity = GetItemInfo(itemLink)
-			local effectiveLevel = GetDetailedItemLevelInfo(itemLink)
 			local r, g, b = GetItemQualityColor(itemRarity)
+			local effectiveLevel = GetDetailedItemLevelInfo(itemLink)
+			if (v == CharacterSecondaryHandSlot) and (itemRarity == 6) then
+				effectiveLevel = GetDetailedItemLevelInfo(GetInventoryItemLink("player", CharacterMainHandSlot:GetID()))
+			end
 			--print(itemLink, itemLevel)
 			v.ilevel:SetTextColor(r, g, b)
 			v.ilevel:SetText(effectiveLevel)
