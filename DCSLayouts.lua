@@ -457,6 +457,7 @@ end
 
 for k, v in pairs(DCS_TableData.StatData) do
 	v.frame:SetMovable(true)
+	v.frame:EnableMouse(true) --without this normal stats (but not categories) are draggable 
 	v.frame:RegisterForDrag("LeftButton")
 	v.frame:HookScript("OnDragStart", OnDragStart)
 	v.frame:HookScript("OnDragStop", OnDragStop)
