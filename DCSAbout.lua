@@ -69,8 +69,11 @@ local L = namespace.L 				--localization
 				DCSAboutDCSFrame:Hide()
 			else
 				DCSAboutDCSFrame:Show()
-				DCSAboutDCS_FS:SetWidth(DCSAboutDCSFrame:GetRight() - DCSAboutDCSFrame:GetLeft() - 50)
-				DCSAboutDCS_ThanksFS:SetWidth(DCSAboutDCSFrame:GetRight() - DCSAboutDCSFrame:GetLeft() - 50)
+				local difference = DCSAboutDCSFrame:GetRight() - DCSAboutDCSFrame:GetLeft() - 50 --probably can be moved outside of function. since won't be often used, let remain 
+				--DCSAboutDCS_FS:SetWidth(DCSAboutDCSFrame:GetRight() - DCSAboutDCSFrame:GetLeft() - 50)
+				DCSAboutDCS_FS:SetWidth(difference) --somehow feels wrong to set a width of fontstring repeatedly to the same number. 
+				--DCSAboutDCS_ThanksFS:SetWidth(DCSAboutDCSFrame:GetRight() - DCSAboutDCSFrame:GetLeft() - 50)
+				DCSAboutDCS_ThanksFS:SetWidth(difference)
 			end
 		end)
 
