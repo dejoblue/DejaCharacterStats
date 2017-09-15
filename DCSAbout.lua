@@ -4,7 +4,7 @@ local L = namespace.L 				--localization
 	--------------------
 	--About DCS Frame --
 	--------------------
-	local DCSAboutDCSFrame = CreateFrame("Button", "DCSAboutDCSFrame", InterfaceOptionsFrame)
+	local DCSAboutDCSFrame = CreateFrame("Button", "DCSAboutDCSFrame", InterfaceOptionsFrame) -- Parent is InterfaceOptionsFrame so that it can show over check boxes as checkboxes text is the highest level "TOOLTIP" and cannot be hidden or overlayed.
 		DCSAboutDCSFrame:ClearAllPoints()
 		DCSAboutDCSFrame:SetFrameStrata("TOOLTIP")
 		DCSAboutDCSFrame:SetPoint("CENTER", -29, 6)
@@ -22,13 +22,13 @@ local L = namespace.L 				--localization
 		DCSAboutDCSFrame.texture:SetTexture("Interface\\QUESTFRAME\\QuestBackgroundHordeAlliance")
 		DCSAboutDCSFrame.texture:SetSize(1270, 1405)
 		DCSAboutDCSFrame.texture:AddMaskTexture(DCSAboutDCSFrame.mask)
-		DCSAboutDCSFrame:Hide()
+		DCSAboutDCSFrame:Hide()	--Hidden by default so there is no issue like we had with ghost stats. Only shows if you click DCSAboutDCSButton.
 
 		DCSAboutDCSFrame:SetScript("OnClick", function(self, button, down)
 			DCSAboutDCSFrame:Hide()
 		end)
 		
-		DejaCharacterStatsPanel:SetScript("OnHide", function(self)
+		DejaCharacterStatsPanel:SetScript("OnHide", function(self) -- So that the frame hides when switching to a different panel or closing the InterfaceOptionsFrame
 			DCSAboutDCSFrame:Hide()
 		end)
 		
