@@ -199,7 +199,7 @@ local dcstitleFS = dcstitle:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	dcstitleFS:SetFont("Fonts\\FRIZQT__.TTF", 20)
 
 local dcsversionFS = DejaCharacterStatsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-	dcsversionFS:SetText('|cffffffff' .. addoninfo .. '|r')
+	dcsversionFS:SetText('|cff00c0ff' .. addoninfo .. '|r')
 	dcsversionFS:SetPoint("BOTTOMRIGHT", -10, 10)
 	dcsversionFS:SetFont("Fonts\\FRIZQT__.TTF", 12)
 	
@@ -239,7 +239,7 @@ local dcsresetcheck = CreateFrame("Button", "DCSResetButton", DejaCharacterStats
  		gdbprivate.gdb.gdbdefaults = gdbprivate.gdbdefaults.gdbdefaults;
 		ReloadUI();
 	end)
-	
+		
 	----------------------
 	-- Panel Categories --
 	----------------------
