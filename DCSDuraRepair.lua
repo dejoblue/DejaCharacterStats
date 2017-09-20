@@ -8,15 +8,21 @@ local _, gdbprivate = ...
 
 local ipairs = ipairs
 local DCS_CharacterShirtSlot = CharacterShirtSlot
--- ---------------------------
--- -- DCS Durability Frames --
--- ---------------------------
+
+--TODO: localisation of slots
+--TODO: construction of sets through combining of previously constructed sets
 
 local DCSITEM_SLOT_FRAMES = {
 	CharacterHeadSlot,CharacterNeckSlot,CharacterShoulderSlot,CharacterBackSlot,CharacterChestSlot,CharacterWristSlot,
 	CharacterHandsSlot,CharacterWaistSlot,CharacterLegsSlot,CharacterFeetSlot,
 	CharacterFinger0Slot,CharacterFinger1Slot,CharacterTrinket0Slot,CharacterTrinket1Slot,
 	CharacterMainHandSlot,CharacterSecondaryHandSlot,
+}
+
+local DCS_ITEM_NOT_WEAPONS = {
+	CharacterHeadSlot,CharacterNeckSlot,CharacterShoulderSlot,CharacterBackSlot,CharacterChestSlot,CharacterWristSlot,
+	CharacterHandsSlot,CharacterWaistSlot,CharacterLegsSlot,CharacterFeetSlot,
+	CharacterFinger0Slot,CharacterFinger1Slot,CharacterTrinket0Slot,CharacterTrinket1Slot,
 }
 
 local DCSITEM_SLOT_FRAMES_RIGHT = {
@@ -26,7 +32,9 @@ local DCSITEM_SLOT_FRAMES_RIGHT = {
 local DCSITEM_SLOT_FRAMES_LEFT = {
 	CharacterHandsSlot,CharacterWaistSlot,CharacterLegsSlot,CharacterFeetSlot,CharacterMainHandSlot,
 }
-
+-- ---------------------------
+-- -- DCS Durability Frames --
+-- ---------------------------
 --local duraMean
 local duraTotal
 local duraMaxTotal
@@ -173,6 +181,7 @@ end
 local function DCS_Mean_Durability()
 	DCS_Mean_DurabilityCalc()
 	--for k, v in ipairs(DCSITEM_SLOT_FRAMES) do -- seems like the loop isn't needed
+		--TODO: localisation of addon.duramean
 		duraMeanTexture:SetSize(4, (31*(addon.duraMean/100)))
 		if addon.duraMean == 100 then 
 			duraMeanTexture:SetColorTexture(0, 0, 0, 0)
@@ -686,24 +695,92 @@ end)
 -- Item Level Display Check --
 ------------------------------
 
+--TODO: use the same frame as for repairs
+local ITEM_LEVEL_PATTERN = ITEM_LEVEL:gsub("%%d", "(%%d+)")
+local tooltip = CreateFrame("GameTooltip", "DCSiLevelScanTooltip", nil, "GameTooltipTemplate")
+	tooltip:SetOwner(UIParent, "ANCHOR_NONE")
+
+
 gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
 	ShowItemLevelSetChecked = true,
 }	
 
 local function DCS_Item_Level_Center()
-	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
+	for _, v in ipairs(DCS_ITEM_NOT_WEAPONS) do --did DCSITEM_SLOT_FRAMES really work? for different specs/classes there are different requirements which of offhand or mainhand in need to be known before modifying artifact ilvl
 		local itemLink = GetInventoryItemLink("player", v:GetID())
 		if not itemLink then
 			v.ilevel:SetFormattedText("")
 		else
 			local _, _, itemRarity = GetItemInfo(itemLink)
-			local effectiveLevel = GetDetailedItemLevelInfo(itemLink)
+			--local effectiveLevel = GetDetailedItemLevelInfo(itemLink) --commented out till Blizzard fixes
 			local r, g, b = GetItemQualityColor(itemRarity)
 			--print(itemLink, itemLevel)
 			v.ilevel:SetTextColor(r, g, b)
-			v.ilevel:SetText(effectiveLevel)
+			--v.ilevel:SetText(effectiveLevel) --commented out till Blizzard fixes
+			tooltip:ClearLines()
+			tooltip:SetHyperlink(itemLink)
+			for i = 2, tooltip:NumLines() do
+				local text = _G["DCSiLevelScanTooltipTextLeft"..i]:GetText()
+				if(text and text ~= "") then
+					local value = tonumber(text:match(ITEM_LEVEL_PATTERN))
+					if value then
+						v.ilevel:SetText(value)
+					end
+				end
+			end
 		end
 	end
+	--for feral druids to modify offhand need to know main hand first; for prot wariors converse. So instead of loop sequential.could be written using loop with saving necessary variables in table
+	local DCSMainHandSlot, DCSSecondaryHandSlot, itemRarity
+	local itemlink_mh = GetInventoryItemLink("player", CharacterMainHandSlot:GetID())
+	local itemlink_oh = GetInventoryItemLink("player", CharacterSecondaryHandSlot:GetID())
+	if itemlink_mh then 
+		_, _, itemRarity = GetItemInfo(itemlink_mh)
+		local r, g, b = GetItemQualityColor(itemRarity)
+		CharacterMainHandSlot.ilevel:SetTextColor(r, g, b)
+		tooltip:ClearLines()
+		tooltip:SetHyperlink(itemlink_mh)
+		for i = 2, tooltip:NumLines() do
+			local text = _G["DCSiLevelScanTooltipTextLeft"..i]:GetText()
+			if(text and text ~= "") then
+				DCSMainHandSlot = DCSMainHandSlot or tonumber(text:match(ITEM_LEVEL_PATTERN))
+			end
+		end
+	end
+	if itemlink_oh then 
+		_, _, itemRarity = GetItemInfo(itemlink_oh)
+		local r, g, b = GetItemQualityColor(itemRarity)
+		CharacterSecondaryHandSlot.ilevel:SetTextColor(r, g, b)
+		tooltip:ClearLines()
+		tooltip:SetHyperlink(itemlink_oh)
+		for i = 2, tooltip:NumLines() do
+			local text = _G["DCSiLevelScanTooltipTextLeft"..i]:GetText()
+			if(text and text ~= "") then
+				DCSSecondaryHandSlot = DCSSecondaryHandSlot or tonumber(text:match(ITEM_LEVEL_PATTERN))
+			end
+		end
+	end
+	--modification for artifacts
+	if itemRarity == 6 then --since artifacts can't be partially equipped
+		if DCSSecondaryHandSlot then
+			if DCSMainHandSlot > DCSSecondaryHandSlot then --I think more often is this case
+				DCSSecondaryHandSlot = DCSMainHandSlot
+			else
+				DCSMainHandSlot = DCSSecondaryHandSlot
+			end
+		end
+	end
+	--display ilvl if there's ilvl to display
+	if DCSMainHandSlot then
+		CharacterMainHandSlot.ilevel:SetText(DCSMainHandSlot) 
+	else
+		CharacterMainHandSlot.ilevel:SetText("") 
+	end	
+	if DCSSecondaryHandSlot then
+		CharacterSecondaryHandSlot.ilevel:SetText(DCSSecondaryHandSlot)
+	else
+		CharacterSecondaryHandSlot.ilevel:SetText("")
+	end		
 end
 
 local DCS_ShowItemLevelCheck = CreateFrame("CheckButton", "DCS_ShowItemLevelCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
