@@ -690,7 +690,17 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
 	ShowItemLevelSetChecked = true,
 }	
 
+
+--local my_floor = math.floor
+--local function round(x)
+--	return my_floor(x+0.5)
+--end
+
 local function DCS_Item_Level_Center()
+	local summar_ilvl = 0
+	local _, equipped = GetAverageItemLevel()
+	--equipped = round(equipped * 16)
+	equipped = equipped * 16 --in tested cases worked without rounding
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		local itemLink = GetInventoryItemLink("player", v:GetID())
 		if not itemLink then
@@ -699,11 +709,23 @@ local function DCS_Item_Level_Center()
 			local _, _, itemRarity = GetItemInfo(itemLink)
 			local effectiveLevel = GetDetailedItemLevelInfo(itemLink)
 			local r, g, b = GetItemQualityColor(itemRarity)
-			--print(itemLink, itemLevel)
+			--print(itemLink, effectiveLevel)
 			v.ilevel:SetTextColor(r, g, b)
+			if (itemRarity == 6) then 	--supposedly only artifacts after crucible return wrong ilvl
+				effectiveLevel = (equipped - summar_ilvl)/2
+			else
+				summar_ilvl = summar_ilvl + effectiveLevel
+			end
+			--debug for Kakjens. if just 1 one-handed, returns half of real ilvl
+			--if v == CharacterMainHandSlot or v == CharacterSecondaryHandSlot then
+			--	effectiveLevel = (equipped - summar_ilvl)/2
+			--else
+			--	summar_ilvl = summar_ilvl + effectiveLevel
+			--end
 			v.ilevel:SetText(effectiveLevel)
 		end
 	end
+	--print(summar_ilvl/16) --average ilvl without artifacts
 end
 
 local DCS_ShowItemLevelCheck = CreateFrame("CheckButton", "DCS_ShowItemLevelCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
