@@ -691,20 +691,38 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
 }	
 
 local function DCS_Item_Level_Center()
+	local DCSMainHandSlot = GetDetailedItemLevelInfo(GetInventoryItemLink("player", (CharacterMainHandSlot:GetID())))
+	local DCSSecondaryHandSlot = GetDetailedItemLevelInfo(GetInventoryItemLink("player", (CharacterSecondaryHandSlot:GetID())))
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		local itemLink = GetInventoryItemLink("player", v:GetID())
 		if not itemLink then
 			v.ilevel:SetFormattedText("")
 		else
-			local _, _, itemRarity = GetItemInfo(itemLink)
-			local r, g, b = GetItemQualityColor(itemRarity)
-			local effectiveLevel = GetDetailedItemLevelInfo(itemLink)
-			if (v == CharacterSecondaryHandSlot) and (itemRarity == 6) then
-				effectiveLevel = GetDetailedItemLevelInfo(GetInventoryItemLink("player", CharacterMainHandSlot:GetID()))
+			local ITEM_LEVEL_PATTERN = ITEM_LEVEL:gsub("%%d", "(%%d+)")
+			local tooltip = CreateFrame("GameTooltip", "iLevelScanTooltip", nil, "GameTooltipTemplate")
+				tooltip:SetOwner(UIParent, "ANCHOR_NONE")
+				tooltip:ClearLines()
+				tooltip:SetHyperlink(itemLink)
+			for i = 2, tooltip:NumLines() do
+				local text = _G["iLevelScanTooltipTextLeft"..i]:GetText()
+				if(text and text ~= "") then
+					local value = tonumber(text:match(ITEM_LEVEL_PATTERN))
+					if value then
+						local _, _, itemRarity = GetItemInfo(itemLink)
+						local r, g, b = GetItemQualityColor(itemRarity)
+							v.ilevel:SetTextColor(r, g, b)
+						if (itemRarity == 6) then 	--ALL Artifact items. If there were Artifact legs they would get the same ilvl text, since only weapons and we want them to be the same, this works and we don't care.
+							if (DCSMainHandSlot >= DCSSecondaryHandSlot) then
+								v.ilevel:SetText(DCSMainHandSlot)
+							else
+								v.ilevel:SetText(DCSSecondaryHandSlot)
+							end
+						else
+							v.ilevel:SetText(value)
+						end
+					end
+				end
 			end
-			--print(itemLink, itemLevel)
-			v.ilevel:SetTextColor(r, g, b)
-			v.ilevel:SetText(effectiveLevel)
 		end
 	end
 end
