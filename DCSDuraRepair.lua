@@ -691,8 +691,7 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
 }	
 
 local function DCS_Item_Level_Center()
-	local DCSMainHandSlot = GetDetailedItemLevelInfo(GetInventoryItemLink("player", (CharacterMainHandSlot:GetID())))
-	local DCSSecondaryHandSlot = GetDetailedItemLevelInfo(GetInventoryItemLink("player", (CharacterSecondaryHandSlot:GetID())))
+	local DCSDeriveArtILvl = 0
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		local itemLink = GetInventoryItemLink("player", v:GetID())
 		if not itemLink then
@@ -708,10 +707,14 @@ local function DCS_Item_Level_Center()
 				if(text and text ~= "") then
 					local value = tonumber(text:match(ITEM_LEVEL_PATTERN))
 					if value then
+						DCSDeriveArtILvl = DCSDeriveArtILvl + value 
+						print(DCSDeriveArtILvl)
 						local _, _, itemRarity = GetItemInfo(itemLink)
 						local r, g, b = GetItemQualityColor(itemRarity)
-							v.ilevel:SetTextColor(r, g, b)
+						v.ilevel:SetTextColor(r, g, b)
 						if (itemRarity == 6) then 	--ALL Artifact items. If there were Artifact legs they would get the same ilvl text, since only weapons and we want them to be the same, this works and we don't care.
+							local DCSMainHandSlot = GetDetailedItemLevelInfo(GetInventoryItemLink("player", (CharacterMainHandSlot:GetID())))
+							local DCSSecondaryHandSlot = GetDetailedItemLevelInfo(GetInventoryItemLink("player", (CharacterSecondaryHandSlot:GetID())))
 							if (DCSMainHandSlot >= DCSSecondaryHandSlot) then
 								v.ilevel:SetText(DCSMainHandSlot)
 							else
