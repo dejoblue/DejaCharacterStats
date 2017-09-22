@@ -691,17 +691,38 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
 }	
 
 local function DCS_Item_Level_Center()
+	local summar_ilvl = 0
+	local _, equipped = GetAverageItemLevel()
+	--equipped = round(equipped * 16)
+	equipped = equipped * 16 --in tested cases worked without rounding	
+	local ITEM_LEVEL_PATTERN = ITEM_LEVEL:gsub("%%d", "(%%d+)") --moving outside of the function might not be warranted but moving outside of for loop is
+	local tooltip = CreateFrame("GameTooltip", "DCSScanTooltip", nil, "GameTooltipTemplate") --TODO: use the same frame for both repairs and itemlevel
+	tooltip:SetOwner(UIParent, "ANCHOR_NONE")
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		local itemLink = GetInventoryItemLink("player", v:GetID())
 		if not itemLink then
 			v.ilevel:SetFormattedText("")
 		else
-			local _, _, itemRarity = GetItemInfo(itemLink)
-			local effectiveLevel = GetDetailedItemLevelInfo(itemLink)
-			local r, g, b = GetItemQualityColor(itemRarity)
-			--print(itemLink, itemLevel)
-			v.ilevel:SetTextColor(r, g, b)
-			v.ilevel:SetText(effectiveLevel)
+			tooltip:ClearLines()
+			tooltip:SetHyperlink(itemLink)
+			for i = 2, tooltip:NumLines() do
+				local text = _G["DCSScanTooltipTextLeft"..i]:GetText()
+				if(text and text ~= "") then
+					local value = tonumber(text:match(ITEM_LEVEL_PATTERN))
+					if value then
+						local _, _, itemRarity = GetItemInfo(itemLink) --least scope for itemRarity
+						--local r, g, b = GetItemQualityColor(itemRarity)
+						--v.ilevel:SetTextColor(r, g, b)
+						v.ilevel:SetTextColor(GetItemQualityColor(itemRarity))
+						if (itemRarity == 6) then 	--supposedly only artifacts after crucible return wrong ilvl
+							value = (equipped - summar_ilvl)/2
+						else
+							summar_ilvl = summar_ilvl + value
+						end
+						v.ilevel:SetText(value)
+					end
+				end
+			end
 		end
 	end
 end
@@ -719,6 +740,7 @@ DCS_ShowItemLevelCheck:SetScript("OnEvent", function(self, ...)
 	showitemlevel = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemLevelChecked.ShowItemLevelSetChecked
 	self:SetChecked(showitemlevel)
 	DCS_Set_Dura_Item_Positions()
+	DCS_Item_Level_Center()
 end)
 
 DCS_ShowItemLevelCheck:SetScript("OnClick", function(self)
@@ -736,13 +758,14 @@ end)
 
 local DCS_ShowItemLevelChange = CreateFrame("Frame", "DCS_ShowItemLevelChange", UIParent)
 	DCS_ShowItemLevelChange:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+	DCS_ShowItemLevelChange:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 	
 DCS_ShowItemLevelChange:SetScript("OnEvent", function(self, ...)
 	if PaperDollFrame:IsVisible() then
 		--print("PaperDollFrame:IsVisible")
 		if showitemlevel then
 		--print("showitemlevel")
-			DCS_Item_Level_Center()
+			C_Timer.After(0.25, DCS_Item_Level_Center) --Event fires before Artifact changes so we have to wait a fraction of a second.
 		else
 			for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 				v.ilevel:SetFormattedText("")
