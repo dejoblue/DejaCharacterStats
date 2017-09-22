@@ -691,7 +691,10 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
 }	
 
 local function DCS_Item_Level_Center()
-	local DCSDeriveArtILvl = 0
+	local summar_ilvl = 0
+	local _, equipped = GetAverageItemLevel()
+	--equipped = round(equipped * 16)
+	equipped = equipped * 16 --in tested cases worked without rounding	
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		local itemLink = GetInventoryItemLink("player", v:GetID())
 		if not itemLink then
@@ -707,22 +710,16 @@ local function DCS_Item_Level_Center()
 				if(text and text ~= "") then
 					local value = tonumber(text:match(ITEM_LEVEL_PATTERN))
 					if value then
-						DCSDeriveArtILvl = DCSDeriveArtILvl + value 
-						print(DCSDeriveArtILvl)
 						local _, _, itemRarity = GetItemInfo(itemLink)
 						local r, g, b = GetItemQualityColor(itemRarity)
 						v.ilevel:SetTextColor(r, g, b)
-						if (itemRarity == 6) then 	--ALL Artifact items. If there were Artifact legs they would get the same ilvl text, since only weapons and we want them to be the same, this works and we don't care.
-							local DCSMainHandSlot = GetDetailedItemLevelInfo(GetInventoryItemLink("player", (CharacterMainHandSlot:GetID())))
-							local DCSSecondaryHandSlot = GetDetailedItemLevelInfo(GetInventoryItemLink("player", (CharacterSecondaryHandSlot:GetID())))
-							if (DCSMainHandSlot >= DCSSecondaryHandSlot) then
-								v.ilevel:SetText(DCSMainHandSlot)
-							else
-								v.ilevel:SetText(DCSSecondaryHandSlot)
-							end
+						if (itemRarity == 6) then 	--supposedly only artifacts after crucible return wrong ilvl
+							value = (equipped - summar_ilvl)/2
 						else
-							v.ilevel:SetText(value)
+							summar_ilvl = summar_ilvl + value
 						end
+						v.ilevel:SetText("")
+						v.ilevel:SetText(value)
 					end
 				end
 			end
@@ -732,6 +729,8 @@ end
 
 local DCS_ShowItemLevelCheck = CreateFrame("CheckButton", "DCS_ShowItemLevelCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowItemLevelCheck:RegisterEvent("PLAYER_LOGIN")
+	DCS_ShowItemLevelCheck:RegisterEvent("player", "PLAYER_SPECIALIZATION_CHANGED")
+	DCS_ShowItemLevelCheck:RegisterEvent("player", "UNIT_INVENTORY_CHANGED")
 	DCS_ShowItemLevelCheck:ClearAllPoints()
 	--DCS_ShowItemLevelCheck:SetPoint("TOPLEFT", 30, -255)
 	DCS_ShowItemLevelCheck:SetPoint("TOPLEFT", "dcsItemsPanelCategoryFS", 7, -15)
