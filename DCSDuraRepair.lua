@@ -695,24 +695,25 @@ local function DCS_Item_Level_Center()
 	local _, equipped = GetAverageItemLevel()
 	--equipped = round(equipped * 16)
 	equipped = equipped * 16 --in tested cases worked without rounding	
+	local ITEM_LEVEL_PATTERN = ITEM_LEVEL:gsub("%%d", "(%%d+)") --moving outside of the function might not be warranted but moving outside of for loop is
+	local tooltip = CreateFrame("GameTooltip", "DCSScanTooltip", nil, "GameTooltipTemplate") --TODO: use the same frame for both repairs and itemlevel
+	tooltip:SetOwner(UIParent, "ANCHOR_NONE")
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		local itemLink = GetInventoryItemLink("player", v:GetID())
 		if not itemLink then
 			v.ilevel:SetFormattedText("")
 		else
-			local ITEM_LEVEL_PATTERN = ITEM_LEVEL:gsub("%%d", "(%%d+)")
-			local tooltip = CreateFrame("GameTooltip", "iLevelScanTooltip", nil, "GameTooltipTemplate")
-				tooltip:SetOwner(UIParent, "ANCHOR_NONE")
-				tooltip:ClearLines()
-				tooltip:SetHyperlink(itemLink)
+			tooltip:ClearLines()
+			tooltip:SetHyperlink(itemLink)
 			for i = 2, tooltip:NumLines() do
-				local text = _G["iLevelScanTooltipTextLeft"..i]:GetText()
+				local text = _G["DCSScanTooltipTextLeft"..i]:GetText()
 				if(text and text ~= "") then
 					local value = tonumber(text:match(ITEM_LEVEL_PATTERN))
 					if value then
-						local _, _, itemRarity = GetItemInfo(itemLink)
-						local r, g, b = GetItemQualityColor(itemRarity)
-						v.ilevel:SetTextColor(r, g, b)
+						local _, _, itemRarity = GetItemInfo(itemLink) --least scope for itemRarity
+						--local r, g, b = GetItemQualityColor(itemRarity)
+						--v.ilevel:SetTextColor(r, g, b)
+						v.ilevel:SetTextColor(GetItemQualityColor(itemRarity))
 						if (itemRarity == 6) then 	--supposedly only artifacts after crucible return wrong ilvl
 							value = (equipped - summar_ilvl)/2
 						else
