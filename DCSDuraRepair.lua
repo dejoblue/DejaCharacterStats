@@ -718,7 +718,6 @@ local function DCS_Item_Level_Center()
 						else
 							summar_ilvl = summar_ilvl + value
 						end
-						v.ilevel:SetText("")
 						v.ilevel:SetText(value)
 					end
 				end
@@ -729,8 +728,6 @@ end
 
 local DCS_ShowItemLevelCheck = CreateFrame("CheckButton", "DCS_ShowItemLevelCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowItemLevelCheck:RegisterEvent("PLAYER_LOGIN")
-	DCS_ShowItemLevelCheck:RegisterEvent("player", "PLAYER_SPECIALIZATION_CHANGED")
-	DCS_ShowItemLevelCheck:RegisterEvent("player", "UNIT_INVENTORY_CHANGED")
 	DCS_ShowItemLevelCheck:ClearAllPoints()
 	--DCS_ShowItemLevelCheck:SetPoint("TOPLEFT", 30, -255)
 	DCS_ShowItemLevelCheck:SetPoint("TOPLEFT", "dcsItemsPanelCategoryFS", 7, -15)
@@ -742,6 +739,7 @@ DCS_ShowItemLevelCheck:SetScript("OnEvent", function(self, ...)
 	showitemlevel = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowItemLevelChecked.ShowItemLevelSetChecked
 	self:SetChecked(showitemlevel)
 	DCS_Set_Dura_Item_Positions()
+	DCS_Item_Level_Center()
 end)
 
 DCS_ShowItemLevelCheck:SetScript("OnClick", function(self)
@@ -759,13 +757,14 @@ end)
 
 local DCS_ShowItemLevelChange = CreateFrame("Frame", "DCS_ShowItemLevelChange", UIParent)
 	DCS_ShowItemLevelChange:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+	DCS_ShowItemLevelChange:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 	
 DCS_ShowItemLevelChange:SetScript("OnEvent", function(self, ...)
 	if PaperDollFrame:IsVisible() then
 		--print("PaperDollFrame:IsVisible")
 		if showitemlevel then
 		--print("showitemlevel")
-			DCS_Item_Level_Center()
+			C_Timer.After(0.25, DCS_Item_Level_Center) --Event fires before Artifact changes so we have to wait a fraction of a second.
 		else
 			for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 				v.ilevel:SetFormattedText("")
