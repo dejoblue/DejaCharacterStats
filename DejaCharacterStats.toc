@@ -28,3 +28,4 @@ DCSExpand.lua
 DCSDecimals.lua
 DCSDuraRepair.lua
 DCSAbout.lua
+DCSILvlFix.lua
