@@ -202,6 +202,8 @@ end
 local configMode = false
 
 local function ShowCharacterStats(unit)
+	if not unit then unit = "player" end
+	--print("showing")
     local stat
     local count, backgroundcount, height = 0, false, 4
 	local hideatzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked --placeholder for the checkbox hideatzero
@@ -515,6 +517,14 @@ hooksecurefunc("PaperDollFrame_SetSidebar", function(self, index)
 	end
 end)
 
+local first_time = true
+PaperDollFrame:HookScript("OnShow", function(self)
+	if first_time then
+		C_Timer.After(0.2, ShowCharacterStats)
+		first_time = false
+		--print("soon")
+	end
+end)
 
 ------------------------
 -- Relevant Stats Button --
