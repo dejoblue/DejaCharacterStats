@@ -804,9 +804,13 @@ PaperDollFrame:HookScript("OnShow", function(self)
 	for i = 1, 3 do
 		local relicName, relicIcon, relicType, relicLink = _G.C_ArtifactUI.GetRelicInfo(i);
 		local currentRank, canAddTalent = _G.C_ArtifactUI.GetRelicSlotRankInfo(i);
-		--print("Relics: ", relicName, relicIcon, relicType, relicLink, currentRank)
-		if (currentRank ~= nil) and (currentRank >0) then --Level 1 of each relic gives 5 item levels, a total of 5, 10, or 15 for all three
-			DCSRelicValue = (DCSRelicValue + 1)
+		print("Relics: ", relicName, relicIcon, relicType, relicLink, currentRank, canAddTalent)
+		if (currentRank ~= nil) and (currentRank > 0) then --Level 1 of each relic gives 5 item levels, a total of 5, 10, or 15 for all three
+			if (currentRank < 2) and (canAddTalent) then
+				DCSRelicValue = DCSRelicValue 
+			else
+				DCSRelicValue = (DCSRelicValue + 1)
+			end
 		end
 	end	
 	DCS_Item_Level_Center()
