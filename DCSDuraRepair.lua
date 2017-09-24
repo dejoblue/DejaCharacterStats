@@ -690,11 +690,11 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
 	ShowItemLevelSetChecked = true,
 }	
 
+local DCSRelicValue = 0
+
 local function DCS_Item_Level_Center()
-	local summar_ilvl = 0
-	local _, equipped = GetAverageItemLevel()
-	--equipped = round(equipped * 16)
-	equipped = equipped * 16 --in tested cases worked without rounding	
+	local DCSMainHandSlot = 0
+	local DCSSecondaryHandSlot = 0
 	local ITEM_LEVEL_PATTERN = ITEM_LEVEL:gsub("%%d", "(%%d+)") --moving outside of the function might not be warranted but moving outside of for loop is
 	local tooltip = CreateFrame("GameTooltip", "DCSScanTooltip", nil, "GameTooltipTemplate") --TODO: use the same frame for both repairs and itemlevel
 	tooltip:SetOwner(UIParent, "ANCHOR_NONE")
@@ -711,15 +711,24 @@ local function DCS_Item_Level_Center()
 					local value = tonumber(text:match(ITEM_LEVEL_PATTERN))
 					if value then
 						local _, _, itemRarity = GetItemInfo(itemLink) --least scope for itemRarity
-						--local r, g, b = GetItemQualityColor(itemRarity)
-						--v.ilevel:SetTextColor(r, g, b)
 						v.ilevel:SetTextColor(GetItemQualityColor(itemRarity))
-						if (itemRarity == 6) then 	--supposedly only artifacts after crucible return wrong ilvl
-							value = (equipped - summar_ilvl)/2
+						if (itemRarity == 6) then
+							if (v == CharacterMainHandSlot) then
+								DCSMainHandSlot = value
+							elseif (v == CharacterSecondaryHandSlot) then 
+								DCSSecondaryHandSlot = value
+							end
+							if (DCSSecondaryHandSlot ~= nil) then
+								if (DCSMainHandSlot > DCSSecondaryHandSlot) then
+									value = (DCSMainHandSlot + (DCSRelicValue*5))
+								else
+									value = (DCSSecondaryHandSlot + (DCSRelicValue*5))
+								end
+							end
+							v.ilevel:SetText(value)
 						else
-							summar_ilvl = summar_ilvl + value
+							v.ilevel:SetText(value)
 						end
-						v.ilevel:SetText(value)
 					end
 				end
 			end
@@ -782,4 +791,24 @@ PaperDollFrame:HookScript("OnShow", function(self)
 			v.ilevel:SetFormattedText("")
 		end
 	end
+	-- Artifact Relic Info --
+	-- local GetArtifactInfo = _G.C_ArtifactUI.GetArtifactInfo
+    -- local itemID, altItemID, name, icon, xp, pointsSpent, quality, artifactAppearanceID, appearanceModID, itemAppearanceID, altItemAppearanceID, altOnTop, artifactTier = GetArtifactInfo()
+	-- local GetNumRelicSlots = _G.C_ArtifactUI.GetNumRelicSlots
+	-- local GetRelicInfo = _G.C_ArtifactUI.GetRelicInfo
+	-- local GetRelicSlotRankInfo = _G.C_ArtifactUI.GetRelicSlotRankInfo
+	-- local numRelicSlots = GetNumRelicSlots(itemID) or 0;
+	--PaperDollFrame:Hide()
+	DCSRelicValue = 0 --Reset or it continues to add each time PaperDollFrame opens
+	SocketInventoryItem(16) --Opens Artifact talent frame; it must be open to get relic info
+	for i = 1, 3 do
+		local relicName, relicIcon, relicType, relicLink = _G.C_ArtifactUI.GetRelicInfo(i);
+		local currentRank, canAddTalent = _G.C_ArtifactUI.GetRelicSlotRankInfo(i);
+		--print("Relics: ", relicName, relicIcon, relicType, relicLink, currentRank)
+		if (currentRank ~= nil) and (currentRank >0) then --Level 1 of each relic gives 5 item levels, a total of 5, 10, or 15 for all three
+			DCSRelicValue = (DCSRelicValue + 1)
+		end
+	end	
+	DCS_Item_Level_Center()
+	ArtifactFrame.CloseButton:Click("MouseButton") --Closes Artifact talent frame
 end)
