@@ -686,13 +686,55 @@ end)
 -- Item Level Display Check --
 ------------------------------
 
-gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
-	ShowItemLevelSetChecked = true,
+--Artifact Item Level/Relic Info
+gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsILvlFixInfo = {
+	DCSArtifactILvlValue = 0,
+	DCSRelicTotal = 0,
+	DCSFixedEquippedILvlValue = 0,
+	DCSFixedAvailableILvlValue = 0,
 }	
 
+local DCSFirstLogin = false
+
+local function DCS_DCSArtifactILvl() --Only when we log in, DCS_Item_Level_Center() works fine after first login
+	if DCSFirstLogin == false then --Wait to throttle this with DCS_Item_Level_Center() below
+		-- Artifact Relic Info --
+		-- local GetArtifactInfo = _G.C_ArtifactUI.GetArtifactInfo
+		-- local itemID, altItemID, name, icon, xp, pointsSpent, quality, artifactAppearanceID, appearanceModID, itemAppearanceID, altItemAppearanceID, altOnTop, artifactTier = GetArtifactInfo()
+		-- local GetNumRelicSlots = _G.C_ArtifactUI.GetNumRelicSlots
+		-- local GetRelicInfo = _G.C_ArtifactUI.GetRelicInfo
+		-- local GetRelicSlotRankInfo = _G.C_ArtifactUI.GetRelicSlotRankInfo
+		-- local numRelicSlots = GetNumRelicSlots(itemID) or 0;
+		--PaperDollFrame:Hide()
+		DCSRelicTotal = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSRelicTotal
+		DCSRelicValue = 0 --Reset or it continues to add each time PaperDollFrame opens
+		SocketInventoryItem(16) --Opens Artifact talent frame; it must be open to get relic info
+		for i = 1, 3 do
+			local relicName, relicIcon, relicType, relicLink = _G.C_ArtifactUI.GetRelicInfo(i);
+			local currentRank, canAddTalent = _G.C_ArtifactUI.GetRelicSlotRankInfo(i);
+			--print("Relics: ", relicName, relicIcon, relicType, relicLink, currentRank, canAddTalent)
+			if (currentRank ~= nil) and (currentRank > 0) then --Level 1 of each relic gives 5 item levels, a total of 5, 10, or 15 for all three
+				if (currentRank < 2) and (canAddTalent) then --If rank is 1 but we have not spend the point, it isn't counted
+					DCSRelicValue = DCSRelicValue 
+				else
+					DCSRelicValue = (DCSRelicValue + 1) --If rank is 1 but we have spent the point, then we count it
+					gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSRelicTotal = DCSRelicValue
+				end
+			end
+		end
+		--print(DCSRelicTotal)
+		ArtifactFrame.CloseButton:Click("MouseButton") --Closes Artifact talent frame
+	end
+end
+	
 local function DCS_Item_Level_Center()
 	local summar_ilvl = 0
-	local _, equipped = GetAverageItemLevel()
+	local available, equipped = GetAverageItemLevel()
+	DCSArtifactILvlValue = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSArtifactILvlValue
+	DCSRelicTotal = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSRelicTotal
+	DCSFixedEquippedILvlValue = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSFixedEquippedILvlValue
+	DCSFixedAvailableILvlValue = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSFixedAvailableILvlValue
+	--print("Dura", DCSRelicTotal)
 	--equipped = round(equipped * 16)
 	equipped = equipped * 16 --in tested cases worked without rounding	
 	local ITEM_LEVEL_PATTERN = ITEM_LEVEL:gsub("%%d", "(%%d+)") --moving outside of the function might not be warranted but moving outside of for loop is
@@ -711,11 +753,20 @@ local function DCS_Item_Level_Center()
 					local value = tonumber(text:match(ITEM_LEVEL_PATTERN))
 					if value then
 						local _, _, itemRarity = GetItemInfo(itemLink) --least scope for itemRarity
-						--local r, g, b = GetItemQualityColor(itemRarity)
-						--v.ilevel:SetTextColor(r, g, b)
 						v.ilevel:SetTextColor(GetItemQualityColor(itemRarity))
 						if (itemRarity == 6) then 	--supposedly only artifacts after crucible return wrong ilvl
+							local fixedvalue = ((equipped - summar_ilvl)/2) + (DCSRelicTotal * 5)
+							print(DCSFirstLogin)
+							print("fixedvalue", fixedvalue)
 							value = (equipped - summar_ilvl)/2
+							print(DCSFirstLogin)
+							print("value", value)
+							if DCSFirstLogin == false then
+								value = (equipped - summar_ilvl)/2
+								DCSFirstLogin = true --Throttle DCS_DCSArtifactILvl() and this expression from updating
+							else
+								value = fixedvalue
+							end
 						else
 							summar_ilvl = summar_ilvl + value
 						end
@@ -726,6 +777,10 @@ local function DCS_Item_Level_Center()
 		end
 	end
 end
+
+gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
+	ShowItemLevelSetChecked = true,
+}
 
 local DCS_ShowItemLevelCheck = CreateFrame("CheckButton", "DCS_ShowItemLevelCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowItemLevelCheck:RegisterEvent("PLAYER_LOGIN")
@@ -776,6 +831,7 @@ end)
 
 PaperDollFrame:HookScript("OnShow", function(self)
 	if showitemlevel then
+		DCS_DCSArtifactILvl()
 		DCS_Item_Level_Center()
 	else
 		for _, v in ipairs(DCSITEM_SLOT_FRAMES) do

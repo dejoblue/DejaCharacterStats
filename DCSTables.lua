@@ -262,6 +262,16 @@ DCS_TableData.StatData.ItemLevelFrame = {
 			DCS_DecimalPlaces = ("%.0f")
 			multiplier = 1
 		end
+		
+		DCSArtifactILvlValue = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSArtifactILvlValue
+		DCSRelicTotal = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSRelicTotal
+		DCSFixedEquippedILvlValue = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSFixedEquippedILvlValue
+		DCSFixedAvailableILvlValue = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSFixedAvailableILvlValue
+		--print("DCSArtifactILvlValue", DCSArtifactILvlValue)
+		--print("DCSRelicTotal", DCSRelicTotal)
+		--print("DCSFixedEquippedILvlValue", DCSFixedEquippedILvlValue)
+		--print("DCSFixedAvailableILvlValue", DCSFixedAvailableILvlValue)
+
 		avgItemLevel = floor(multiplier*avgItemLevel)/multiplier;
 		avgItemLevelEquipped = floor(multiplier*avgItemLevelEquipped)/multiplier;
 		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, STAT_AVERAGE_ITEM_LEVEL).." "..dcs_format(DCS_DecimalPlaces, avgItemLevel);
