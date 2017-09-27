@@ -243,6 +243,45 @@ end
 
 DCS_TableData.StatData = DCS_TableData:CopyTable(PAPERDOLL_STATINFO)
 
+--Artifact Item Level/Relic Info
+gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsILvlFixInfo = {
+	DCSArtifactILvlValue = 0,
+	DCSRelicTotal = 0,
+	DCSFixedEquippedILvlValue = 0,
+	DCSFixedAvailableILvlValue = 0,
+}	
+
+local DCSFirstLogin = false
+
+local function DCS_DCSArtifactILvl() --Only when we log in, DCS_Item_Level_Center() works fine after first login
+	-- Artifact Relic Info --
+	-- local GetArtifactInfo = _G.C_ArtifactUI.GetArtifactInfo
+	-- local itemID, altItemID, name, icon, xp, pointsSpent, quality, artifactAppearanceID, appearanceModID, itemAppearanceID, altItemAppearanceID, altOnTop, artifactTier = GetArtifactInfo()
+	-- local GetNumRelicSlots = _G.C_ArtifactUI.GetNumRelicSlots
+	-- local GetRelicInfo = _G.C_ArtifactUI.GetRelicInfo
+	-- local GetRelicSlotRankInfo = _G.C_ArtifactUI.GetRelicSlotRankInfo
+	-- local numRelicSlots = GetNumRelicSlots(itemID) or 0;
+	--PaperDollFrame:Hide()
+	DCSRelicTotal = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSRelicTotal
+	DCSRelicValue = 0 --Reset or it continues to add each time PaperDollFrame opens
+	SocketInventoryItem(16) --Opens Artifact talent frame; it must be open to get relic info
+	for i = 1, 3 do
+		local relicName, relicIcon, relicType, relicLink = _G.C_ArtifactUI.GetRelicInfo(i);
+		local currentRank, canAddTalent = _G.C_ArtifactUI.GetRelicSlotRankInfo(i);
+		print("Relics: ", relicName, relicIcon, relicType, relicLink, currentRank, canAddTalent)
+		if (currentRank ~= nil) and (currentRank > 0) then --Level 1 of each relic gives 5 item levels, a total of 5, 10, or 15 for all three
+			if (currentRank < 2) and (canAddTalent) then --If rank is 1 but we have not spend the point, it isn't counted
+				DCSRelicValue = DCSRelicValue 
+			else
+				DCSRelicValue = (DCSRelicValue + 1) --If rank is 1 but we have spent the point, then we count it
+				gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSRelicTotal = DCSRelicValue
+			end
+		end
+	end
+	--print(DCSRelicTotal)
+	ArtifactFrame.CloseButton:Click("MouseButton") --Closes Artifact talent frame
+end
+
 DCS_TableData.StatData.ItemLevelFrame = {
     category   = true,
     frame      = char_ctats_pane.ItemLevelFrame,
@@ -263,17 +302,19 @@ DCS_TableData.StatData.ItemLevelFrame = {
 			multiplier = 1
 		end
 		
-		DCSArtifactILvlValue = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSArtifactILvlValue
-		DCSRelicTotal = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSRelicTotal
-		DCSFixedEquippedILvlValue = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSFixedEquippedILvlValue
-		DCSFixedAvailableILvlValue = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSFixedAvailableILvlValue
-		--print("DCSArtifactILvlValue", DCSArtifactILvlValue)
-		--print("DCSRelicTotal", DCSRelicTotal)
-		--print("DCSFixedEquippedILvlValue", DCSFixedEquippedILvlValue)
-		--print("DCSFixedAvailableILvlValue", DCSFixedAvailableILvlValue)
-
-		avgItemLevel = floor(multiplier*avgItemLevel)/multiplier;
-		avgItemLevelEquipped = floor(multiplier*avgItemLevelEquipped)/multiplier;
+		if DCSFirstLogin == false then
+			DCS_DCSArtifactILvl()
+			DCSRelicTotal = gdbprivate.gdb.gdbdefaults.dejacharacterstatsILvlFixInfo.DCSRelicTotal
+			avgItemLevelEquipped = (((avgItemLevelEquipped*16)+(DCSRelicTotal*5))/16)
+			print("avgItemLevelEquipped = ", avgItemLevelEquipped)
+			avgItemLevel = (((avgItemLevel*16)+(DCSRelicTotal*5))/16)
+			print("avgItemLevel = ", avgItemLevel)
+			DCSFirstLogin = true
+		else
+			avgItemLevel = floor(multiplier*avgItemLevel)/multiplier;
+			avgItemLevelEquipped = floor(multiplier*avgItemLevelEquipped)/multiplier;
+		end
+		
 		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, STAT_AVERAGE_ITEM_LEVEL).." "..dcs_format(DCS_DecimalPlaces, avgItemLevel);
 		--[[-
 		if not DCS_ILvl_EQ_AV_Check:GetChecked(true) or (avgItemLevel == avgItemLevelEquipped) then
