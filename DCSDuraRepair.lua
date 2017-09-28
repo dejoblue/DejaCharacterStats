@@ -688,7 +688,7 @@ end)
 
 local function DCS_Item_Level_Center()
 	local summar_ilvl = 0
-	local available, equipped = GetAverageItemLevel()
+	local _, equipped = GetAverageItemLevel()
 	--print("Dura", DCSRelicTotal)
 	--equipped = round(equipped * 16)
 	equipped = equipped * 16 --in tested cases worked without rounding	
