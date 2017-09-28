@@ -110,7 +110,13 @@ local L = namespace.L 				--localization
 			"|cff0094c4    German:|r pas06, flow0284, Markurion," .. "|n" .. 	--(German) German last because it has two lines, so there are no breaks in the list
 			"    and Branduril" .. "|n" ..										--(German) Continued German list
 			"|n" ..																--(Spacer)
-			"We would be remiss if we did not thank everyone else that has helped make DCS possible: Blizzard, Curse, WoWInterface, TukUI/ElvUI, and their forum members: Baudzila, 10leej, wizardanim, Phanx, Ro, Choonster, Zork, Lombra, myrroddin, Darth_Predator, and sirann; Reddit's /r/wow; and YOU!"
+			"|cff0094c4Special Thanks:|r" .. "|n" .. "|n" ..
+			"|cff0094c4    Communities:|r Blizzard, Curse, ElvUI," .. "|n" .. 
+			"    WoWInterface, and Reddit's /r/wow" .. "|n" ..
+			"|cff0094c4    Individuals:|r Baudzila, 10leej, wizardanim," .. "|n" ..
+			"    Phanx, Ro, Choonster, Zork, Lombra," .. "|n" ..
+			"    myrroddin, Darth_Predator, sirann," .. "|n" ..
+			"    and YOU"
 		);
 
 	-- Thanks
