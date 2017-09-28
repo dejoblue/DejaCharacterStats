@@ -97,19 +97,26 @@ local L = namespace.L 				--localization
 		DCSAboutDCS_FS:Show();
 
 		DCSAboutDCS_FS:SetText(
-			"|cff0094c4Author/Manager:|r Dejoblue" .. "|n" .. "|n" .. 
+			"|cff0094c4Author:|r Dejoblue" .. "|n" .. "|n" .. 
 			"|cff0094c4Admins:|r Dejoblue, Kakjens" .. "|n" .. "|n" .. 
 			"|cff0094c4Contributers:|r Dejoblue, Kakjens, loudsoul" .. "|n" .. "|n" .. 
-			"|cff0094c4Localization Translators on Curseforge:|r" .. "|n" .. "|n" .. 
-			"|cff0094c4    German:|r pas06, flow0284, Markurion," .. "|n" .. 	--(German)
-			"    and Branduril" .. "|n" .. 													--(German)
-			"|cff0094c4    French:|r Darkcraft92, Ymvej" .. "|n" ..						--(French)
-			"|cff0094c4    Korean:|r PositiveMind" .. "|n" ..								--(Korean)
-			"|cff0094c4    Portuguese:|r Othra" .. "|n" ..									--(Portuguese)
-			"|cff0094c4    Russian:|r Nappsel, Wishko" .. "|n" ..						--(Russian)
-			"|cff0094c4    Simplified Chinese:|r C_Reus" .. "|n" ..							--(Simplified Chinese)
-			"|cff0094c4    Traditional Chinese:|r BNSSNB, konraddo" .. "|n" .. "|n" ..	--(Traditional Chinese)
-			"We would be remiss if we did not thank everyone that has helped make DCS possible: Dejoblue, Kakjens, loudsoul, wizardanim, all of the localization translator volunteers, the WoW Interface forum members; Lombra, myrroddin, Darth_Predator, sirann; /r/wow; and YOU!"
+			"|cff0094c4Localization Translators:|r" .. "|n" .. "|n" .. 
+			"|cff0094c4    French:|r Darkcraft92, Ymvej" .. "|n" ..				--(French)
+			"|cff0094c4    Korean:|r PositiveMind" .. "|n" ..					--(Korean)
+			"|cff0094c4    Russian:|r Nappsel, Wishko" .. "|n" ..				--(Russian)
+			"|cff0094c4    Chinese(S):|r C_Reus" .. "|n" ..						--(Simplified Chinese)
+			"|cff0094c4    Chinese(T):|r BNSSNB, konraddo" .. "|n" ..			--(Traditional Chinese)
+			"|cff0094c4    Portuguese:|r Othra" .. "|n" ..						--(Portuguese)
+			"|cff0094c4    German:|r pas06, flow0284, Markurion," .. "|n" .. 	--(German) German last because it has two lines, so there are no breaks in the list
+			"    and Branduril" .. "|n" ..										--(German) Continued German list
+			"|n" ..																--(Spacer)
+			"|cff0094c4Special Thanks:|r" .. "|n" .. "|n" ..
+			"|cff0094c4    Communities:|r Blizzard, Curse, ElvUI," .. "|n" .. 
+			"    WoWInterface, and Reddit's /r/wow" .. "|n" ..
+			"|cff0094c4    Individuals:|r Baudzila, 10leej, wizardanim," .. "|n" ..
+			"    Phanx, Ro, Choonster, Zork, Lombra," .. "|n" ..
+			"    myrroddin, Darth_Predator, sirann," .. "|n" ..
+			"    and YOU"
 		);
 
 	-- Thanks

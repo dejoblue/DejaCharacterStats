@@ -686,13 +686,10 @@ end)
 -- Item Level Display Check --
 ------------------------------
 
-gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
-	ShowItemLevelSetChecked = true,
-}	
-
 local function DCS_Item_Level_Center()
 	local summar_ilvl = 0
 	local _, equipped = GetAverageItemLevel()
+	--print("Dura", DCSRelicTotal)
 	--equipped = round(equipped * 16)
 	equipped = equipped * 16 --in tested cases worked without rounding	
 	local ITEM_LEVEL_PATTERN = ITEM_LEVEL:gsub("%%d", "(%%d+)") --moving outside of the function might not be warranted but moving outside of for loop is
@@ -711,8 +708,6 @@ local function DCS_Item_Level_Center()
 					local value = tonumber(text:match(ITEM_LEVEL_PATTERN))
 					if value then
 						local _, _, itemRarity = GetItemInfo(itemLink) --least scope for itemRarity
-						--local r, g, b = GetItemQualityColor(itemRarity)
-						--v.ilevel:SetTextColor(r, g, b)
 						v.ilevel:SetTextColor(GetItemQualityColor(itemRarity))
 						if (itemRarity == 6) then 	--supposedly only artifacts after crucible return wrong ilvl
 							value = (equipped - summar_ilvl)/2
@@ -727,13 +722,17 @@ local function DCS_Item_Level_Center()
 	end
 end
 
+gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
+	ShowItemLevelSetChecked = true,
+}
+
 local DCS_ShowItemLevelCheck = CreateFrame("CheckButton", "DCS_ShowItemLevelCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowItemLevelCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ShowItemLevelCheck:ClearAllPoints()
 	--DCS_ShowItemLevelCheck:SetPoint("TOPLEFT", 30, -255)
 	DCS_ShowItemLevelCheck:SetPoint("TOPLEFT", "dcsItemsPanelCategoryFS", 7, -15)
 	DCS_ShowItemLevelCheck:SetScale(1)
-	DCS_ShowItemLevelCheck.tooltipText = L["Displays each equipped item's ILvl."] --Creates a tooltip on mouseover.
+	DCS_ShowItemLevelCheck.tooltipText = L["Displays the item level of each equipped item."] --Creates a tooltip on mouseover.
 	_G[DCS_ShowItemLevelCheck:GetName() .. "Text"]:SetText(L["Item Level"])
 	
 DCS_ShowItemLevelCheck:SetScript("OnEvent", function(self, ...)
