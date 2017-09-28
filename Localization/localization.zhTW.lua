@@ -18,7 +18,7 @@ if namespace.locale == "zhTW" then
 
 	L["/dcstats"] = "/dcstats"
 	L["DejaCharacterStats Slash commands (/dcstats):"] = "DejaCharacterStats指令(/dcstats)"
-	L["/dcstats config: Open the DejaCharacterStats addon config menu."] = "/dcstats config: 開啟DejaCharacterStats插件設置選項。"
+	L["/dcstats config: Opens the DejaCharacterStats addon config menu."] = "/dcstats config: 開啟DejaCharacterStats插件設置選項。"
 	L["/dcstats reset:  Resets DejaCharacterStats frames to default positions."] = "/dcstats reset:  重設DejaCharacterStats框架到預設位置。"
 	L["Resetting config to defaults"] = "恢復預設設定。" --configuration
 	L["DejaCharacterStats is currently using"] = "DejaCharacterStats目前使用了"
