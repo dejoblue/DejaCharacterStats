@@ -17,7 +17,7 @@ if namespace.locale == "koKR" then
 
 --	L["/dcstats"] = ""
 	L["DejaCharacterStats Slash commands (/dcstats):"] = "DCS 명령어 (/dcstats):"
-	L["  /dcstats config: Open the DejaCharacterStats addon config menu."] = "  /dcstats config: DCS 설정 메뉴를 불러옵니다." --configuration
+	L["  /dcstats config: Opens the DejaCharacterStats addon config menu."] = "  /dcstats config: DCS 설정 메뉴를 불러옵니다." --configuration
 	L["  /dcstats reset:  Resets DejaCharacterStats frames to default positions."] = "  /dcstats reset: DCS 창의 위치를 초기화합니다."
 	L["Resetting config to defaults"] = "설정을 기본값으로 초기화합니다." --configuration
 	L["DejaCharacterStats is currently using "] = "DCS는 "

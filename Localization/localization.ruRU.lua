@@ -17,7 +17,7 @@ if namespace.locale == "ruRU" then
 
 --	L["/dcstats"] = ""
 	L["DejaCharacterStats Slash commands (/dcstats):"] = "DejaCharacterStats Slash команды (/dcstats):"
-	L["  /dcstats config: Open the DejaCharacterStats addon config menu."] = "  /dcstats config: Открывает настройки дополнения DejaCharacterStats." --configuration
+	L["  /dcstats config: Opens the DejaCharacterStats addon config menu."] = "  /dcstats config: Открывает настройки дополнения DejaCharacterStats." --configuration
 	L["  /dcstats reset:  Resets DejaCharacterStats frames to default positions."] = "  /dcstats reset: Сбрасывает рамки DejaCharacterStats на позиции по умолчанию."
 	L["Resetting config to defaults"] = "Сброс до конфигурации по умолчанию." --configuration
 	L["DejaCharacterStats is currently using "] = "DejaCharacterStats теперь использует "
