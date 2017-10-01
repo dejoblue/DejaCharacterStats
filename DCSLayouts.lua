@@ -130,7 +130,7 @@ for k, v in pairs(DCS_TableData.StatData) do
 				v.frame.Title:SetText(L["Defense"])
 			end
 			if k == "RatingCategory" then
-				v.frame.Title:SetText(L["Rating"])
+				v.frame.Title:SetText(L["Ratings"])
 			end
 		else
 			v.frame = CreateFrame("FRAME", nil, StatFrame, "CharacterStatFrameTemplate")
