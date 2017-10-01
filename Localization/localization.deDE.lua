@@ -102,49 +102,6 @@ if namespace.locale == "deDE" then
 	L["Repair Total %s"] = "Gesamte Reparaturkosten %s" -- ## --> %s MUST be included <-- ## 
 	L["Total equipped item repair cost before discounts."] = "Reparaturkosten für angelegte Gegenstände ohne Abzug von Rabatt." -- ## Needs review
 
--- ## Attributes ##
-	L["Health"] = "Gesundheit"
-	L["Power"] = "Energiequelle"
-	L["Druid Mana"] = "Druide Mana"
-	L["Armor"] = "Rüstung"
-	L["Strength"] = "Stärke"
-	L["Agility"] = "Beweglichkeit"
-	L["Intellect"] = "Intelligenz"
-	L["Stamina"] = "Ausdauer"
-	L["Damage"] = "Schaden"
-	L["Attack Power"] = "Angriffskraft"
-	L["Attack Speed"] = "Angriffstempo"
-	L["Spell Power"] = "Zaubermacht"
-	L["Mana Regen"] = "Manaregeneration"
-	L["Energy Regen"] = "Energieregeneration"
-	L["Rune Regen"] = "Runentempo"
-	L["Focus Regen"] = "Fokusregeneration"
-	L["Movement Speed"] = "Lauftempo"
-	L["Bewegungsgeschwindigkeit"] = "Lauftempo"
-	L["Durability"] = "Haltbarkeit"
-	L["Repair Total"] = "Reparaturkosten"
-
--- ## Enhancements ##
-	L["Critical Strike"] = "Kritische Treffer"
-	L["Haste"] = "Tempo"
-	L["Versatility"] = "Vielseitigkeit"
-	L["Mastery"] = "Meisterschaft"
-	L["Leech"] = "Lebensraub"
-	L["Avoidance"] = "Vermeidung"
-	L["Dodge"] = "Ausweichen"
-	L["Parry"] = "Parieren"
-	L["Block"] = "Blocken"
-	
--- ## Rating ## --Patch 730rc106 addition
-	-- L["Critical Strike Rating"] = ""
-	-- L["Haste Rating"] = ""
-	-- L["Versatility Rating"] = ""
-	-- L["Mastery Rating"] = ""
-	-- L["Leech Rating"] = ""
-	-- L["Avoidance Rating"] = ""
-	-- L["Dodge Rating"] = ""
-	-- L["Parry Rating"] = ""
-	
 -- ## Patch 7.1.0 r2 additions ##
 	L["Global Cooldown"] = "Globale Abklingzeit"
 	L["Global Cooldown %.2fs"] = "Globale Abklingzeit %.2fs"
@@ -165,10 +122,23 @@ if namespace.locale == "deDE" then
 	-- L["Attack"] = ""
 	-- L["Defense"] = ""
 	-- L["Rating"] = ""
-
--- ################################
---	Deprecated
--- ################################
+	-- L["Critical Strike Rating"] = ""
+	-- L["Haste Rating"] = ""
+	-- L["Versatility Rating"] = ""
+	-- L["Mastery Rating"] = ""
+	-- L["Leech Rating"] = ""
+	-- L["Avoidance Rating"] = ""
+	-- L["Dodge Rating"] = ""
+	-- L["Parry Rating"] = ""
+	
+-- ###########################################################################################
+-- #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+-- ###########################################################################################
+-- #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+-- ###########################################################################################
+-- #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+--	Deprecated since using default client tables and translations.
+-- #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	-- L['Durability '] = "Haltbarkeit "
 	-- L['Displays the average Durability percentage for equipped items in the stat frame.'] = "Zeigt die durchschnittliche Haltbarkeit im Hemdplatz und in der Liste unter Haltbarkeit an."
 
@@ -184,4 +154,35 @@ if namespace.locale == "deDE" then
 	-- L["Select-A-Stat™"]  = "Select-A-Stat™ Checkbox Name" -- Try to use something snappy and silly like a Fallout or 1950's appliance feature.
 	-- L['Select which stats to display. Use Shift-scroll to snap to the top or bottom.'] = "Wähle die anzuzeigenden Werte aus. Halte die Umschalttaste und scrolle, um direkt an den Anfang oder ans Ende zu springen."
 
+-- ## Attributes ##
+	-- L["Health"] = "Gesundheit"
+	-- L["Power"] = "Energiequelle"
+	-- L["Druid Mana"] = "Druide Mana"
+	-- L["Armor"] = "Rüstung"
+	-- L["Strength"] = "Stärke"
+	-- L["Agility"] = "Beweglichkeit"
+	-- L["Intellect"] = "Intelligenz"
+	-- L["Stamina"] = "Ausdauer"
+	-- L["Damage"] = "Schaden"
+	-- L["Attack Power"] = "Angriffskraft"
+	-- L["Attack Speed"] = "Angriffstempo"
+	-- L["Spell Power"] = "Zaubermacht"
+	-- L["Mana Regen"] = "Manaregeneration"
+	-- L["Energy Regen"] = "Energieregeneration"
+	-- L["Rune Regen"] = "Runentempo"
+	-- L["Focus Regen"] = "Fokusregeneration"
+	-- L["Durability"] = "Haltbarkeit"
+	-- L["Repair Total"] = "Reparaturkosten"
+
+-- ## Enhancements ##
+	-- L["Critical Strike"] = "Kritische Treffer"
+	-- L["Haste"] = "Tempo"
+	-- L["Versatility"] = "Vielseitigkeit"
+	-- L["Mastery"] = "Meisterschaft"
+	-- L["Leech"] = "Lebensraub"
+	-- L["Avoidance"] = "Vermeidung"
+	-- L["Dodge"] = "Ausweichen"
+	-- L["Parry"] = "Parieren"
+	-- L["Block"] = "Blocken"
+	
 return end
