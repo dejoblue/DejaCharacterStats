@@ -124,7 +124,7 @@ for k, v in pairs(DCS_TableData.StatData) do
 				v.frame.Title:SetText(L["General"])
 			end
 			if k == "AttackCategory" then
-				v.frame.Title:SetText(L["Attack"])
+				v.frame.Title:SetText(L["Offense"])
 			end
 			if k == "DefenseCategory" then
 				v.frame.Title:SetText(L["Defense"])
