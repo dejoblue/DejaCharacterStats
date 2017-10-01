@@ -593,18 +593,24 @@ DCS_TableData.StatData.DURABILITY_STAT = {
 	end
 }
 
-local rating_and_percentage = "%s of %s increases %s by %.2f%%"
+local rating_and_percentage = L["%s of %s increases %s by %.2f%%"]
 
 local statnames = {
- [CR_HASTE_MELEE] = {name1 = "Haste Rating", name2 = "haste"},
- [CR_LIFESTEAL] = {name1 = "Leech Rating", name2 = "leech"},
- [CR_AVOIDANCE] = {name1 = "Avoidance Rating", name2 = "avoidance"},
- [CR_DODGE] = {name1 = "Dodge Rating", name2 = "dodge"},
- [CR_PARRY] = {name1 = "Parry Rating", name2 = "parry"},
+ --[CR_HASTE_MELEE] = {name1 = L["Haste Rating"], name2 = L["haste"]},
+ [CR_HASTE_MELEE] = {name1 = L["Haste Rating"], name2 = STAT_HASTE},
+ --[CR_LIFESTEAL] = {name1 = L["Leech Rating"], name2 = L["leech"]},
+ [CR_LIFESTEAL] = {name1 = L["Leech Rating"], name2 = STAT_LIFESTEAL},
+ --[CR_AVOIDANCE] = {name1 = L["Avoidance Rating"], name2 = L["avoidance"]},
+ [CR_AVOIDANCE] = {name1 = L["Avoidance Rating"], name2 = STAT_AVOIDANCE},
+  --[CR_DODGE] = {name1 = L["Dodge Rating"], name2 = L["dodge"]},
+  [CR_DODGE] = {name1 = L["Dodge Rating"], name2 = STAT_DODGE},
+ --[CR_PARRY] = {name1 = L["Parry Rating"], name2 = L["parry"]},
+ [CR_PARRY] = {name1 = L["Parry Rating"], name2 = STAT_PARRY},
 }
 
 local function statframeratings(statFrame, unit, stat)
 	--outliers crit, versatility, mastery
+	--don't see items/enchnats that increase block chance
 	if ( unit ~= "player" ) then
 		statFrame:Hide();
 		return;
@@ -626,6 +632,7 @@ DCS_TableData.StatData.CRITCHANCE_RATING = { -- maybe add 3 different stats - me
 			return;
 		end
 		local stat;
+		local ratingname = L["Critical Strike Rating"]
 		local spellCrit, rangedCrit, meleeCrit;
 		-- Start at 2 to skip physical damage
 		local holySchool = 2;
@@ -651,10 +658,11 @@ DCS_TableData.StatData.CRITCHANCE_RATING = { -- maybe add 3 different stats - me
 		end
 		local rating = GetCombatRating(stat);
 		local percentage = dcs_format("%.2f",GetCombatRatingBonus(stat));
-		PaperDollFrame_SetLabelAndText(statFrame, "Critical Strike Rating", rating, false, rating);
-		statFrame.tooltip = highlight_code.."Critical Strike Rating".." "..percentage..font_color_close;
+		PaperDollFrame_SetLabelAndText(statFrame, ratingname, rating, false, rating);
+		statFrame.tooltip = highlight_code..ratingname.." "..rating..font_color_close;
 		--statFrame.tooltip2 = dcs_format("Critical Strike Rating of %s increases chance to crit by %.2f%%", BreakUpLargeNumbers(rating), percentage);
-		statFrame.tooltip2 = dcs_format(rating_and_percentage, "Critical Strike", BreakUpLargeNumbers(rating), "crit", percentage);
+		--statFrame.tooltip2 = dcs_format(rating_and_percentage, ratingname, BreakUpLargeNumbers(rating), L["crit"], percentage);
+		statFrame.tooltip2 = dcs_format(rating_and_percentage, ratingname, BreakUpLargeNumbers(rating), STAT_CRITICAL_STRIKE, percentage);
 		statFrame:Show();
 	end
 }
@@ -668,9 +676,10 @@ DCS_TableData.StatData.VERSATILITY_RATING = {
 		local versatility = GetCombatRating(CR_VERSATILITY_DAMAGE_DONE);
 		local versatilityDamageBonus = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE);
 		--local versatilityDamageTakenReduction = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_TAKEN) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_TAKEN);
-		PaperDollFrame_SetLabelAndText(statFrame, "Versatility Rating", versatility, false, versatility);
-		statFrame.tooltip = highlight_code.."Versatility Rating".." "..versatility..font_color_close;
-		statFrame.tooltip2 = dcs_format(rating_and_percentage,"Versatility Rating", BreakUpLargeNumbers(versatility), "versatility", versatilityDamageBonus);
+		PaperDollFrame_SetLabelAndText(statFrame, L["Versatility Rating"], versatility, false, versatility);
+		statFrame.tooltip = highlight_code..L["Versatility Rating"].." "..versatility..font_color_close;
+		--statFrame.tooltip2 = dcs_format(rating_and_percentage,L["Versatility Rating"], BreakUpLargeNumbers(versatility), L["versatility"], versatilityDamageBonus);
+		statFrame.tooltip2 = dcs_format(rating_and_percentage,L["Versatility Rating"], BreakUpLargeNumbers(versatility), STAT_VERSATILITY, versatilityDamageBonus);
 		--statFrame.tooltip2 = dcs_format("Versatility Rating of %s increases damage and healing done by %.2f%% and reduces damage taken by %.2f%%", BreakUpLargeNumbers(versatility), versatilityDamageBonus, versatilityDamageTakenReduction);
 		statFrame:Show();
 	end
@@ -685,7 +694,7 @@ DCS_TableData.StatData.MASTERY_RATING = {
 			statFrame:Hide();
 			return;
 		end
-		local color_rating1 = "Mastery Rating"
+		local color_rating1 = L["Mastery Rating"]
 		local color_rating2 = color_rating1 .. ":"
 		local color_format = "%d"
 		local add_text = ""
@@ -701,13 +710,16 @@ DCS_TableData.StatData.MASTERY_RATING = {
 			color_rating1 = "|cff7f7f7f" .. color_rating1 .. "|r"
 			color_rating2 = "|cff7f7f7f" .. color_rating2 .. "|r"
 			color_format = "|cff7f7f7f" .. color_format .. "|r"
-			add_text = " |cffff0000(Requires Level " .. SHOW_MASTERY_LEVEL ..")|r"
+			local requires = L["Requires Level "]
+			add_text = " |cffff0000(" .. requires .. SHOW_MASTERY_LEVEL ..")|r"
 		end
 		local percentage = dcs_format("%.2f",GetCombatRatingBonus(stat)*bonuscoeff)
 		PaperDollFrame_SetLabelAndText(statFrame, "", dcs_format(color_format,rating), false, rating);
 		statFrame.Label:SetText(color_rating2)
 		statFrame.tooltip = highlight_code..color_rating1.." "..dcs_format(color_format,rating)..add_text..font_color_close;
-		statFrame.tooltip2 = dcs_format("Mastery Rating of %s increases mastery by %.2f%%", BreakUpLargeNumbers(rating), percentage);
+		--statFrame.tooltip2 = dcs_format("Mastery Rating of %s increases mastery by %.2f%%", BreakUpLargeNumbers(rating), percentage);
+		--statFrame.tooltip2 = dcs_format(rating_and_percentage, L["Mastery Rating"], BreakUpLargeNumbers(rating), L["mastery"], percentage);
+		statFrame.tooltip2 = dcs_format(rating_and_percentage, L["Mastery Rating"], BreakUpLargeNumbers(rating), STAT_MASTERY, percentage);
 		statFrame:Show();
 	end
 }
