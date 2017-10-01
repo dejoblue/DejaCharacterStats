@@ -110,7 +110,7 @@ end
 function DejaCharacterStats.ShowHelp()
 	print(addoninfo)
 	print(L["DejaCharacterStats Slash commands (/dcstats):"])
-	print(L["  /dcstats config: Open the DejaCharacterStats addon config menu."])
+	print(L["  /dcstats config: Opens the DejaCharacterStats addon config menu."])
 	print(L["  /dcstats reset:  Resets DejaCharacterStats options to default."])
 end
 

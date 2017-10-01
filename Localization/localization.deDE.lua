@@ -17,7 +17,7 @@ if namespace.locale == "deDE" then
 -- ## Slash Commands ##
 -- ####################
 	L["DejaCharacterStats Slash commands (/dcstats):"] = "DejaCharacterStats Slashbefehle (/dcstats):"
-	L["  /dcstats config: Open the DejaCharacterStats addon config menu."] = "  /dcstats config: Öffnet das DejaCharacterStats Konfigurationsfenster." --configuration
+	L["  /dcstats config: Opens the DejaCharacterStats addon config menu."] = "  /dcstats config: Öffnet das DejaCharacterStats Konfigurationsfenster." --configuration
 	L["  /dcstats reset:  Resets DejaCharacterStats frames to default positions."] = "  /dcstats reset: Setzt DejaCharacterStats zurück."
 	L["Resetting config to defaults"] = "Einstellungen zurücksetzen." --configuration
 	L["DejaCharacterStats is currently using "] = "DejaCharacterStats benutzt zurzeit "

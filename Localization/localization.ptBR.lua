@@ -17,7 +17,7 @@ if namespace.locale == "ptBR" then
 
 --	L["/dcstats"] = ""
 	L["DejaCharacterStats Slash commands (/dcstats):"] = "DejaCharacterStats Comandos de consola (/dcstats):"
-	L["  /dcstats config: Open the DejaCharacterStats addon config menu."] = "  /dcstats config: Abrir o menu de configuração do DejaCharacterStats." --configuration
+	L["  /dcstats config: Opens the DejaCharacterStats addon config menu."] = "  /dcstats config: Abrir o menu de configuração do DejaCharacterStats." --configuration
 	L["  /dcstats reset:  Resets DejaCharacterStats frames to default positions."] = "  /dcstats reset: Reposiciona a janela DejaCharacterStats para a posição original."
 	L["Resetting config to defaults"] = "Reiniciar a configuração para default." --configuration
 	L["DejaCharacterStats is currently using "] = "DejaCharacterStats está de momento a utilizar "
