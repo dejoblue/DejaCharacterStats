@@ -673,13 +673,14 @@ DCS_TableData.StatData.VERSATILITY_RATING = {
 			statFrame:Hide();
 			return;
 		end
+		local ratingname = L["Versatility Rating"]
 		local versatility = GetCombatRating(CR_VERSATILITY_DAMAGE_DONE);
 		local versatilityDamageBonus = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE);
 		--local versatilityDamageTakenReduction = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_TAKEN) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_TAKEN);
-		PaperDollFrame_SetLabelAndText(statFrame, L["Versatility Rating"], versatility, false, versatility);
-		statFrame.tooltip = highlight_code..L["Versatility Rating"].." "..versatility..font_color_close;
+		PaperDollFrame_SetLabelAndText(statFrame, ratingname, versatility, false, versatility);
+		statFrame.tooltip = highlight_code..ratingname.." "..versatility..font_color_close;
 		--statFrame.tooltip2 = dcs_format(rating_and_percentage,L["Versatility Rating"], BreakUpLargeNumbers(versatility), L["versatility"], versatilityDamageBonus);
-		statFrame.tooltip2 = dcs_format(rating_and_percentage,L["Versatility Rating"], BreakUpLargeNumbers(versatility), STAT_VERSATILITY, versatilityDamageBonus);
+		statFrame.tooltip2 = dcs_format(rating_and_percentage,ratingname, BreakUpLargeNumbers(versatility), STAT_VERSATILITY, versatilityDamageBonus);
 		--statFrame.tooltip2 = dcs_format("Versatility Rating of %s increases damage and healing done by %.2f%% and reduces damage taken by %.2f%%", BreakUpLargeNumbers(versatility), versatilityDamageBonus, versatilityDamageTakenReduction);
 		statFrame:Show();
 	end
