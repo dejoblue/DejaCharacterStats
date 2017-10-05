@@ -597,15 +597,15 @@ local rating_and_percentage = L["%s of %s increases %s by %.2f%%"]
 
 local statnames = {
  --[CR_HASTE_MELEE] = {name1 = L["Haste Rating"], name2 = L["haste"]},
- [CR_HASTE_MELEE] = {name1 = L["Haste Rating"], name2 = STAT_HASTE},
+ [CR_HASTE_MELEE] = {name1 = (STAT_HASTE .. L[" Rating"]), name2 = STAT_HASTE},
  --[CR_LIFESTEAL] = {name1 = L["Leech Rating"], name2 = L["leech"]},
- [CR_LIFESTEAL] = {name1 = L["Leech Rating"], name2 = STAT_LIFESTEAL},
+ [CR_LIFESTEAL] = {name1 = (STAT_LIFESTEAL .. L[" Rating"]), name2 = STAT_LIFESTEAL},
  --[CR_AVOIDANCE] = {name1 = L["Avoidance Rating"], name2 = L["avoidance"]},
- [CR_AVOIDANCE] = {name1 = L["Avoidance Rating"], name2 = STAT_AVOIDANCE},
+ [CR_AVOIDANCE] = {name1 = (STAT_AVOIDANCE .. L[" Rating"]), name2 = STAT_AVOIDANCE},
   --[CR_DODGE] = {name1 = L["Dodge Rating"], name2 = L["dodge"]},
-  [CR_DODGE] = {name1 = L["Dodge Rating"], name2 = STAT_DODGE},
+  [CR_DODGE] = {name1 = (STAT_DODGE .. L[" Rating"]), name2 = STAT_DODGE},
  --[CR_PARRY] = {name1 = L["Parry Rating"], name2 = L["parry"]},
- [CR_PARRY] = {name1 = L["Parry Rating"], name2 = STAT_PARRY},
+ [CR_PARRY] = {name1 = (STAT_PARRY .. L[" Rating"]), name2 = STAT_PARRY},
 }
 
 local function statframeratings(statFrame, unit, stat)
@@ -632,7 +632,7 @@ DCS_TableData.StatData.CRITCHANCE_RATING = { -- maybe add 3 different stats - me
 			return;
 		end
 		local stat;
-		local ratingname = L["Critical Strike Rating"]
+		local ratingname = (STAT_CRITICAL_STRIKE .. L[" Rating"])
 		local spellCrit, rangedCrit, meleeCrit;
 		-- Start at 2 to skip physical damage
 		local holySchool = 2;
@@ -673,13 +673,14 @@ DCS_TableData.StatData.VERSATILITY_RATING = {
 			statFrame:Hide();
 			return;
 		end
+		local ratingname = (STAT_VERSATILITY .. L[" Rating"])
 		local versatility = GetCombatRating(CR_VERSATILITY_DAMAGE_DONE);
 		local versatilityDamageBonus = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE);
 		--local versatilityDamageTakenReduction = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_TAKEN) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_TAKEN);
-		PaperDollFrame_SetLabelAndText(statFrame, L["Versatility Rating"], versatility, false, versatility);
-		statFrame.tooltip = highlight_code..L["Versatility Rating"].." "..versatility..font_color_close;
-		--statFrame.tooltip2 = dcs_format(rating_and_percentage,L["Versatility Rating"], BreakUpLargeNumbers(versatility), L["versatility"], versatilityDamageBonus);
-		statFrame.tooltip2 = dcs_format(rating_and_percentage,L["Versatility Rating"], BreakUpLargeNumbers(versatility), STAT_VERSATILITY, versatilityDamageBonus);
+		PaperDollFrame_SetLabelAndText(statFrame, ratingname, versatility, false, versatility);
+		statFrame.tooltip = highlight_code..ratingname.." "..versatility..font_color_close;
+		--statFrame.tooltip2 = dcs_format(rating_and_percentage,ratingname, BreakUpLargeNumbers(versatility), L["versatility"], versatilityDamageBonus);
+		statFrame.tooltip2 = dcs_format(rating_and_percentage,ratingname, BreakUpLargeNumbers(versatility), STAT_VERSATILITY, versatilityDamageBonus);
 		--statFrame.tooltip2 = dcs_format("Versatility Rating of %s increases damage and healing done by %.2f%% and reduces damage taken by %.2f%%", BreakUpLargeNumbers(versatility), versatilityDamageBonus, versatilityDamageTakenReduction);
 		statFrame:Show();
 	end
@@ -694,7 +695,7 @@ DCS_TableData.StatData.MASTERY_RATING = {
 			statFrame:Hide();
 			return;
 		end
-		local color_rating1 = L["Mastery Rating"]
+		local color_rating1 = (STAT_MASTERY .. L[" Rating"])
 		local color_rating2 = color_rating1 .. ":"
 		local color_format = "%d"
 		local add_text = ""
