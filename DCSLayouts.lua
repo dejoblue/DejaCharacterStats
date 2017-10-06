@@ -78,14 +78,7 @@ local DefaultData = DCS_TableData:MergeTable({
         { statKey = "AGILITY" },
         { statKey = "INTELLECT" },
         { statKey = "STAMINA" },
-    { statKey = "EnhancementsCategory" },
-        { statKey = "CRITCHANCE", hideAt = 0 },
-		{ statKey = "HASTE", hideAt = 0 },
-        { statKey = "VERSATILITY", hideAt = 0 },
-        { statKey = "MASTERY", hideAt = 0 },
-        { statKey = "LIFESTEAL", hideAt = 0 },
-        { statKey = "AVOIDANCE", hideAt = 0 },
-	{ statKey = "AttackCategory" },
+	{ statKey = "OffenseCategory" }, --Re-order before Enhancements to appear more logical.
         { statKey = "ATTACK_DAMAGE" },
         { statKey = "ATTACK_AP" },
         { statKey = "DCS_ATTACK_ATTACKSPEED" },
@@ -96,6 +89,13 @@ local DefaultData = DCS_TableData:MergeTable({
         { statKey = "DCS_RUNEREGEN" },
         { statKey = "FOCUS_REGEN" },		
         { statKey = "GCD" },
+	{ statKey = "EnhancementsCategory" }, --Re-order after Offense to appear more logical.
+        { statKey = "CRITCHANCE", hideAt = 0 },
+		{ statKey = "HASTE", hideAt = 0 },
+        { statKey = "VERSATILITY", hideAt = 0 },
+        { statKey = "MASTERY", hideAt = 0 },
+        { statKey = "LIFESTEAL", hideAt = 0 },
+        { statKey = "AVOIDANCE", hideAt = 0 },
 	{ statKey = "DefenseCategory" },
         { statKey = "ARMOR" },
         { statKey = "DODGE", hideAt = 0 },
@@ -123,7 +123,7 @@ for k, v in pairs(DCS_TableData.StatData) do
 			if k == "GeneralCategory" then
 				v.frame.Title:SetText(L["General"])
 			end
-			if k == "AttackCategory" then
+			if k == "OffenseCategory" then
 				v.frame.Title:SetText(L["Offense"])
 			end
 			if k == "DefenseCategory" then
@@ -339,6 +339,8 @@ local function DCS_Table_Relevant()
 		end
 		if role ~= "TANK" then
 				--print("Not Tank")
+			if v.statKey == "DefenseCategory" then v.hidden = true end --If not a tank then Defense category and its relevant stats are hidden.
+			if v.statKey == "ARMOR" then v.hidden = true end
 			if v.statKey == "DODGE" then v.hidden = true end
 			if v.statKey == "PARRY" then v.hidden = true end
 			if v.statKey == "BLOCK" then v.hidden = true end
@@ -354,7 +356,7 @@ local function DCS_Table_Relevant()
 		if v.statKey == "PARRY_RATING" then v.hidden = true end
 		if v.statKey == "ITEMLEVEL" then v.hidden = true end
 		--if v.statKey == "GeneralCategory" then v.hidden = true end
-		--if v.statKey == "AttackCategory" then v.hidden = true end
+		--if v.statKey == "OffenseCategory" then v.hidden = true end
 		--if v.statKey == "DefenseCategory" then v.hidden = true end
 		if v.statKey == "RatingCategory" then v.hidden = true end --ratings are invisible, so the category is also hidden
 	end

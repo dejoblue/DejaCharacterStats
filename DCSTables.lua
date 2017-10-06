@@ -317,9 +317,9 @@ DCS_TableData.StatData.EnhancementsCategory = {
     updateFunc = function() end
 }
 
-DCS_TableData.StatData.AttackCategory = {
+DCS_TableData.StatData.OffenseCategory = {
     category   = true,
-    frame      = char_ctats_pane.AttackCategory,
+    frame      = char_ctats_pane.OffenseCategory,
     updateFunc = function()	end
 }
 
