@@ -109,7 +109,7 @@ if namespace.locale == "deDE" then
 	--L["Weapon DPS %s"] = "Waffen-SPS %s" --don't see where this string is used
 	
 -- ## Patch 730rc106 additions ##
-	-- L["Movement Speed"] --somwhere dissapeareed. Was it Lauftempo?
+	 L["Movement Speed"] = "Lauftempo"
 	-- L["About DCS"] = "" --was missing
 	-- L["General"] = ""
 	-- L["Attack"] = "" --invisible for most players
