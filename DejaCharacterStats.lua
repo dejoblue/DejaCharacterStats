@@ -144,8 +144,9 @@ function DejaCharacterStats.SlashCmdHandler(msg, editbox)
 	--print("command is " .. msg .. "\n")
 	if (string.lower(msg) == L["config"]) then
 		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
-		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
-		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
+		--InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
+		--InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
+		--PaperDollFrame_UpdateStats()
 	--[[	
 	elseif (string.lower(msg) == L["dumpconfig"]) then
 		print(L["With defaults"])

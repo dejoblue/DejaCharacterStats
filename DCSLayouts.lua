@@ -204,7 +204,7 @@ end
 local configMode = false
 
 local function ShowCharacterStats(unit)
-	print("trying to show stats")
+	--print("trying to show stats")
 	if not_first_time then --not a real solution but will do
     local stat
     local count, backgroundcount, height = 0, false, 4
@@ -599,7 +599,9 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 			end
 		end
 	end)
-
+	DCS_TableRelevantStats:HookScript("OnShow", function(self)
+		ShowCharacterStats("player")
+	end)
 ------------------------
 -- Reset Stats Button --
 ------------------------
@@ -665,7 +667,7 @@ local DCS_configButton = CreateFrame("Button", "DCS_configButton", PaperDollSide
 	DCS_configButton:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
 	
 DCS_configButton:SetScript("OnEvent", function(self, event, ...)
-print("DCS_configButton:SetScriptOnEvent",event)
+--print("DCS_configButton:SetScriptOnEvent",event)
 	PaperDollFrame_UpdateStats()
 end)
 
@@ -698,7 +700,7 @@ local function configButtonOnClose()
 
 	DCS_configButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
 	DCS_InterfaceOptConfigButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
-	print("configButtonOnClose")
+	--print("configButtonOnClose")
 	ShowCharacterStats("player")
 end
 
@@ -859,7 +861,6 @@ local function DCS_InterfaceOptConfigButton_OnLeave(self)
 	DCS_InterfaceOptConfigButton:SetScript("OnEvent", function(self, event)
 				ShowCharacterStats("player")
 	end)
-	
 	DCS_InterfaceOptConfigButton:SetScript("OnMouseUp", function(self, button, up)
 		configMode = not configMode
 		if (configMode) then
