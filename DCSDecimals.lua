@@ -277,7 +277,8 @@ local function DCS_Decimals()
 			statFrame.tooltip2 = dcs_format(CR_BLOCK_TOOLTIP, GetShieldBlock());
 			statFrame:Show();
 		end
-		PaperDollFrame_UpdateStats() -- needs to get called for checkbox Decimals
+		--print("Decimals")
+		--PaperDollFrame_UpdateStats() -- needs to get called for checkbox Decimals --the only call for ShowCharacterStats during login.
 end
 
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowDecimalsChecked = {
@@ -321,6 +322,7 @@ local DCS_DecimalCheck = CreateFrame("CheckButton", "DCS_DecimalCheck", DejaChar
 		set_statformat_multiplier_value()
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDecimalsChecked.SetChecked = notinteger
 		DCS_Decimals()
+		PaperDollFrame_UpdateStats()
 	end)
 
 	gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsHideAtZeroChecked = {
@@ -368,6 +370,7 @@ DCS_DCSHideAtZero:SetScript("OnClick", function(self)
 		DCS_BlizHideAtZero:SetChecked(false)  
 	end 
 	DCS_Decimals() 
+	PaperDollFrame_UpdateStats()
 end) 
 
  _G[DCS_BlizHideAtZero:GetName() .. "Text"]:SetText(L["Blizzard's Hide At Zero"] ) 
@@ -388,4 +391,5 @@ DCS_BlizHideAtZero:SetScript("OnClick", function(self)
 		gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked = false 
 	end 
 	DCS_Decimals() 
+	PaperDollFrame_UpdateStats()
 end)

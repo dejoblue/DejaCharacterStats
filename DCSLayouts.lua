@@ -112,7 +112,9 @@ local DefaultData = DCS_TableData:MergeTable({
 		{ statKey = "PARRY_RATING", hideAt = 0 },
 })
 
-local ShownData = DefaultData
+--local ShownData = DefaultData
+local ShownData
+local not_first_time
 
 for k, v in pairs(DCS_TableData.StatData) do
 	if (not v.frame) then
@@ -202,6 +204,8 @@ end
 local configMode = false
 
 local function ShowCharacterStats(unit)
+	print("trying to show stats")
+	if not_first_time then --not a real solution but will do
     local stat
     local count, backgroundcount, height = 0, false, 4
 	local hideatzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked --placeholder for the checkbox hideatzero
@@ -283,6 +287,10 @@ local function ShowCharacterStats(unit)
 		end			
 	end
 	set_relevant_stat_state()
+	else
+		not_first_time = true
+		_G["DCS_configButton"]:RegisterEvent("UPDATE_INVENTORY_DURABILITY") --needs to be moved into some proper place
+	end
 end
 
 
@@ -291,7 +299,7 @@ local function DCS_Table_ShowAllStats()
 		--if v.hidden == true then v.hidden = false end
 		v.hidden = false -- should be slightly faster because when this function gets called the most of stats are invisible
 	end
-	ShowCharacterStats("player")
+	--ShowCharacterStats("player")
 end
 
 local function DCS_Table_Relevant()
@@ -361,7 +369,7 @@ local function DCS_Table_Relevant()
 	--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
 	ShownData.uniqueKey = uniqueKey
 	DCS_ClassSpecDB[uniqueKey] = ShownData
-	ShowCharacterStats("player")
+	--ShowCharacterStats("player")
 end
 
 local function DCS_Login_Initialization()
@@ -373,7 +381,8 @@ local function DCS_Login_Initialization()
 		ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey]) --not so easy to understand when gets here. is it during change of specialisation?
 		--print("Set saved variables.")
 		end
-		ShowCharacterStats("player")
+		--print("DCS_Login_Initialization")
+		--ShowCharacterStats("player")
 	else
 		--print("Set default initialization")
 		DCS_Table_Relevant()
@@ -504,6 +513,7 @@ char_ctats_pane:HookScript("OnShow", function(self)
 end)
 
 hooksecurefunc("PaperDollFrame_UpdateStats", function()
+		--print("hook")
 		ShowCharacterStats("player")
 end)
 
@@ -576,6 +586,7 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 			--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = true
 		--return
 		end
+		ShowCharacterStats("player")
 		DCS_TableRelevantStats_OnEnter()
 	end)
 
@@ -647,13 +658,14 @@ local DCS_configButton = CreateFrame("Button", "DCS_configButton", PaperDollSide
 	DCS_configButton:SetSize(32, 32)
 	DCS_configButton:RegisterEvent("MERCHANT_SHOW")
 	DCS_configButton:RegisterEvent("MERCHANT_CLOSED")
-	DCS_configButton:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+	--DCS_configButton:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	DCS_configButton:SetPoint("BOTTOMLEFT", PaperDollSidebarTab1, "BOTTOMLEFT", 96, 34)
 	DCS_configButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
 	DCS_configButton:SetPushedTexture("Interface\\Buttons\\LockButton-Unlocked-Down")
 	DCS_configButton:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
 	
 DCS_configButton:SetScript("OnEvent", function(self, event, ...)
+print("DCS_configButton:SetScriptOnEvent",event)
 	PaperDollFrame_UpdateStats()
 end)
 
@@ -686,6 +698,7 @@ local function configButtonOnClose()
 
 	DCS_configButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
 	DCS_InterfaceOptConfigButton:SetNormalTexture("Interface\\Buttons\\LockButton-Locked-Up")
+	print("configButtonOnClose")
 	ShowCharacterStats("player")
 end
 
@@ -721,7 +734,7 @@ local function DCS_DefaultStatsAnchors()
 	
 	configButtonOnClose()
 	DCS_ClassCrestBGCheck()
-	ShowCharacterStats("player")
+	--ShowCharacterStats("player") --configButtonOnClose() calls it
 end
 
 local function DCS_InterfaceOptionsStatsAnchors()
@@ -821,7 +834,7 @@ end)
 ------------------------------------------
 
 local DCS_InterfaceOptConfigButton = CreateFrame("Button", "DCS_InterfaceOptConfigButton", DejaCharacterStatsPanel)
-	DCS_InterfaceOptConfigButton:RegisterEvent("PLAYER_LOGIN")
+	--DCS_InterfaceOptConfigButton:RegisterEvent("PLAYER_LOGIN") --don't see why that event is needed
 	DCS_InterfaceOptConfigButton:ClearAllPoints()
 	DCS_InterfaceOptConfigButton:SetPoint("TOPRIGHT", 0, 29)
 	DCS_InterfaceOptConfigButton:SetSize(36, 36)
