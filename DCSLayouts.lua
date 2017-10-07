@@ -62,8 +62,8 @@ local StatScrollFrame = CreateFrame("ScrollFrame", nil, CharacterFrameInsetRight
 	char_ctats_pane.EnhancementsCategory:SetParent(StatFrame)
 	char_ctats_pane.EnhancementsCategory:SetHeight(28)
 	char_ctats_pane.EnhancementsCategory.Background:SetHeight(28)
-	
-local DefaultData = DCS_TableData:MergeTable({
+
+local DefaultTankData = DCS_TableData:MergeTable({
     { statKey = "ItemLevelFrame" },
 	{ statKey = "GeneralCategory" },
         { statKey = "HEALTH" },
@@ -111,8 +111,56 @@ local DefaultData = DCS_TableData:MergeTable({
 		{ statKey = "DODGE_RATING", hideAt = 0 },
 		{ statKey = "PARRY_RATING", hideAt = 0 },
 })
-
-local ShownData = DefaultData
+local DefaultNonTankData = DCS_TableData:MergeTable({
+    { statKey = "ItemLevelFrame" },
+	{ statKey = "GeneralCategory" },
+        { statKey = "HEALTH" },
+        { statKey = "DCS_POWER" },
+        { statKey = "DCS_ALTERNATEMANA" },
+		{ statKey = "ARMOR" },
+        { statKey = "ITEMLEVEL", hidden = true },
+        { statKey = "MOVESPEED" },
+		{ statKey = "DURABILITY_STAT" },
+        { statKey = "REPAIR_COST" },
+	{ statKey = "AttributesCategory" },
+        { statKey = "STRENGTH" },
+        { statKey = "AGILITY" },
+        { statKey = "INTELLECT" },
+        { statKey = "STAMINA" },
+	{ statKey = "OffenseCategory" }, --Re-order before Enhancements to appear more logical.
+        { statKey = "ATTACK_DAMAGE" },
+        { statKey = "ATTACK_AP" },
+        { statKey = "DCS_ATTACK_ATTACKSPEED" },
+		{ statKey = "WEAPON_DPS" },
+        { statKey = "SPELLPOWER" },
+        { statKey = "MANAREGEN" },
+        { statKey = "ENERGY_REGEN" },
+        { statKey = "DCS_RUNEREGEN" },
+        { statKey = "FOCUS_REGEN" },		
+        { statKey = "GCD" },
+	{ statKey = "EnhancementsCategory" }, --Re-order after Offense to appear more logical.
+        { statKey = "CRITCHANCE", hideAt = 0 },
+		{ statKey = "HASTE", hideAt = 0 },
+        { statKey = "VERSATILITY", hideAt = 0 },
+        { statKey = "MASTERY", hideAt = 0 },
+        { statKey = "LIFESTEAL", hideAt = 0 },
+        { statKey = "AVOIDANCE", hideAt = 0 },
+	{ statKey = "DefenseCategory" },
+        { statKey = "DODGE", hideAt = 0 },
+        { statKey = "PARRY", hideAt = 0 },
+        { statKey = "BLOCK", hideAt = 0 },
+	{ statKey = "RatingCategory" },
+		{ statKey = "CRITCHANCE_RATING", hideAt = 0 },
+		{ statKey = "HASTE_RATING", hideAt = 0 },
+		{ statKey = "VERSATILITY_RATING", hideAt = 0 },
+		{ statKey = "MASTERY_RATING", hideAt = 0 },
+		{ statKey = "LIFESTEAL_RATING", hideAt = 0 },
+		{ statKey = "AVOIDANCE_RATING", hideAt = 0 },
+		{ statKey = "DODGE_RATING", hideAt = 0 },
+		{ statKey = "PARRY_RATING", hideAt = 0 },
+})
+--local ShownData = DefaultData
+local ShownData = DefaultNonTankData --TODO: find a reason why error during login with "local ShownData". Most probably too early PaperDollFrame_UpdateStats() calls due to DCS_configButton:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 
 for k, v in pairs(DCS_TableData.StatData) do
 	if (not v.frame) then
@@ -298,16 +346,19 @@ local function DCS_Table_Relevant()
 	local uniqueKey = UnitName("player") .. ":" .. GetRealmName() .. ":" .. GetSpecialization()
 	--print(uniqueKey)
 	--print("Select only relevant stats")
-	--ShownData = DCS_TableData:CopyTable(DefaultData)
-
+	local spec = GetSpecialization();
+	--print(spec)
+	local role = GetSpecializationRole(spec)
+	--print(role)
+	if role == "TANK" then
+		ShownData = DCS_TableData:CopyTable(DefaultTankData)
+	else
+		ShownData = DCS_TableData:CopyTable(DefaultNonTankData)
+	end
 	for _, v in ipairs(ShownData) do
 		if v.hidden then v.hidden = false end
 	end 
 
-	local spec = GetSpecialization();
-		--print(spec)
-	local role = GetSpecializationRole(spec)
-		--print(role)
 	local primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
 		--print(primaryStat)
     for _, v in ipairs(ShownData) do
@@ -340,7 +391,7 @@ local function DCS_Table_Relevant()
 		if role ~= "TANK" then
 				--print("Not Tank")
 			if v.statKey == "DefenseCategory" then v.hidden = true end --If not a tank then Defense category and its relevant stats are hidden.
-			if v.statKey == "ARMOR" then v.hidden = true end
+			--if v.statKey == "ARMOR" then v.hidden = true end
 			if v.statKey == "DODGE" then v.hidden = true end
 			if v.statKey == "PARRY" then v.hidden = true end
 			if v.statKey == "BLOCK" then v.hidden = true end
@@ -367,8 +418,15 @@ local function DCS_Table_Relevant()
 end
 
 local function DCS_Login_Initialization()
-	ShownData = DCS_TableData:CopyTable(DefaultData)
-	local uniqueKey = UnitName("player") .. ":" .. GetRealmName() .. ":" .. GetSpecialization()
+	local spec = GetSpecialization();
+		--print(spec)
+	local role = GetSpecializationRole(spec)
+	if role == "TANK" then
+		ShownData = DCS_TableData:CopyTable(DefaultTankData)
+	else
+		ShownData = DCS_TableData:CopyTable(DefaultNonTankData)
+	end
+	local uniqueKey = UnitName("player") .. ":" .. GetRealmName() .. ":" .. spec
 	--print(uniqueKey)
 	if (DCS_ClassSpecDB[uniqueKey]) then
 		if (ShownData.uniqueKey ~= uniqueKey) then
@@ -384,11 +442,19 @@ local function DCS_Login_Initialization()
 end
 
 local function DCS_Table_Reset()
-	local uniqueKey = UnitName("player") .. ":" .. GetRealmName() .. ":" .. GetSpecialization()
+	local temp
+	local spec = GetSpecialization();
+		--print(spec)
+	local role = GetSpecializationRole(spec)
+	if role == "TANK" then
+		temp = DCS_TableData:CopyTable(DefaultTankData)
+	else
+		temp = DCS_TableData:CopyTable(DefaultNonTankData)
+	end
+	local uniqueKey = UnitName("player") .. ":" .. GetRealmName() .. ":" .. spec
 	--print(uniqueKey)
 	--print("reseting just order of stata")
 	--ShownData = DCS_TableData:CopyTable(DefaultData)
-	local temp = DCS_TableData:CopyTable(DefaultData)
 	for _, v1 in ipairs(temp) do
 		for _, v2 in ipairs(ShownData) do
 			if v1.statKey == v2.statKey then
