@@ -350,11 +350,6 @@ local function DCS_Table_Relevant()
 	--print(spec)
 	local role = GetSpecializationRole(spec)
 	--print(role)
-	if role == "TANK" then
-		ShownData = DCS_TableData:CopyTable(DefaultTankData)
-	else
-		ShownData = DCS_TableData:CopyTable(DefaultNonTankData)
-	end
 	for _, v in ipairs(ShownData) do
 		if v.hidden then v.hidden = false end
 	end 
