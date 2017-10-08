@@ -26,37 +26,37 @@ if namespace.locale == "deDE" then
 -- ################################
 -- ## Global Options Left Column ##
 -- ################################
-	-- L["Average Item Level:"] = "" --Patch 730rc106 addition
+	L["Average Item Level:"] = "Durchschnittliches Gegenstandslevel" --Patch 730rc106 addition
 -- ################################
 	L["Equipped/Available"] = "Ausgerüstet/Verfügbar"
 	L['Displays Equipped/Available item levels unless equal.'] = "Zeigt die durchschnittliche Gegenstandsstufe von angelegten und verfügbaren Gegenständen an, wenn diese nicht gleich sind."
 
-	-- L["Class Colors"] = "" --Patch 730rc106 addition
-	-- L['Displays average item level with class colors.'] = ""
+	L["Class Colors"] = "Klassenfarben" --Patch 730rc106 addition
+	L['Displays average item level with class colors.'] = "Zeigt das durchschnittliche Gegenstandslevel mit der Klassenfarbe an."
 	
-	L["One Decimal Place"] = "Nachkommastellen Ilvl"
-	-- L['Displays average item level to one decimal place.'] = ""
+	L["One Decimal Place"] = "Einer Nachkommastelle"
+	L['Displays average item level to one decimal place.'] = "Zeigt die durchschnittliche Gegenstandsstufe mit einer Nachkommastelle an."
 
-	-- L["Two Decimal Places"] = "" 
+	L["Two Decimal Places"] = "Zwei Dezimalstellen" 
 	L['Displays average item level to two decimal places.'] = "Zeigt die durchschnittliche Gegenstandsstufe mit zwei Nachkommastellen an."
 
 -- ################################
-	-- L["Character Stats:"] = "" --Patch 730rc106 addition
+	L["Character Stats:"] = "Charakterwerte" --Patch 730rc106 addition --Matches other translations of Character stats
 -- ################################
-	-- L["DCS's Hide At Zero"] = "" --Patch 730rc106 addition
-	-- L['Hides "Enhancements" stats if their displayed value would be zero. Checking "Decimals" changes the displayed value.'] = ""
+	L["DCS's Hide At Zero"] = "DCS Verstecken bei Null" --Patch 730rc106 addition
+	L['Hides "Enhancements" stats if their displayed value would be zero. Checking "Decimals" changes the displayed value.'] = "Blendet "Verbesserungen" Statistiken aus,wenn ihr angezeigter Wert gleich Null wäre. "Dezimalstellen" auswählen verändert den angezeigten Wert."
 
-	-- L["Blizzard's Hide At Zero"] = "" --Patch 730rc106 addition
-	-- L['Hides "Enhancements" stats only if their numerical value is exactly zero. For example, if stat value is 0.001%, then it would be displayed as 0%.'] = ""
+	L["Blizzard's Hide At Zero"] = "Blizzard Verstecken bei Null" --Patch 730rc106 addition
+	L['Hides "Enhancements" stats only if their numerical value is exactly zero. For example, if stat value is 0.001%, then it would be displayed as 0%.'] = "Blendet "Verbesserungen" Statistiken nur aus,wenn ihr numerischer Wert genau Null ist. Zum Beispiel,wenn der Wert 0,001% ist,dann würde er als 0% angezeigt werden."
 
 	L["Decimals"] = "Nachkommastellen"
 	L['Displays "Enhancements" category stats to two decimal places.'] = 'Zeigt die Werte in der Kategorie "Verstärkungen" mit 2 Nachkommastellen an.'
 
 -- ################################
-	-- L["Item Slots:"] = "" --Patch 730rc106 addition
+	L["Item Slots:"] = "Gegenstandsfächer:" --Patch 730rc106 addition
 -- ################################
-	-- L["Item Level"] = "" --Patch 730rc106 addition
-	-- L['Displays the item level of each equipped item.'] = ""
+	L["Item Level"] = "Gegenstandslevel" --Patch 730rc106 addition
+	L['Displays the item level of each equipped item.'] = "Zeigt das Gegenstandslevel jedes angelegten Gegenstandes."
 
 	L["Durability Bars"] = "Haltbarkeitsleisten"
 	L["Displays a durability bar next to each item." ] = "Zeigt neben jedem Gegenstand eine Haltbarkeitsleiste an."
@@ -71,10 +71,10 @@ if namespace.locale == "deDE" then
 	L["Displays each equipped item's repair cost."] = "Zeigt die Reparaturkosten von jedem ausgerüsteten Gegenstand an."
 
 -- ################################
-	-- L["Miscellaneous:"] = "" --Patch 730rc106 addition
+	L["Miscellaneous:"] = "Sonstiges" --Patch 730rc106 addition
 -- ################################
-	-- L["Class Crest Background"] = ""
-	-- L["Displays the class crest background."] = ""
+	L["Class Crest Background"] = "Klassenwappen Hintergrund"
+	L["Displays the class crest background."] = "Zeigt den Klassenwappen Hintergrund an."
 
 	L["Expand"] = "Erweitern"
 	L['Displays the Expand button for the character stats frame.'] = "Zeigt die Erweiterungsschaltfläche für die Charakterwerte an." --## Needs review.
@@ -111,22 +111,22 @@ if namespace.locale == "deDE" then
 -- ## Patch 730rc106 additions ##
 	 L["Movement Speed"] = "Lauftempo"
 	-- L["About DCS"] = "" --was missing
-	-- L["General"] = ""
+	L["General"] = "Allgemein"
 	-- L["Attack"] = "" --invisible for most players
-	-- L["Offense"] = ""
-	-- L["Defense"] = ""
-	-- L["Rating"] = "" --got replaced with Ratings
-	-- L["Ratings"] = ""
+	L["Offense"] = "Angriff"
+	L["Defense"] = "Verteidigung"
+	L["Rating"] = "Wertung" --got replaced with Ratings
+	L["Ratings"] = "Bewertungen"
 	-- L["%s of %s increases %s by %.2f%%"] --for example, "Haste Rating of 42 increases Haste by 1%". 
 	--Rating names might be seen during mouse-over on that stat (not rating) (at least so is in ruRU)
-	-- L["Critical Strike Rating"] = ""
-	-- L["Haste Rating"] = ""
-	-- L["Versatility Rating"] = ""
-	-- L["Mastery Rating"] = ""
-	-- L["Leech Rating"] = ""
-	-- L["Avoidance Rating"] = ""
-	-- L["Dodge Rating"] = ""
-	-- L["Parry Rating"] = ""
+	L["Critical Strike Rating"] = "Kritische Trefferwertung"
+	L["Haste Rating"] = "Tempowertung"
+	L["Versatility Rating"] = "Vielseitigkeitswertung"
+	L["Mastery Rating"] = "Meisterschaftswertung"
+	L["Leech Rating"] = "Lebensraubwertung"
+	L["Avoidance Rating"] = "Vermeidungsbewertung"
+	L["Dodge Rating"] = "Ausweichwertung"
+	L["Parry Rating"] = "Parrierwertung"
 	-- L["Requires Level "] = "" --space is required
 -- ##For some reason appear to be used
 	L["Relevant Stats"] = "Relevante Werte"
@@ -148,8 +148,8 @@ if namespace.locale == "deDE" then
 	--L[" kbytes of memory"] = " Kilobyte Arbeitsspeicher" --kilobytes
 	--L[" kbytes of memory after garbage collection"] = " Kilobyte Arbeitsspeicher nach der Speicherbereinigung" --kilobytes
 	--L["dumpconfig"] = "" --configuration
-	--L["With defaults"] = ""
-	--L["Direct table"] = ""
+	--L["With defaults"] = "Mit Standardeinstellungen"
+	--L["Direct table"] = "Direktes Verzeichnes"
 	--L["perf"] = "" --performance
 -- #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 --	Deprecated since using default client tables and translations.
