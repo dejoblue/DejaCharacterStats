@@ -1,0 +1,41 @@
+-- ################################
+-- ## Patch 730rc106 additions ####
+-- ################################
+	-- L["Average Item Level:"] = "" 
+-- ################################
+	-- L["Class Colors"] = "" 
+	-- L['Displays average item level with class colors.'] = ""
+-- ################################
+	-- L["Character Stats:"] = "" 
+-- ################################
+	-- L["DCS's Hide At Zero"] = "" 
+	-- L['Hides "Enhancements" stats if their displayed value would be zero. Checking "Decimals" changes the displayed value.'] = ""
+	-- L["Blizzard's Hide At Zero"] = "" 
+	-- L['Hides "Enhancements" stats only if their numerical value is exactly zero. For example, if stat value is 0.001%, then it would be displayed as 0%.'] = ""
+-- ################################
+	-- L["Item Slots:"] = "" 
+-- ################################
+	-- L["Item Level"] = "" 
+	-- L['Displays the item level of each equipped item.'] = ""
+-- ################################
+	-- L["Miscellaneous:"] = "" 
+-- ################################
+	-- L["Movement Speed"] = ""
+	-- L["About DCS"] = "" 
+	-- L["General"] = ""
+	-- L["Attack"] = "" --invisible for most players
+	-- L["Offense"] = ""
+	-- L["Defense"] = ""
+	-- L["Rating"] = "" --got replaced with Ratings
+	-- L["Ratings"] = ""
+	-- L["%s of %s increases %s by %.2f%%"] --for example, "Haste Rating of 42 increases Haste by 1%". 
+		--Rating names might be seen during mouse-over on that stat (not rating) (at least so is in ruRU)
+	-- L["Critical Strike Rating"] = ""
+	-- L["Haste Rating"] = ""
+	-- L["Versatility Rating"] = ""
+	-- L["Mastery Rating"] = ""
+	-- L["Leech Rating"] = ""
+	-- L["Avoidance Rating"] = ""
+	-- L["Dodge Rating"] = ""
+	-- L["Parry Rating"] = ""
+	-- L["Requires Level "] = "" --space is required
