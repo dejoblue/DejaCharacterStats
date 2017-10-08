@@ -117,7 +117,6 @@ local DefaultNonTankData = DCS_TableData:MergeTable({
         { statKey = "HEALTH" },
         { statKey = "DCS_POWER" },
         { statKey = "DCS_ALTERNATEMANA" },
-		{ statKey = "ARMOR" },
         { statKey = "ITEMLEVEL", hidden = true },
         { statKey = "MOVESPEED" },
 		{ statKey = "DURABILITY_STAT" },
@@ -127,6 +126,7 @@ local DefaultNonTankData = DCS_TableData:MergeTable({
         { statKey = "AGILITY" },
         { statKey = "INTELLECT" },
         { statKey = "STAMINA" },
+		{ statKey = "ARMOR" }, --Armor has always been an main attribute stat, except for tanks where it is a defense stat.
 	{ statKey = "OffenseCategory" }, --Re-order before Enhancements to appear more logical.
         { statKey = "ATTACK_DAMAGE" },
         { statKey = "ATTACK_AP" },
