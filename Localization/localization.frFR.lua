@@ -34,14 +34,14 @@ if namespace.locale == "frFR" then
 	L["Class Colors"] = "Couleur par classe " --Patch 730rc106 addition
 	L['Displays average item level with class colors.'] = "Montrer le niveaux d'équipement de la couleur de la classe"
 	
-	L["One Decimal Place"] = ""
+	--L["One Decimal Place"] = ""
 	-- L['Displays average item level to one decimal place.'] = ""
 
 	L["Two Decimal Places"] = "Afficher deux(2) decimales" 
 	--L['Displays average item level to two decimal places.'] = "" -- in ## Patch 7.1.0 r2 additions ## --TODO: change template not to have this string twice
 
 -- ################################
-	L["Character Stats:"] = "Statistiques " --Patch 730rc106 addition
+	L["Character Stats:"] = "Statistiques:" --Patch 730rc106 addition
 -- ################################
 	-- L["DCS's Hide At Zero"] = "" --Patch 730rc106 addition
 	-- L['Hides "Enhancements" stats if their displayed value would be zero. Checking "Decimals" changes the displayed value.'] = ""
