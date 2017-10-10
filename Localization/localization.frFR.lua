@@ -104,7 +104,7 @@ if namespace.locale == "frFR" then
 	L["Displays average item level to two decimal places."] = "Afficher le niveau d'objet moyen avec deux décimales."
 	L["Main Hand"] = "Main principale"
 	L["/Off Hand"] = "Main gauche"
-	L[" weapon auto attack (white) DPS."] = 'DPS de l'Auto-attaque de l'arme (blanc)'
+	L[" weapon auto attack (white) DPS."] = "DPS de l'Auto-attaque de l'arme (blanc)"
 	L["Weapon DPS"] = "DPS de l'arme"
 	--L["Weapon DPS %s"] = "" --don't see where this string is used
 	
