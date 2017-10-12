@@ -248,22 +248,22 @@ local dcsresetcheck = CreateFrame("Button", "DCSResetButton", DejaCharacterStats
 	local dcsILvlPanelCategoryFS = DejaCharacterStatsPanel:CreateFontString("dcsILvlPanelCategoryFS", "OVERLAY", "GameFontNormal")
 	dcsILvlPanelCategoryFS:SetText('|cffffffff' .. L["Average Item Level:"] .. '|r') --wouldn't be more efficient through format?
 	dcsILvlPanelCategoryFS:SetPoint("TOPLEFT", 25, -40)
-	dcsILvlPanelCategoryFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
+	dcsILvlPanelCategoryFS:SetFontObject("GameFontNormalLarge") --Use instead of SetFont("Fonts\\FRIZQT__.TTF", 15) or Russian, Korean and Chinese characters won't work.
 	
 	--Character Stats 
 	local dcsStatsPanelcategoryFS = DejaCharacterStatsPanel:CreateFontString("dcsStatsPanelcategoryFS", "OVERLAY", "GameFontNormal")
 	dcsStatsPanelcategoryFS:SetText('|cffffffff' .. L["Character Stats:"] .. '|r')
 	dcsStatsPanelcategoryFS:SetPoint("TOPLEFT", 25, -150)
-	dcsStatsPanelcategoryFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
+	dcsStatsPanelcategoryFS:SetFontObject("GameFontNormalLarge") --Use instead of SetFont("Fonts\\FRIZQT__.TTF", 15) or Russian, Korean and Chinese characters won't work.
 	
 	--Item Slots
 	local dcsItemsPanelCategoryFS = DejaCharacterStatsPanel:CreateFontString("dcsItemsPanelCategoryFS", "OVERLAY", "GameFontNormal")
 	dcsItemsPanelCategoryFS:SetText('|cffffffff' .. L["Item Slots:"] .. '|r')
 	dcsItemsPanelCategoryFS:SetPoint("TOPLEFT", 25, -240)
-	dcsItemsPanelCategoryFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
+	dcsItemsPanelCategoryFS:SetFontObject("GameFontNormalLarge") --Use instead of SetFont("Fonts\\FRIZQT__.TTF", 15) or Russian, Korean and Chinese characters won't work.
 	
 	--Miscellaneous
 	local dcsMiscPanelCategoryFS = DejaCharacterStatsPanel:CreateFontString("dcsMiscPanelCategoryFS", "OVERLAY", "GameFontNormal")
 	dcsMiscPanelCategoryFS:SetText('|cffffffff' .. L["Miscellaneous:"] .. '|r')
 	dcsMiscPanelCategoryFS:SetPoint("LEFT", 25, -165)
-	dcsMiscPanelCategoryFS:SetFont("Fonts\\FRIZQT__.TTF", 15)
+	dcsMiscPanelCategoryFS:SetFontObject("GameFontNormalLarge") --Use instead of SetFont("Fonts\\FRIZQT__.TTF", 15) or Russian, Korean and Chinese characters won't work.
