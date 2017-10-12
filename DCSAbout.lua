@@ -91,32 +91,38 @@ local L = namespace.L 				--localization
 	local DCSAboutDCS_FS = DCSAboutDCSFrame:CreateFontString("DCSAboutDCS_FS", "OVERLAY", "GameFontNormal")
 		DCSAboutDCS_FS:SetTextColor(0, 0, 0, 1)
 		DCSAboutDCS_FS:SetShadowColor(0, 192, 255, 0)
-		DCSAboutDCS_FS:SetFont("Fonts\\FRIZQT__.TTF", 14)
+		DCSAboutDCS_FS:SetFont("Fonts\\FRIZQT__.TTF", 13)
 		DCSAboutDCS_FS:SetJustifyH("LEFT")
 		DCSAboutDCS_FS:SetPoint("TOP", 0, -75)
 		DCSAboutDCS_FS:Show();
-
+		
 		DCSAboutDCS_FS:SetText(
-			"|cff0094c4Author:|r Dejoblue" .. "|n" .. "|n" .. 
-			"|cff0094c4Admins:|r Dejoblue, Kakjens" .. "|n" .. "|n" .. 
-			"|cff0094c4Contributers:|r Dejoblue, Kakjens, loudsoul" .. "|n" .. "|n" .. 
-			"|cff0094c4Localization Translators:|r" .. "|n" .. "|n" .. 
-			"|cff0094c4    French:|r Darkcraft92, Ymvej" .. "|n" ..				--(French)
-			"|cff0094c4    Korean:|r PositiveMind" .. "|n" ..					--(Korean)
-			"|cff0094c4    Russian:|r Nappsel, Wishko" .. "|n" ..				--(Russian)
-			"|cff0094c4    Chinese(S):|r C_Reus" .. "|n" ..						--(Simplified Chinese)
-			"|cff0094c4    Chinese(T):|r BNSSNB, konraddo" .. "|n" ..			--(Traditional Chinese)
-			"|cff0094c4    Portuguese:|r Othra" .. "|n" ..						--(Portuguese)
-			"|cff0094c4    German:|r pas06, flow0284, Markurion," .. "|n" .. 	--(German) German last because it has two lines, so there are no breaks in the list
-			"    and Branduril" .. "|n" ..										--(German) Continued German list
-			"|n" ..																--(Spacer)
-			"|cff0094c4Special Thanks:|r" .. "|n" .. "|n" ..
+			"|cff0094c4Author:|r Dejoblue" .. "|n" .. 
+			"|cff0094c4Admins:|r Dejoblue, Kakjens" .. "|n" .. 
+			"|cff0094c4Contributers:|r Dejoblue, Kakjens, loudsoul" .. "|n" .. 
+			"|cff0094c4Localization Translators:|r" .. "|n" ..
+			"|cff0094c4    French:|r Medaleux, sv002, Darkcraft92," .. "|n" .. 							--(French)
+			"        Ymvej, Druidzor, napnapnapnapnap" .. "|n" ..														--(French) Continued French list
+			"|cff0094c4    German:|r pas06, flow0284, Markurion," .. "|n" .. 						--(German)
+			"        Branduril, NekoNyaaaa" .. "|n" ..																		--(German) Continued German list
+			"|cff0094c4    Portuguese:|r Othra, Rhyrol" .. "|n" ..												--(Portuguese)
+			"|cff0094c4    Spanish:|r Tholagar, MrUrkaz, Krounted," .. "|n" ..									--(Spanish)
+			"        Valhallanem" .. "|n" ..																	--(Spanish) Continued Spanish list
+			"|cff0094c4    Korean:|r PositiveMind, yuk6196, netaras" .. "|n" ..									--(Korean)
+			"|cff0094c4    Russian:|r Nappsel, Wishko, berufegoru," .. "|n" ..							--(Russian)
+			"        n1mrorox" .. "|n" ..																	--(Russian) Continued Russian list
+			"|cff0094c4    Simplified Chinese:|r C_Reus, alvisjiang," .. "|n" ..						--(Simplified Chinese)
+			"        y123ao6" .. "|n" ..																	--(Simplified Chinese) Continued Simplified Chinese list
+			"|cff0094c4    Traditional Chinese:|r BNSSNB, killsophia," .. "|n" ..						--(Traditional Chinese)
+			"        konraddo, y123ao6" .. "|n" ..																		--(Traditional Chinese) Continued Traditional Chinese list
+			"|n" ..																								--(Spacer)
+			"|cff0094c4Special Thanks:|r" .. "|n" ..
 			"|cff0094c4    Communities:|r Blizzard, Curse, ElvUI," .. "|n" .. 
-			"    WoWInterface, and Reddit's /r/wow" .. "|n" ..
+			"        WoWInterface, and Reddit's /r/wow" .. "|n" ..
 			"|cff0094c4    Individuals:|r Baudzila, 10leej, wizardanim," .. "|n" ..
-			"    Phanx, Ro, Choonster, Zork, Lombra," .. "|n" ..
-			"    myrroddin, Darth_Predator, sirann," .. "|n" ..
-			"    and YOU"
+			"        Phanx, Ro, Choonster, Zork, Lombra," .. "|n" ..
+			"        myrroddin, Darth_Predator, sirann," .. "|n" ..
+			"        and YOU"
 		);
 
 	-- Thanks
