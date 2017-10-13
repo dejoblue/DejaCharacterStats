@@ -336,7 +336,7 @@ DCS_TableData.StatData.RatingCategory = {
 }
 
 hooksecurefunc("MovementSpeed_OnUpdate", function(statFrame)
-	statFrame.Label:SetText(L["Movement Speed"])
+	statFrame.Label:SetText(L["Movement Speed"] .. ":") --Needs a colon like all other stats have. Concatenated so we don't have to redo every localization to include a colon.
 end)
 
 DCS_TableData.StatData.DCS_POWER = {
