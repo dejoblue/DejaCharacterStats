@@ -571,7 +571,7 @@ DCS_TableData.StatData.REPAIR_COST = {
 		statFrame.tooltip2 = (L["Total equipped item repair cost before discounts."]);
     end
 }
-
+local dura_format = L["Durability"] .." %s"
 DCS_TableData.StatData.DURABILITY_STAT = {
     updateFunc = function(statFrame, unit)
 		if ( unit ~= "player" ) then
@@ -585,10 +585,10 @@ DCS_TableData.StatData.DURABILITY_STAT = {
 		local displayDura = dcs_format("%.2f%%", addon.duraMean);
 
 		PaperDollFrame_SetLabelAndText(statFrame, (L["Durability"]), displayDura, false, addon.duraMean);
-		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, dcs_format(L["Durability %s"], displayDura));
+		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, dcs_format(dura_format, displayDura));
 		statFrame.tooltip2 = (L["Average equipped item durability percentage."]);
 
-		local duraFinite = 0
+		--local duraFinite = 0
 		statFrame:Show();
 	end
 }
