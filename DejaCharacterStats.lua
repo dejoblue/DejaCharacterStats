@@ -95,7 +95,8 @@ end)
 
 function RegisteredEvents:ADDON_LOADED(event, addon, ...)
 	if (addon == "DejaCharacterStats") then
-		SLASH_DEJACHARACTERSTATS1 = (L["/dcstats"])
+		--SLASH_DEJACHARACTERSTATS1 = (L["/dcstats"])
+		SLASH_DEJACHARACTERSTATS1 = "/dcstats"
 		SlashCmdList["DEJACHARACTERSTATS"] = function (msg, editbox)
 			DejaCharacterStats.SlashCmdHandler(msg, editbox)	
 	end
@@ -142,7 +143,8 @@ end
 
 function DejaCharacterStats.SlashCmdHandler(msg, editbox)
 	--print("command is " .. msg .. "\n")
-	if (string.lower(msg) == L["config"]) then
+	--if (string.lower(msg) == L["config"]) then --I think string.lowermight not work for Russian letters
+	if (string.lower(msg) == "config") then
 		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
 		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
 		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
@@ -157,7 +159,8 @@ function DejaCharacterStats.SlashCmdHandler(msg, editbox)
 			print(k,v)
 		end
 	--]]
-	elseif (string.lower(msg) == L["reset"]) then
+	--elseif (string.lower(msg) == L["reset"]) then
+	elseif (string.lower(msg) == "reset") then
 		--DejaCharacterStatsDBPC = private.defaults;
 		gdbprivate.gdb.gdbdefaults = gdbprivate.gdbdefaults.gdbdefaults
 		ReloadUI();
