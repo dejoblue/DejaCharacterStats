@@ -108,7 +108,8 @@ local L = namespace.L 				--localization
 			"|cff0094c4    Portuguese:|r Othra, Rhyrol" .. "|n" ..												--(Portuguese)
 			"|cff0094c4    Spanish:|r Tholagar, MrUrkaz, Krounted," .. "|n" ..									--(Spanish)
 			"        Valhallanem" .. "|n" ..																	--(Spanish) Continued Spanish list
-			"|cff0094c4    Korean:|r PositiveMind, yuk6196, netaras" .. "|n" ..									--(Korean)
+			"|cff0094c4    Korean:|r PositiveMind, yuk6196, netaras," .. "|n" ..									--(Korean)
+			"        next96" .. "|n" ..																		--(Traditional Chinese) Continued Traditional Chinese list
 			"|cff0094c4    Russian:|r Nappsel, Wishko, berufegoru," .. "|n" ..							--(Russian)
 			"        n1mrorox" .. "|n" ..																	--(Russian) Continued Russian list
 			"|cff0094c4    Simplified Chinese:|r C_Reus, alvisjiang," .. "|n" ..						--(Simplified Chinese)
