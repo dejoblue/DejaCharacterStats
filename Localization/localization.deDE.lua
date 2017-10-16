@@ -19,17 +19,8 @@ if namespace.locale == "deDE" then
 	L["DejaCharacterStats Slash commands (/dcstats):"] = "DejaCharacterStats Slashbefehle (/dcstats):"
 	L["  /dcstats config: Opens the DejaCharacterStats addon config menu."] = "  /dcstats config: Öffnet das DejaCharacterStats Konfigurationsfenster." --configuration
 	L["  /dcstats reset:  Resets DejaCharacterStats frames to default positions."] = "  /dcstats reset: Setzt DejaCharacterStats zurück."
-	L["Resetting config to defaults"] = "Einstellungen zurücksetzen." --configuration
-	L["DejaCharacterStats is currently using "] = "DejaCharacterStats benutzt zurzeit "
-	L[" kbytes of memory"] = " Kilobyte Arbeitsspeicher" --kilobytes
---	L["DejaCharacterStats is currently using "] = ""
-	L[" kbytes of memory after garbage collection"] = " Kilobyte Arbeitsspeicher nach der Speicherbereinigung" --kilobytes
 --	L["config"] = "" --configuration
---	L["dumpconfig"] = "" --configuration
---	L["With defaults"] = ""
---	L["Direct table"] = ""
 --	L["reset"] = ""
---	L["perf"] = "" --performance
 	L["Reset to Default"] = "Standardeinstellungen"
 
 -- ################################
@@ -107,21 +98,27 @@ if namespace.locale == "deDE" then
 	L["Global Cooldown %.2fs"] = "Globale Abklingzeit %.2fs"
 	L["Unlock DCS"] = "DCS freischalten"
 	L["Lock DCS"] = "DCS sperren"
-	L["Item Level 1 Decimal Place"] = "Gegenstandsstufe mit 1 Nachkommastelle"
+	--L["Item Level 1 Decimal Place"] = "Gegenstandsstufe mit 1 Nachkommastelle" --from ## Global Options Left Column ## is used
 	L["Displays average item level to one decimal place."] = "Zeigt die durchschnittliche Gegenstandsstufe mit einer Nachkommastelle an."
-	L["Item Level 2 Decimal Places"] = "Gegenstandsstufe mit 2 Nachkommastellen"
+	--L["Item Level 2 Decimal Places"] = "Gegenstandsstufe mit 2 Nachkommastellen" --from ## Global Options Left Column ## is used
 	L["Displays average item level to two decimal places."] = "Zeigt die durchschnittliche Gegenstandsstufe mit zwei Nachkommastellen an."
 	L["Main Hand"] = "Waffenhand"
 	L["/Off Hand"] = "/Schildhand"
 	L[" weapon auto attack (white) DPS."] = ' Schaden pro Sekunde der automatischen (weißen) Waffenangriffe.'
 	L["Weapon DPS"] = "Waffen-SPS"
-	L["Weapon DPS %s"] = "Waffen-SPS %s"
+	--L["Weapon DPS %s"] = "Waffen-SPS %s" --don't see where this string is used
 	
 -- ## Patch 730rc106 additions ##
+	 L["Movement Speed"] = "Lauftempo"
+	-- L["About DCS"] = "" --was missing
 	-- L["General"] = ""
-	-- L["Attack"] = ""
+	-- L["Attack"] = "" --invisible for most players
+	-- L["Offense"] = ""
 	-- L["Defense"] = ""
-	-- L["Rating"] = ""
+	-- L["Rating"] = "" --got replaced with Ratings
+	-- L["Ratings"] = ""
+	-- L["%s of %s increases %s by %.2f%%"] --for example, "Haste Rating of 42 increases Haste by 1%". 
+	--Rating names might be seen during mouse-over on that stat (not rating) (at least so is in ruRU)
 	-- L["Critical Strike Rating"] = ""
 	-- L["Haste Rating"] = ""
 	-- L["Versatility Rating"] = ""
@@ -130,12 +127,30 @@ if namespace.locale == "deDE" then
 	-- L["Avoidance Rating"] = ""
 	-- L["Dodge Rating"] = ""
 	-- L["Parry Rating"] = ""
-	
+	-- L["Requires Level "] = "" --space is required
+-- ##For some reason appear to be used
+	L["Relevant Stats"] = "Relevante Werte"
+	--L["Show only stats relevant to your class spec."] = ""
+    L["All Stats"] = "Alle Werte"
+	L["Show All Stats"] = "Alle Werte anzeigen"
+	L["Reset Stats"] = "Werte zurücksetzen"
+	--L["Resets order of stats."] = ""
+	L['Show Character Stats'] = "Zeigt die Charakterwerte"
+	L['Hide Character Stats'] = "Versteckt die Charakterwerte"
 -- ###########################################################################################
 -- #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -- ###########################################################################################
 -- #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -- ###########################################################################################
+-- Deprecated slash comands (commented out in DejaCharacterStats.lua)
+	--L["Resetting config to defaults"] = "Einstellungen zurücksetzen." --configuration 
+	--L["DejaCharacterStats is currently using "] = "DejaCharacterStats benutzt zurzeit "
+	--L[" kbytes of memory"] = " Kilobyte Arbeitsspeicher" --kilobytes
+	--L[" kbytes of memory after garbage collection"] = " Kilobyte Arbeitsspeicher nach der Speicherbereinigung" --kilobytes
+	--L["dumpconfig"] = "" --configuration
+	--L["With defaults"] = ""
+	--L["Direct table"] = ""
+	--L["perf"] = "" --performance
 -- #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 --	Deprecated since using default client tables and translations.
 -- #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -145,10 +160,6 @@ if namespace.locale == "deDE" then
 	-- L['Repair Total '] = "Ges. Reparaturkosten "
 	-- L['Displays the Repair Total before discounts for equipped items in the stat frame.'] = "Zeigt die gesamten Reparaturkosten ohne Bonus für die ausgerüsteten Gegenstände in der Charakterinfo an."
 
-	-- L['Show Character Stats'] = "Zeigt die Charakterwerte"
-	-- L['Hide Character Stats'] = "Versteckt die Charakterwerte"
-
-	-- L["Show All Stats"] = "Alle Werte anzeigen"
 	-- L['Checked displays all stats. Unchecked displays relevant stats. Use Shift-scroll to snap to the top or bottom.'] = "Wenn ausgewählt, werden alle Werte gezeigt. Ansonsten nur die relevanten. Halte die Umschalttaste und scrolle, um direkt an den Anfang oder ans Ende zu springen."
 
 	-- L["Select-A-Stat™"]  = "Select-A-Stat™ Checkbox Name" -- Try to use something snappy and silly like a Fallout or 1950's appliance feature.

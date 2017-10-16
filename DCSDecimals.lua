@@ -21,6 +21,7 @@ local function DCS_Decimals()
 		--version with localisation of PAPERDOLLFRAME_TOOLTIP_FORMAT, HIGHLIGHT_FONT_COLOR_CODE and FONT_COLOR_CODE_CLOSE (doll_tooltip_format, highlight_code and font_color_close)
 	-- Crit Chance
 		--setting of statformat and multiplier values is done by calling function for checkbox (in OnEvent and OnClick)
+		--[[
 		if notinteger then
 			statformat = "%.2f%%"
 			multiplier = 100
@@ -30,7 +31,8 @@ local function DCS_Decimals()
 		end
 
 		local notexactlyzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsDCSZeroChecked.SetChecked
-
+		--]]
+		
 		function PaperDollFrame_SetCritChance(statFrame, unit)
 			if ( unit ~= "player" ) then
 				statFrame:Hide();
