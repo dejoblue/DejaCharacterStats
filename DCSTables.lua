@@ -336,7 +336,7 @@ DCS_TableData.StatData.RatingCategory = {
 }
 
 hooksecurefunc("MovementSpeed_OnUpdate", function(statFrame)
-	statFrame.Label:SetText(L["Movement Speed"])
+	statFrame.Label:SetText(L["Movement Speed"] .. ":") --Needs a colon like all other stats have. Concatenated so we don't have to redo every localization to include a colon.
 end)
 
 DCS_TableData.StatData.DCS_POWER = {
@@ -426,6 +426,8 @@ DCS_TableData.StatData.DCS_RUNEREGEN = {
 	end
 }
 
+local offhand_string = "/"..L["Off Hand"]
+local white_damage_string = " "..L["weapon auto attack (white) DPS."]
 DCS_TableData.StatData.WEAPON_DPS = {
     updateFunc = function(statFrame, unit)
 		local function JustGetDamage(unit)
@@ -448,9 +450,9 @@ DCS_TableData.StatData.WEAPON_DPS = {
 			local oh_dps = offhandFullDamage/offhandSpeed
 			main_oh_dps = main_oh_dps .. "/" .. dcs_format("%.2f",oh_dps)
 			white_dps = (white_dps + oh_dps)*(1-DUAL_WIELD_HIT_PENALTY/100)
-			tooltip2 = tooltip2 .. (L["/Off Hand"])
+			tooltip2 = tooltip2 .. offhand_string
 		end
-		tooltip2 = tooltip2 .. L[" weapon auto attack (white) DPS."]
+		tooltip2 = tooltip2 .. white_damage_string
 		local misses_etc = (1+BASE_MISS_CHANCE_PHYSICAL[3]/100)*(1+BASE_ENEMY_DODGE_CHANCE[3]/100)*(1+BASE_ENEMY_PARRY_CHANCE[3]/100) -- hopefully the right formula
 		white_dps = white_dps*(1 + GetCritChance()/100)/misses_etc --assumes crits do twice as damage
 		white_dps = dcs_format("%.2f", white_dps)
@@ -571,7 +573,7 @@ DCS_TableData.StatData.REPAIR_COST = {
 		statFrame.tooltip2 = (L["Total equipped item repair cost before discounts."]);
     end
 }
-
+local dura_format = L["Durability"] .." %s"
 DCS_TableData.StatData.DURABILITY_STAT = {
     updateFunc = function(statFrame, unit)
 		if ( unit ~= "player" ) then
@@ -585,10 +587,10 @@ DCS_TableData.StatData.DURABILITY_STAT = {
 		local displayDura = dcs_format("%.2f%%", addon.duraMean);
 
 		PaperDollFrame_SetLabelAndText(statFrame, (L["Durability"]), displayDura, false, addon.duraMean);
-		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, dcs_format(L["Durability %s"], displayDura));
+		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, dcs_format(dura_format, displayDura));
 		statFrame.tooltip2 = (L["Average equipped item durability percentage."]);
 
-		local duraFinite = 0
+		--local duraFinite = 0
 		statFrame:Show();
 	end
 }
