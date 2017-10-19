@@ -76,12 +76,12 @@ L["Off Hand"] = "Main gauche"
 --Translation missing 
 -- L["Offense"] = ""
 --Translation missing 
--- L["One Decimal Place"] = ""
+L["One Decimal Place"] = "Afficher une décimale"
 L["Parry Rating"] = "Score de parade"
 --Translation missing 
 -- L["Ratings"] = ""
 L["Relevant Stats"] = "Stats pertinentes"
-L["Repair Total"] = "Coût total de réparation"
+L["Repair Total"] = "Réparation Total"
 --Translation missing 
 -- L["Requires Level "] = ""
 L["Reset Stats"] = "Réinitialiser"
@@ -94,7 +94,7 @@ L["Show Character Stats"] = "Montrer les statistiques du personnage"
 --Translation missing 
 -- L["Show only stats relevant to your class spec."] = ""
 L["Total equipped item repair cost before discounts."] = "Coût total de réparation des objets équipés avant réductions."
-L["Two Decimal Places"] = "Afficher deux(2) decimales"
+L["Two Decimal Places"] = "Afficher deux décimales"
 L["Unlock DCS"] = "Déverouiller DCS"
 L["Versatility Rating"] = "Score de polyvalence"
 L["weapon auto attack (white) DPS."] = "DPS de l'Auto-attaque de l'arme (blanc)"
