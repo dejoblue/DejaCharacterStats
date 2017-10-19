@@ -335,8 +335,14 @@ DCS_TableData.StatData.RatingCategory = {
     updateFunc = function()	end
 }
 
+local move_speed  --Needs a colon like all other stats have. Concatenated so we don't have to redo every localization to include a colon.
+if namespace.locale == "zhTW" then
+	move_speed = L["Movement Speed"] .. "：" --Chinese colon
+else
+	move_speed = L["Movement Speed"] .. ":"
+end
 hooksecurefunc("MovementSpeed_OnUpdate", function(statFrame)
-	statFrame.Label:SetText(L["Movement Speed"] .. ":") --Needs a colon like all other stats have. Concatenated so we don't have to redo every localization to include a colon.
+	statFrame.Label:SetText(move_speed)
 end)
 
 DCS_TableData.StatData.DCS_POWER = {
@@ -698,7 +704,12 @@ DCS_TableData.StatData.MASTERY_RATING = {
 			return;
 		end
 		local color_rating1 = L["Mastery Rating"]
-		local color_rating2 = color_rating1 .. ":"
+		local color_rating2 
+		if namespace.locale == "zhTW" then
+			color_rating2 = color_rating1 .. "：" --Chinese colon
+		else
+			color_rating2 = color_rating1 .. ":"
+		end
 		local color_format = "%d"
 		local add_text = ""
 		--if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
