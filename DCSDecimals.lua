@@ -157,7 +157,12 @@ local function DCS_Decimals()
 			--	statFrame:Hide();
 			--	return;
 			--end
-			local color_mastery = STAT_MASTERY ..":"
+			local color_mastery 
+			if namespace.locale == "zhTW" then
+				color_mastery = STAT_MASTERY .. "：" --Chinese colon
+			else
+				color_mastery = STAT_MASTERY ..":"
+			end
 			local color_format = statformat
 			if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
 				color_mastery = "|cff7f7f7f" .. color_mastery .. "|r"
