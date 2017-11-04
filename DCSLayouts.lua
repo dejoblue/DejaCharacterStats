@@ -409,7 +409,7 @@ local function DCS_Table_Relevant()
 	--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = false
 	ShownData.uniqueKey = uniqueKey
 	DCS_ClassSpecDB[uniqueKey] = ShownData
-	--ShowCharacterStats("player")
+	ShowCharacterStats("player")
 end
 
 local function DCS_Login_Initialization()
@@ -428,12 +428,12 @@ local function DCS_Login_Initialization()
 		ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey]) --not so easy to understand when gets here. is it during change of specialisation?
 		--print("Set saved variables.")
 		end
-		--ShowCharacterStats("player")  --probably doesn't need this call
+		ShowCharacterStats("player")
 	else
 		--print("Set default initialization")
 		DCS_Table_Relevant()
 	end
-	--ShowCharacterStats("player") --it gets called if talents get changed through DCS_TableRelevantStats on event
+	--ShowCharacterStats("player") --DCS_Table_Relevant in the end calls it
 end
 
 local function DCS_Table_Reset()
@@ -594,7 +594,7 @@ local function DCS_TableRelevantStats_OnLeave(self)
  end
  
 local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", CharacterFrameInsetRight, "UIPanelButtonTemplate")
-	DCS_TableRelevantStats:RegisterEvent("PLAYER_LOGIN")
+	DCS_TableRelevantStats:RegisterEvent("ADDON_LOADED")
 	DCS_TableRelevantStats:RegisterEvent("PLAYER_TALENT_UPDATE")
 	DCS_TableRelevantStats:ClearAllPoints()
 	DCS_TableRelevantStats:SetPoint("BOTTOMRIGHT", -130,-36)
@@ -639,18 +639,17 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 			--gdbprivate.gdb.gdbdefaults.DCS_TableRelevantStatsChecked.RelevantStatsSetChecked = true
 		--return
 		end
-		ShowCharacterStats("player")
 		DCS_TableRelevantStats_OnEnter()
 	end)
 
 	DCS_TableRelevantStats:SetScript("OnEvent", function(self, event, ...)
-		--registered events PLAYER_LOGIN and PLAYER_TALENT_UPDATE
-		DCS_Login_Initialization()
-		DCS_TableRelevantStats_init()
-		if event == "PLAYER_TALENT_UPDATE" then
-			ShowCharacterStats("player")
-		end
 
+		if event == "ADDON_LOADED" or event == "PLAYER_TALENT_UPDATE" then
+			if IsLoggedIn() then
+				DCS_Login_Initialization()
+				DCS_TableRelevantStats_init()
+			end
+		end
 	end)
 
 ------------------------
