@@ -146,8 +146,8 @@ function DejaCharacterStats.SlashCmdHandler(msg, editbox)
 	--if (string.lower(msg) == L["config"]) then --I think string.lowermight not work for Russian letters
 	if (string.lower(msg) == "config") then
 		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
-		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
-		InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
+		--InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
+		--InterfaceOptionsFrame_OpenToCategory("DejaCharacterStats");
 	--[[	
 	elseif (string.lower(msg) == L["dumpconfig"]) then
 		print(L["With defaults"])
