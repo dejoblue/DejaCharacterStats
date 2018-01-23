@@ -718,6 +718,8 @@ local function set_config_mode(state)
 end
 
 local DCS_configButton = CreateFrame("Button", "DCS_configButton", PaperDollSidebarTab1)
+local DCS_InterfaceOptConfigButton = CreateFrame("Button", "DCS_InterfaceOptConfigButton", DejaCharacterStatsPanel)
+
 	DCS_configButton:SetSize(32, 32)
 	DCS_configButton:RegisterEvent("MERCHANT_SHOW")
 	DCS_configButton:RegisterEvent("MERCHANT_CLOSED")
@@ -770,7 +772,20 @@ local function DCS_ClassCrestBGCheck()
 		char_ctats_pane.ClassBackground:Hide()
 	end
 end
-	
+
+DejaCharacterStatsPanel:Hide()
+--[[
+--TODO: rewrite parenting changes with the help of DCS_InterfaceOptConfigButton and DejaCharacterStatsPanel
+DejaCharacterStatsPanel:HookScript("OnShow", function(self)
+	print("displaying DCS InterfaceOptions") --works
+end)
+DejaCharacterStatsPanel:HookScript("OnHide", function(self)
+	print("closing DCS InterfaceOptions with DejaCharacterStatsPanel") --doesn't work
+end)
+DCS_InterfaceOptConfigButton:HookScript("OnHide", function(self)
+	print("closing DCS InterfaceOptions with DCS_InterfaceOptConfigButton") --works
+end)
+--]]
 local function DCS_DefaultStatsAnchors()
 	DCS_InterfaceOptConfigButton:UnregisterEvent("UNIT_AURA")
 	DCS_InterfaceOptConfigButton:UnregisterEvent("UPDATE_INVENTORY_DURABILITY")
@@ -894,7 +909,7 @@ end)
 -- Interface Options Config Mode Toggle --
 ------------------------------------------
 
-local DCS_InterfaceOptConfigButton = CreateFrame("Button", "DCS_InterfaceOptConfigButton", DejaCharacterStatsPanel)
+--creation of DCS_InterfaceOptConfigButton near DCS_configButton
 	DCS_InterfaceOptConfigButton:RegisterEvent("PLAYER_LOGIN")
 	DCS_InterfaceOptConfigButton:ClearAllPoints()
 	DCS_InterfaceOptConfigButton:SetPoint("TOPRIGHT", 0, 29)
