@@ -258,14 +258,14 @@ local function ShowCharacterStats(unit)
         stat = DCS_TableData.StatData[v.statKey]
 		--print(v.statKey)
 		if stat then -- if some stat gets removed or if experimenting with adding stats
-			stat.updateFunc(stat.frame, unit)
-			--[[
-			if v.statKey == "CRITCHANCE" then
-				print(v.statKey,stat.frame.numericValue) -- to verify that recorded numeric value is the one intended - either rounded or with many decimal digits
-			end
-			--]]
+			--stat.updateFunc(stat.frame, unit) --calculating stats only if there's high probability that it will be displayed
 			if (configMode) then
 				stat.frame:Show()
+				stat.updateFunc(stat.frame, unit)
+				--[[previous version with blank stats
+				stat.updateFunc(stat.frame, unit)
+				stat.frame:Show()
+				--]]
 				stat.frame.checkButton:Show()
 				stat.frame.checkButton:SetChecked(not v.hidden)
 				if (v.hidden) then
@@ -274,21 +274,27 @@ local function ShowCharacterStats(unit)
 					stat.frame:SetAlpha(1)
 				end
 			else
-				if hideatzero then
-					if v.hideAt then
-						if v.hideAt == stat.frame.numericValue then
-							stat.frame:Hide()
-						end
-					end
-				end
-				if (v.hidden) then
+				if v.hidden then
 					stat.frame:Hide()
 				else
+					stat.updateFunc(stat.frame, unit)
+					if hideatzero then
+						if v.hideAt then
+							if v.hideAt == stat.frame.numericValue then
+								stat.frame:Hide()
+							end
+						end
+					end
 					if (stat.frame.checkButton) then
 						stat.frame.checkButton:Hide()
 					end
 				end
 			end
+			--[[
+			if v.statKey == "CRITCHANCE" then
+				print(v.statKey,stat.frame.numericValue) -- to verify that recorded numeric value is the one intended - either rounded or with many decimal digits
+			end
+			--]]
 			if (stat.frame:IsShown()) then
 				stat.frame:ClearAllPoints()
 				stat.frame:SetPoint("TOPLEFT", StatFrame.AnchorFrame, "TOPLEFT", 0, -height)
