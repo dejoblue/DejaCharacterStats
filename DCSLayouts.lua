@@ -461,6 +461,7 @@ local function DCS_Table_Reset()
 	ShownData.uniqueKey = uniqueKey
 	DCS_ClassSpecDB[uniqueKey] = ShownData
 	--DCS_Table_ShowAllStats()
+	if IsModifierKeyDown() then DCS_Table_Relevant() end
 	ShowCharacterStats("player")
 end
 
