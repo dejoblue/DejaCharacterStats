@@ -8,7 +8,7 @@
 ## SavedVariablesPerCharacter: DejaCharacterStatsDBPC
 
 ## X-Category: Class
-## X-License: All Rights Reserved: You are free to fork and modify on GitHub, please ask us about anything else.
+## X-License: MIT License: Use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so on condition this MIT notice and attribution is included with distribution.
 ## X-Website: https://github.com/dejoblue/DejaCharacterStats
 ## X-Curse-Project-ID: 99861
 ## X-WoWI-ID: 24060
