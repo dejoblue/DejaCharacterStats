@@ -1,6 +1,6 @@
 ## Interface: 70300
 ## Version: 735b100
-## Title: DejaCharacterStats
+## Title: |cff00c0ffDejaCharacterStats|r
 ## Author: Dejablue, Kakjens, loudsoul
 ## Notes: Dejablue's improved character stats panel view.
 ## SavedVariables: DejaCharacterStatsDB
