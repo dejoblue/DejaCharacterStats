@@ -110,6 +110,7 @@ local DefaultTankData = DCS_TableData:MergeTable({
 		{ statKey = "AVOIDANCE_RATING", hideAt = 0 },
 		{ statKey = "DODGE_RATING", hideAt = 0 },
 		{ statKey = "PARRY_RATING", hideAt = 0 },
+		{ statKey = "SPEED_RATING", hideAt = 0, hidden = true },
 })
 local DefaultNonTankData = DCS_TableData:MergeTable({
     { statKey = "ItemLevelFrame" },
@@ -158,6 +159,7 @@ local DefaultNonTankData = DCS_TableData:MergeTable({
 		{ statKey = "AVOIDANCE_RATING", hideAt = 0 },
 		{ statKey = "DODGE_RATING", hideAt = 0 },
 		{ statKey = "PARRY_RATING", hideAt = 0 },
+		{ statKey = "SPEED_RATING", hideAt = 0, hidden = true },
 })
 --local ShownData = DefaultData
 local ShownData = DefaultNonTankData --TODO: find a reason why error during login with "local ShownData". Most probably too early PaperDollFrame_UpdateStats() calls due to DCS_configButton:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
@@ -406,6 +408,7 @@ local function DCS_Table_Relevant()
 		if v.statKey == "AVOIDANCE_RATING" then v.hidden = true end
 		if v.statKey == "DODGE_RATING" then v.hidden = true end
 		if v.statKey == "PARRY_RATING" then v.hidden = true end
+		if v.statKey == "SPEED_RATING" then v.hidden = true end
 		if v.statKey == "ITEMLEVEL" then v.hidden = true end
 		--if v.statKey == "GeneralCategory" then v.hidden = true end
 		--if v.statKey == "OffenseCategory" then v.hidden = true end
