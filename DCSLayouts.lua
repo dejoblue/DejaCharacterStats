@@ -111,6 +111,7 @@ local DefaultTankData = DCS_TableData:MergeTable({
 		{ statKey = "DODGE_RATING", hideAt = 0 },
 		{ statKey = "PARRY_RATING", hideAt = 0 },
 		{ statKey = "SPEED_RATING", hideAt = 0, hidden = true },
+		{ statKey = "SPEED", hideAt = 0, hidden = true }, --seems like Blizzard's implemented speed rating
 })
 local DefaultNonTankData = DCS_TableData:MergeTable({
     { statKey = "ItemLevelFrame" },
@@ -160,6 +161,7 @@ local DefaultNonTankData = DCS_TableData:MergeTable({
 		{ statKey = "DODGE_RATING", hideAt = 0 },
 		{ statKey = "PARRY_RATING", hideAt = 0 },
 		{ statKey = "SPEED_RATING", hideAt = 0, hidden = true },
+		{ statKey = "SPEED", hideAt = 0, hidden = true }, --seems like Blizzard's implemented speed rating
 })
 --local ShownData = DefaultData
 local ShownData = DefaultNonTankData --TODO: find a reason why error during login with "local ShownData". Most probably too early PaperDollFrame_UpdateStats() calls due to DCS_configButton:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
@@ -187,6 +189,29 @@ for k, v in pairs(DCS_TableData.StatData) do
 		end
 	end
 	v.frame.statKey = k
+end
+
+local function verify_sanity()
+	--local were_changes
+	for k, i in ipairs(ShownData) do
+		for l, j in ipairs(DefaultNonTankData) do
+			if i.statKey == j.statKey then
+				if i.hideAt ~= j.hideAt then
+					--print(i.statKey,"different")
+					--were_changes = true
+					ShownData[k] = DefaultNonTankData[l]
+				end
+			end
+		end
+	end
+	--[[
+	--seems like the saving isn't needed
+	if were_changes then
+		local uniqueKey = UnitName("player") .. ":" .. GetRealmName() .. ":" .. GetSpecialization()
+		ShownData.uniqueKey = uniqueKey
+		DCS_ClassSpecDB[uniqueKey] = ShownData
+	end
+	--]]
 end
 
 local function UpdateStatFrameWidth(width)
@@ -409,6 +434,7 @@ local function DCS_Table_Relevant()
 		if v.statKey == "DODGE_RATING" then v.hidden = true end
 		if v.statKey == "PARRY_RATING" then v.hidden = true end
 		if v.statKey == "SPEED_RATING" then v.hidden = true end
+		if v.statKey == "SPEED" then v.hidden = true end
 		if v.statKey == "ITEMLEVEL" then v.hidden = true end
 		--if v.statKey == "GeneralCategory" then v.hidden = true end
 		--if v.statKey == "OffenseCategory" then v.hidden = true end
@@ -434,8 +460,9 @@ local function DCS_Login_Initialization()
 	--print(uniqueKey)
 	if (DCS_ClassSpecDB[uniqueKey]) then
 		if (ShownData.uniqueKey ~= uniqueKey) then
-		ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey]) --not so easy to understand when gets here. is it during change of specialisation?
-		--print("Set saved variables.")
+			ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey]) --not so easy to understand when gets here. is it during change of specialisation?
+			--print("Set saved variables.")
+			verify_sanity()
 		end
 		--ShowCharacterStats("player")  --probably doesn't need this call
 	else
