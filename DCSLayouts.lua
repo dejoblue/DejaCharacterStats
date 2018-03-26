@@ -276,7 +276,73 @@ end
 
 local configMode = false
 
+
+local aprilmonth = 4
+local aprilday = 1
+--local _, aprilmonth, aprilday = CalendarGetDate(); --doesn't work on fresh start
+--print("aprilmonth",aprilmonth, "aprilday",aprilday)
+local first_april
+local first_april_multiplier = namespace.first_april_multiplier
+
+local DCS_FirstAprilCheck = CreateFrame("CheckButton", "DCS_FirstAprilCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
+	DCS_FirstAprilCheck:RegisterEvent("PLAYER_LOGIN")
+	DCS_FirstAprilCheck:ClearAllPoints()
+	DCS_FirstAprilCheck:SetPoint("TOPLEFT", "dcsMiscPanelCategoryFS", 7, 30)
+	DCS_FirstAprilCheck:SetScale(1)
+	DCS_FirstAprilCheck.tooltipText = L["Disables April Fools code."] --Creates a tooltip on mouseover.
+	_G[DCS_FirstAprilCheck:GetName() .. "Text"]:SetText(L["Disable April Fools code"])
+
+DCS_FirstAprilCheck:SetScript("OnEvent", function(self, ...)
+	first_april = gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked
+	self:SetChecked(not first_april)
+end)
+
+DCS_FirstAprilCheck:SetScript("OnClick", function(self)
+	first_april = not first_april
+	gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked = first_april
+	PaperDollFrame_UpdateStats()
+end)
+
+local changing_somewhere_else = { --assuming the stat DOES get changed
+	["ItemLevelFrame"] = {},
+	["DCS_ATTACK_ATTACKSPEED"] = {},
+	["CRITCHANCE"] = {},
+	["HASTE"] = {},
+	["VERSATILITY"] = {},
+	["MASTERY"] = {},
+	["LIFESTEAL"] = {},
+	["AVOIDANCE"] = {},
+	["DODGE"] = {},
+	["PARRY"] = {},
+	["BLOCK"] = {},
+	["SPEED"] = {},
+	["GCD"] = {},
+	["MASTERY_RATING"] = {},
+	["DURABILITY_STAT"] = {},
+	["MOVESPEED"] = {},
+	["REPAIR_COST"] = {},
+}
+local statintegers = {
+	["ARMOR"] = {},
+	["ITEMLEVEL"] = {},
+	["HEALTH"] = {},
+	["DCS_POWER"] = {},
+	["DCS_ALTERNATEMANA"] = {},
+	["STRENGTH"] = {},
+	["AGILITY"] = {},
+	["STAMINA"] = {},
+	["INTELLECT"] = {},
+	["ATTACK_AP"] = {},
+	["SPELLPOWER"] = {},
+	["MANAREGEN"] = {},
+}
+
 local function ShowCharacterStats(unit)
+	local _, month, day = CalendarGetDate();
+	aprilmonth = month --comment it out when done debugging
+	aprilday = day --comment it out when done debugging
+	local right_date = (month == aprilmonth) and (day == aprilday)
+	namespace.right_date = right_date
     local stat
     local count, backgroundcount, height = 0, false, 4
 	local hideatzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked --placeholder for the checkbox hideatzero
@@ -323,6 +389,38 @@ local function ShowCharacterStats(unit)
 			end
 			--]]
 			if (stat.frame:IsShown()) then
+				if first_april and right_date then
+				if stat.frame.numericValue then
+					if (v.statKey ~= "DURABILITY_STAT") and (v.statKey ~= "MOVESPEED") and (v.statKey ~= "REPAIR_COST") then
+						if not changing_somewhere_else[v.statKey] then
+							--print(v.statKey,stat.frame.numericValue)
+							if (v.statKey == "ATTACK_DAMAGE") then
+								local sometext = stat.frame.Value:GetText()
+								local prefix,suffix = "",""
+								if sometext:find("|cff") then
+									prefix = sometext:sub(1,10)
+									sometext = sometext:sub(11,-3)
+									suffix = "|r"
+								end	
+								local place_delimiter = sometext:find("-")
+								if place_delimiter then
+									local first_part = tonumber(sometext:sub(1,place_delimiter-1))
+									local second_part = tonumber(sometext:sub(place_delimiter+1))
+									if first_part and second_part then
+										stat.frame.Value:SetText(prefix .. BreakUpLargeNumbers(math.floor(first_part*first_april_multiplier+0.5)) .. "-" .. BreakUpLargeNumbers(math.floor(second_part*first_april_multiplier+0.5)) .. suffix)
+									end
+								end
+							else
+								local value = stat.frame.numericValue*first_april_multiplier
+								if v.statKey:find("RATING") or statintegers[v.statKey] then
+									value = floor(value+0.5)
+								end
+								stat.frame.Value:SetText(BreakUpLargeNumbers(value))
+							end
+						end
+					end
+				end
+				end
 				stat.frame:ClearAllPoints()
 				stat.frame:SetPoint("TOPLEFT", StatFrame.AnchorFrame, "TOPLEFT", 0, -height)
 				if (stat.category) then

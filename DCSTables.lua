@@ -243,6 +243,14 @@ end
 
 DCS_TableData.StatData = DCS_TableData:CopyTable(PAPERDOLL_STATINFO)
 
+local first_april_multiplier = 4.01
+--local first_april_stat_divisor = 0.1^4
+namespace.first_april_multiplier = first_april_multiplier
+--namespace.first_april_stat_divisor = first_april_stat_divisor
+gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsFirstApril = {
+	FirstAprilSetChecked = true,
+}
+
 DCS_TableData.StatData.ItemLevelFrame = {
     category   = true,
     frame      = char_ctats_pane.ItemLevelFrame,
@@ -262,8 +270,17 @@ DCS_TableData.StatData.ItemLevelFrame = {
 			DCS_DecimalPlaces = ("%.0f")
 			multiplier = 1
 		end
+		
 		avgItemLevel = floor(multiplier*avgItemLevel)/multiplier;
 		avgItemLevelEquipped = floor(multiplier*avgItemLevelEquipped)/multiplier;
+		
+		local avgItemLevel_1 = avgItemLevel
+		local avgItemLevelEquipped_1 = avgItemLevelEquipped
+		if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+			avgItemLevel_1 = floor(first_april_ilvl_multiplier*multiplier*avgItemLevel)/multiplier
+			avgItemLevelEquipped_1 = floor(first_april_ilvl_multiplier*multiplier*avgItemLevelEquipped)/multiplier;
+		end
+
 		statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, STAT_AVERAGE_ITEM_LEVEL).." "..dcs_format(DCS_DecimalPlaces, avgItemLevel);
 		--[[-
 		if not DCS_ILvl_EQ_AV_Check:GetChecked(true) or (avgItemLevel == avgItemLevelEquipped) then
@@ -279,18 +296,18 @@ DCS_TableData.StatData.ItemLevelFrame = {
 		--if ilvl_eq_av and (avgItemLevel ~= avgItemLevelEquipped) then
 		if ilvl_eq_av and (avgItemLevel > avgItemLevelEquipped) then
 			if ilvl_class_color then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, classColorString .. dcs_format(DCS_DecimalPlaces .. ("/") .. DCS_DecimalPlaces,avgItemLevelEquipped,avgItemLevel), false, avgItemLevelEquipped)
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, classColorString .. dcs_format(DCS_DecimalPlaces .. ("/") .. DCS_DecimalPlaces,avgItemLevelEquipped_1,avgItemLevel_1), false, avgItemLevelEquipped_1)
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces .. ("/") .. DCS_DecimalPlaces,avgItemLevelEquipped,avgItemLevel), false, avgItemLevelEquipped)
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces .. ("/") .. DCS_DecimalPlaces,avgItemLevelEquipped_1,avgItemLevel_1), false, avgItemLevelEquipped_1)
 			end
 			local temp = DCS_DecimalPlaces .. ")"
 			local format_for_avg_equipped = gsub(STAT_AVERAGE_ITEM_LEVEL_EQUIPPED, "d%)", temp,  1)
 			statFrame.tooltip = statFrame.tooltip .. "  " .. dcs_format(format_for_avg_equipped, avgItemLevelEquipped);
 		else
 			if ilvl_class_color then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, classColorString .. dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped), false, avgItemLevelEquipped)
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, classColorString .. dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped_1), false, avgItemLevelEquipped_1)
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped), false, avgItemLevelEquipped)
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVERAGE_ITEM_LEVEL, dcs_format(DCS_DecimalPlaces,avgItemLevelEquipped_1), false, avgItemLevelEquipped_1)
 			end
 		end
 		statFrame.tooltip = statFrame.tooltip .. font_color_close;
@@ -721,6 +738,9 @@ DCS_TableData.StatData.MASTERY_RATING = {
 		local _, bonuscoeff = GetMasteryEffect();
 		local stat = CR_MASTERY
 		local rating = GetCombatRating(stat)
+		if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+			rating = floor(rating * first_april_multiplier + 0.5)
+		end
 		if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
 			color_rating1 = "|cff7f7f7f" .. color_rating1 .. "|r"
 			color_rating2 = "|cff7f7f7f" .. color_rating2 .. "|r"

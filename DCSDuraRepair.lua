@@ -685,7 +685,7 @@ end)
 ------------------------------
 -- Item Level Display Check --
 ------------------------------
-
+local first_april_multiplier = namespace.first_april_multiplier
 local function DCS_Item_Level_Center()
 	local summar_ilvl = 0
 	local _, equipped = GetAverageItemLevel()
@@ -714,6 +714,9 @@ local function DCS_Item_Level_Center()
 						else
 							summar_ilvl = summar_ilvl + value
 						end
+						if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+							value = floor(first_april_multiplier*value)
+						end
 						v.ilevel:SetText(value)
 					end
 				end
@@ -721,6 +724,15 @@ local function DCS_Item_Level_Center()
 		end
 	end
 end
+
+local function itemlevelstuff()
+	if showitemlevel then
+		DCS_Item_Level_Center()
+	end
+end
+
+local DCS_FirstAprilCheck = _G["DCS_FirstAprilCheck"]
+DCS_FirstAprilCheck:HookScript("OnClick",itemlevelstuff)
 
 gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
 	ShowItemLevelSetChecked = true,

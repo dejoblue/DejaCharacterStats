@@ -16,7 +16,7 @@ local statformat
 local multiplier
 local notexactlyzero
 --hideatzero gets used in DCSLayouts, so there's small use to make faster access to it here.
-
+local first_april_multiplier = namespace.first_april_multiplier
 local function DCS_Decimals()
 		--version with localisation of PAPERDOLLFRAME_TOOLTIP_FORMAT, HIGHLIGHT_FONT_COLOR_CODE and FONT_COLOR_CODE_CLOSE (doll_tooltip_format, highlight_code and font_color_close)
 	-- Crit Chance
@@ -68,11 +68,15 @@ local function DCS_Decimals()
 				critChance = meleeCrit;
 				rating = CR_CRIT_MELEE;
 			end
+			local critChance1 = critChance
 		-- PaperDollFrame_SetLabelAndText Format Change
+			if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+				critChance1 = round(critChance1 * first_april_multiplier)
+			end
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, dcs_format(statformat, critChance), false, round(multiplier*critChance)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, dcs_format(statformat, critChance1), false, round(multiplier*critChance1)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, dcs_format(statformat, critChance), false, critChance);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, dcs_format(statformat, critChance1), false, critChance1);
 			end
 			--PaperDollFrame_SetLabelAndText(statFrame, STAT_CRITICAL_STRIKE, format(statformat1, critChance), true, format(statformat1, critChance)); --can't do it because PaperDollFrame_SetLabelAndText converts to integer
 			statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, STAT_CRITICAL_STRIKE).." "..dcs_format("%.2f%%", critChance)..font_color_close;
@@ -103,10 +107,14 @@ local function DCS_Decimals()
 				hasteFormatString = "+%s";
 			end
 		-- PaperDollFrame_SetLabelAndText Format Change
+			local haste1 = haste
+			if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+				haste1 = round(haste1 * first_april_multiplier)
+			end
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, dcs_format(hasteFormatString, dcs_format(statformat, haste)), false, round(multiplier*haste)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, dcs_format(hasteFormatString, dcs_format(statformat, haste1)), false, round(multiplier*haste1)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, dcs_format(hasteFormatString, dcs_format(statformat, haste)), false, haste);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_HASTE, dcs_format(hasteFormatString, dcs_format(statformat, haste1)), false, haste1);
 			end
 
 			statFrame.tooltip = highlight_code .. dcs_format(doll_tooltip_format, STAT_HASTE) .. " " .. dcs_format(hasteFormatString, dcs_format("%.2f%%", haste)) .. font_color_close;
@@ -133,11 +141,17 @@ local function DCS_Decimals()
 			local versatilityDamageTakenReduction = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_TAKEN) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_TAKEN);
 		-- PaperDollFrame_SetLabelAndText Format Change
 			--local result
+			local versatilityDamageBonus1 = versatilityDamageBonus
+			local versatilityDamageTakenReduction1 = versatilityDamageTakenReduction
+			if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+				versatilityDamageBonus1 = round(versatilityDamageBonus1 * first_april_multiplier)
+				versatilityDamageTakenReduction1 = round(versatilityDamageTakenReduction1 * first_april_multiplier)
+			end
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, dcs_format(statformat, versatilityDamageBonus) .. " / " .. dcs_format(statformat, versatilityDamageTakenReduction), false, round(multiplier*versatilityDamageBonus)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, dcs_format(statformat, versatilityDamageBonus1) .. " / " .. dcs_format(statformat, versatilityDamageTakenReduction1), false, round(multiplier*versatilityDamageBonus1)/multiplier);
 				--result = round(multiplier*versatilityDamageBonus)/multiplier
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, dcs_format(statformat, versatilityDamageBonus) .. " / " .. dcs_format(statformat, versatilityDamageTakenReduction), false, versatilityDamageBonus);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, dcs_format(statformat, versatilityDamageBonus1) .. " / " .. dcs_format(statformat, versatilityDamageTakenReduction1), false, versatilityDamageBonus1);
 				--result = versatilityDamageBonus
 			end
 			--print("vesratility",result)
@@ -170,11 +184,14 @@ local function DCS_Decimals()
 			end
 			local mastery = GetMasteryEffect();
 		-- PaperDollFrame_SetLabelAndText Format Change
-    
+			local mastery1 = mastery
+			if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+				mastery1 = round(mastery1 * first_april_multiplier)
+			end
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, "", dcs_format(color_format, mastery), false, round(multiplier*mastery)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, "", dcs_format(color_format, mastery1), false, round(multiplier*mastery1)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, "", dcs_format(color_format, mastery), false, mastery);
+				PaperDollFrame_SetLabelAndText(statFrame, "", dcs_format(color_format, mastery1), false, mastery1);
 			end
 			statFrame.Label:SetText(color_mastery)
 			statFrame.onEnterFunc = Mastery_OnEnter;
@@ -192,11 +209,15 @@ local function DCS_Decimals()
 			local lifesteal = GetLifesteal();
 		-- PaperDollFrame_SetLabelAndText Format Change
 			--local result
+			local lifesteal1 = lifesteal
+			if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+				lifesteal1 = round(lifesteal1 * first_april_multiplier)
+			end
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_LIFESTEAL, dcs_format(statformat, lifesteal), false, round(multiplier*lifesteal)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_LIFESTEAL, dcs_format(statformat, lifesteal1), false, round(multiplier*lifesteal1)/multiplier);
 				--result = round(multiplier*lifesteal)/multiplier
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_LIFESTEAL, dcs_format(statformat, lifesteal), false, lifesteal);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_LIFESTEAL, dcs_format(statformat, lifesteal1), false, lifesteal1);
 				--result = lifesteal
 			end
 			--print("leech",result)
@@ -216,10 +237,14 @@ local function DCS_Decimals()
 
 			local avoidance = GetAvoidance();
 		-- PaperDollFrame_SetLabelAndText Format Change
+			local avoidance1 = avoidance
+			if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+				avoidance1 = round(avoidance1 * first_april_multiplier)
+			end
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, dcs_format(statformat, avoidance), false, round(multiplier*avoidance)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, dcs_format(statformat, avoidance1), false, round(multiplier*avoidance1)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, dcs_format(statformat, avoidance), false, avoidance);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_AVOIDANCE, dcs_format(statformat, avoidance1), false, avoidance1);
 			end
 			statFrame.tooltip = highlight_code .. dcs_format(doll_tooltip_format, STAT_AVOIDANCE) .. " " .. dcs_format("%.2f%%", avoidance) .. font_color_close;
 
@@ -237,10 +262,14 @@ local function DCS_Decimals()
 
 			local chance = GetDodgeChance();
 		-- PaperDollFrame_SetLabelAndText Format Change
+			local chance1 = chance
+			if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+				chance1 = round(chance1 * first_april_multiplier)
+			end
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, dcs_format(statformat, chance), false, round(multiplier*chance)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, dcs_format(statformat, chance1), false, round(multiplier*chance1)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, dcs_format(statformat, chance), false, chance);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_DODGE, dcs_format(statformat, chance1), false, chance1);
 			end
 			statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, DODGE_CHANCE).." "..string.format("%.2f", chance).."%"..font_color_close;
 			statFrame.tooltip2 = dcs_format(CR_DODGE_TOOLTIP, GetCombatRating(CR_DODGE), GetCombatRatingBonus(CR_DODGE));
@@ -255,11 +284,15 @@ local function DCS_Decimals()
 			end
 
 			local chance = GetParryChance();
+			local chance1 = chance
+			if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+				chance1 = round(chance1 * first_april_multiplier)
+			end
 		-- PaperDollFrame_SetLabelAndText Format Change
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, dcs_format(statformat, chance), false, round(multiplier*chance)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, dcs_format(statformat, chance1), false, round(multiplier*chance1)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, dcs_format(statformat, chance), false, chance);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_PARRY, dcs_format(statformat, chance1), false, chance1);
 			end
 			statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, PARRY_CHANCE).." "..dcs_format("%.2f", chance).."%"..font_color_close;
 			statFrame.tooltip2 = dcs_format(CR_PARRY_TOOLTIP, GetCombatRating(CR_PARRY), GetCombatRatingBonus(CR_PARRY));
@@ -274,11 +307,15 @@ local function DCS_Decimals()
 			end
 
 			local chance = GetBlockChance();
+			local chance1 = chance
+			if namespace.right_date and gdbprivate.gdb.gdbdefaults.dejacharacterstatsFirstApril.FirstAprilSetChecked then
+				chance1 = round(chance1 * first_april_multiplier)
+			end
 		-- PaperDollFrame_SetLabelAndText Format Change
 			if notexactlyzero then
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, dcs_format(statformat, chance), false, round(multiplier*chance)/multiplier);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, dcs_format(statformat, chance1), false, round(multiplier*chance1)/multiplier);
 			else
-				PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, dcs_format(statformat, chance), false, chance);
+				PaperDollFrame_SetLabelAndText(statFrame, STAT_BLOCK, dcs_format(statformat, chance1), false, chance1);
 			end
 			statFrame.tooltip = highlight_code..dcs_format(doll_tooltip_format, BLOCK_CHANCE).." "..dcs_format("%.2f", chance).."%"..font_color_close;
 			statFrame.tooltip2 = dcs_format(CR_BLOCK_TOOLTIP, GetShieldBlock());
