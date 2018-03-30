@@ -424,7 +424,7 @@ local function DCS_Durability_Bar_Textures()
 		duraTotal = 1 --if nothing to break then durability should be 100%
 	end
 	local duraMean = duraTotal/duraMaxTotal
-	duraMeanTexture:SetSize(4, 31*duraMean/100)
+	duraMeanTexture:SetSize(4, 31*duraMean)
 	if duraMean == 1 then 
 		duraMeanTexture:SetColorTexture(0, 0, 0, 0)
 	elseif duraMean < 0.10 then
