@@ -686,7 +686,7 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 	DCS_TableRelevantStats:SetScript("OnEvent", function(self, event, ...)
 		--registered events PLAYER_LOGIN and PLAYER_TALENT_UPDATE
 		DCS_Login_Initialization()
-		print(event)
+		--print(event)
 		DCS_TableRelevantStats_init()
 		if event == "PLAYER_TALENT_UPDATE" then
 			ShowCharacterStats("player")
