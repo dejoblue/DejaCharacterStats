@@ -450,23 +450,26 @@ end
 local function DCS_Login_Initialization()
 	local spec = GetSpecialization();
 		--print(spec)
-	local role = GetSpecializationRole(spec)
-	if role == "TANK" then
-		ShownData = DCS_TableData:CopyTable(DefaultTankData)
-	else
-		ShownData = DCS_TableData:CopyTable(DefaultNonTankData)
-	end
 	local uniqueKey = UnitName("player") .. ":" .. GetRealmName() .. ":" .. spec
 	--print(uniqueKey)
 	if (DCS_ClassSpecDB[uniqueKey]) then
+		--print("Is it current spec?",uniqueKey)
 		if (ShownData.uniqueKey ~= uniqueKey) then
-			ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey]) --not so easy to understand when gets here. is it during change of specialisation?
+			--print("It is previous spec",ShownData.uniqueKey)
+			ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey])
 			--print("Set saved variables.")
 			verify_sanity()
 		end
 		--ShowCharacterStats("player")  --probably doesn't need this call
 	else
 		--print("Set default initialization")
+		--local role = GetSpecializationRole(spec)
+		--if role == "TANK" then
+		if GetSpecializationRole(spec) == "TANK" then
+			ShownData = DCS_TableData:CopyTable(DefaultTankData)
+		else
+			ShownData = DCS_TableData:CopyTable(DefaultNonTankData)
+		end
 		DCS_Table_Relevant()
 	end
 	--ShowCharacterStats("player") --it gets called if talents get changed through DCS_TableRelevantStats on event
@@ -683,6 +686,7 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 	DCS_TableRelevantStats:SetScript("OnEvent", function(self, event, ...)
 		--registered events PLAYER_LOGIN and PLAYER_TALENT_UPDATE
 		DCS_Login_Initialization()
+		print(event)
 		DCS_TableRelevantStats_init()
 		if event == "PLAYER_TALENT_UPDATE" then
 			ShowCharacterStats("player")
