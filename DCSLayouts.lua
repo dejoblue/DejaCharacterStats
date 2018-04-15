@@ -388,7 +388,7 @@ local function DCS_Table_Relevant()
 	end 
 
 	local primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
-		--print(primaryStat)
+	--print("primaryStat",primaryStat)
     for _, v in ipairs(ShownData) do
 		--print (v.statKey, " ", v.hidden)
 		--if v.statKey == 0 then v.hidden = true end
@@ -450,23 +450,26 @@ end
 local function DCS_Login_Initialization()
 	local spec = GetSpecialization();
 		--print(spec)
-	local role = GetSpecializationRole(spec)
-	if role == "TANK" then
-		ShownData = DCS_TableData:CopyTable(DefaultTankData)
-	else
-		ShownData = DCS_TableData:CopyTable(DefaultNonTankData)
-	end
 	local uniqueKey = UnitName("player") .. ":" .. GetRealmName() .. ":" .. spec
 	--print(uniqueKey)
 	if (DCS_ClassSpecDB[uniqueKey]) then
+		--print("Is it current spec?",uniqueKey)
 		if (ShownData.uniqueKey ~= uniqueKey) then
-			ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey]) --not so easy to understand when gets here. is it during change of specialisation?
+			--print("It is previous spec",ShownData.uniqueKey)
+			ShownData = DCS_TableData:MergeTable(DCS_ClassSpecDB[uniqueKey])
 			--print("Set saved variables.")
 			verify_sanity()
 		end
 		--ShowCharacterStats("player")  --probably doesn't need this call
 	else
 		--print("Set default initialization")
+		--local role = GetSpecializationRole(spec)
+		--if role == "TANK" then
+		if GetSpecializationRole(spec) == "TANK" then
+			ShownData = DCS_TableData:CopyTable(DefaultTankData)
+		else
+			ShownData = DCS_TableData:CopyTable(DefaultNonTankData)
+		end
 		DCS_Table_Relevant()
 	end
 	--ShowCharacterStats("player") --it gets called if talents get changed through DCS_TableRelevantStats on event
@@ -632,7 +635,7 @@ local function DCS_TableRelevantStats_OnLeave(self)
  
 local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", CharacterFrameInsetRight, "UIPanelButtonTemplate")
 	DCS_TableRelevantStats:RegisterEvent("PLAYER_LOGIN")
-	DCS_TableRelevantStats:RegisterEvent("PLAYER_TALENT_UPDATE")
+	--DCS_TableRelevantStats:RegisterEvent("PLAYER_TALENT_UPDATE") --will be registered during PLAYER_LOGIN
 	DCS_TableRelevantStats:ClearAllPoints()
 	DCS_TableRelevantStats:SetPoint("BOTTOMRIGHT", -130,-36)
 	DCS_TableRelevantStats:SetScale(0.80)
@@ -683,7 +686,11 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 	DCS_TableRelevantStats:SetScript("OnEvent", function(self, event, ...)
 		--registered events PLAYER_LOGIN and PLAYER_TALENT_UPDATE
 		DCS_Login_Initialization()
-		DCS_TableRelevantStats_init()
+		--print(event)
+		--DCS_TableRelevantStats_init() -- ShowCharacterStats calls set_relevant_stat_state() which in turn calls it
+		if event == "PLAYER_LOGIN" then
+			self:RegisterEvent("PLAYER_TALENT_UPDATE")
+		end
 		if event == "PLAYER_TALENT_UPDATE" then
 			ShowCharacterStats("player")
 		end
