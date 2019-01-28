@@ -169,7 +169,7 @@ local function DCS_Decimals()
 				if not namespace.configMode then
 					if hidemastery then
 						statFrame:Hide();
-						print("hiding")
+						--print("hiding")
 						return;
 					end
 				end

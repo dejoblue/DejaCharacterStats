@@ -492,13 +492,14 @@ DCS_TableData.StatData.GCD = {
 				gcd = casterGCD()
 			end
 		else
-			if (primaryStat == LE_UNIT_STAT_INTELLECT) or (classfilename == "HUNTER") or (primaryStat == LE_UNIT_STAT_STRENGTH) or (classfilename == "DEMONHUNTER")then 
+			if (primaryStat == LE_UNIT_STAT_INTELLECT) or (classfilename == "HUNTER") or (classfilename == "SHAMAN") or (primaryStat == LE_UNIT_STAT_STRENGTH) or (classfilename == "DEMONHUNTER")then 
 				-- adding wariors, paladins
 				-- tested with Crusader Strike, Judgment on retribution paladin
 				-- tested with Consecration, Avenger's Shield, Judgment on protection paladin
 				-- tested with Slam on level 1 warior
 				-- tested with Cobra shot and Multi-shot for hunter. Have troll hunter but don't have pet with Ancient Hysteria //Kakjens
 				-- adding DK-s as reported by Mpstark
+				-- tested enhancement shaman with several spells including Lighnting Shield. Wind Shear appears not to induce GCD
 				gcd = casterGCD()
 			else
 				gcd = 1 -- tested with mutilate for assasination rogues.
@@ -727,7 +728,7 @@ DCS_TableData.StatData.MASTERY_RATING = {
 			if not namespace.configMode then
 				if namespace.hidemastery then
 					statFrame:Hide();
-					print("hiding")
+					--print("hiding")
 					return;
 				end
 			end

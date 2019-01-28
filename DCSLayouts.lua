@@ -826,13 +826,14 @@ local function DCS_ClassCrestBGCheck()
 		char_ctats_pane.ClassBackground:Hide()
 	end
 end
+
+DejaCharacterStatsPanel:Hide()
+
+--[[
+--TODO: rewrite parenting changes with the help of DCS_InterfaceOptConfigButton and DejaCharacterStatsPanel
 DejaCharacterStatsPanel:HookScript("OnShow", function(self)
 	print("displaying DCS InterfaceOptions") --works
 end)
-DejaCharacterStatsPanel:Hide()
---[[
---TODO: rewrite parenting changes with the help of DCS_InterfaceOptConfigButton and DejaCharacterStatsPanel
-
 DejaCharacterStatsPanel:HookScript("OnHide", function(self)
 	print("closing DCS InterfaceOptions with DejaCharacterStatsPanel") --doesn't work
 end)
