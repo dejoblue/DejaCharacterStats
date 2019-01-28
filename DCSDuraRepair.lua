@@ -27,6 +27,10 @@ local DCSITEM_SLOT_FRAMES_RIGHT = {
 --	CharacterHandsSlot,CharacterWaistSlot,CharacterLegsSlot,CharacterFeetSlot,CharacterMainHandSlot,
 --}
 
+local DCSITEM_TWO_HANDED_WEAPONS = {
+	"Bows","Crossbows","Guns","Fishing Poles","Polearms","Staves","Two-Handed Axes","Two-Handed Maces","Two-Handed Swords",
+}
+	
 --local duraMean
 local duraTotal
 local duraMaxTotal
@@ -775,6 +779,7 @@ end)
 
 local function DCS_Item_Level_Center()
 	local summar_ilvl = 0
+	local NeckValue = 0
 	local _, equipped = GetAverageItemLevel()
 	--print("Dura", DCSRelicTotal)
 	--equipped = round(equipped * 16)
@@ -796,12 +801,22 @@ local function DCS_Item_Level_Center()
 					if value then
 						local _, _, itemRarity = GetItemInfo(itemLink) --least scope for itemRarity
 						v.ilevel:SetTextColor(GetItemQualityColor(itemRarity))
-						if (itemRarity == 6) then 	--supposedly only artifacts after crucible return wrong ilvl
+						if (itemRarity == 6) and (v ~= CharacterNeckSlot) then 	--supposedly only artifacts after crucible return wrong ilvl							
 							value = (equipped - summar_ilvl)/2
 						else
+							v.ilevel:SetText(value)
+							if (v == CharacterMainHandSlot) then							
+								for _, twohands in ipairs(DCSITEM_TWO_HANDED_WEAPONS) do
+									if IsEquippedItemType(twohands) then
+										value = (value*2)
+									end
+								end
+							end
 							summar_ilvl = summar_ilvl + value
+						end							
+						if IsEquippedItem("Heart of Azeroth") then
+							CharacterNeckSlot.ilevel:SetText((equipped-(summar_ilvl)) + 280)
 						end
-						v.ilevel:SetText(value)
 					end
 				end
 			end

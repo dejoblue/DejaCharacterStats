@@ -684,10 +684,12 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 		--registered events PLAYER_LOGIN and PLAYER_TALENT_UPDATE
 		DCS_Login_Initialization()
 		DCS_TableRelevantStats_init()
-		if event == "PLAYER_TALENT_UPDATE" then
-			ShowCharacterStats("player")
-		end
-
+		
+		--Login error of "Division by zero" in BfA 8.0 alpha as the globals have not instantiated yet.
+		--May be an alpha issue. Try other events like "PLAYER_LOGIN" if found to be needed.
+		-- if event == "PLAYER_TALENT_UPDATE" then 
+		-- 	ShowCharacterStats("player")
+		-- end
 	end)
 
 ------------------------
