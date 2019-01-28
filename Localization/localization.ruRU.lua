@@ -7,9 +7,9 @@ if namespace.locale == "ruRU" then
 	-- The EU English game client also
 	-- uses the US English locale code.
 
--- ###########################################################################################################
+-- ####################################################################################################################
 -- ##	русский (Russian) translations provided by Nappsel, Wishko, berufegoru, Hubbotu, and n1mrorox on Curseforge. ##
--- ###########################################################################################################
+-- ####################################################################################################################
 
 L["  /dcstats config: Opens the DejaCharacterStats addon config menu."] = "/dcstats config: Открывает настройки дополнения DejaCharacterStats."
 L["  /dcstats reset:  Resets DejaCharacterStats options to default."] = "/dcstats reset: Вернуть настройки DejaCharacterStats по умолчанию."

@@ -7,9 +7,9 @@ if namespace.locale == "itIT" then
 	-- The EU English game client also
 	-- uses the US English locale code.
 
--- ###############################################################################################################
+-- ###############################################################################################
 -- ##	Italiano (Italian) translations provided by infinitybofh and INoobInside on Curseforge.	##
--- ###############################################################################################################
+-- ###############################################################################################
 
 L["  /dcstats config: Opens the DejaCharacterStats addon config menu."] = "  /dcstats config: Apre il menu Configurazione dell'addon DejaCharacterStats."
 L["  /dcstats reset:  Resets DejaCharacterStats options to default."] = "  /dcstats reset: resetta l'addon ai parametri di default."

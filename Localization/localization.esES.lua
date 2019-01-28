@@ -6,9 +6,9 @@ if namespace.locale == "esES" then
 	-- The EU English game client also
 	-- uses the US English locale code.
 
--- ###############################################################################################################
--- ##	Español (Spanish) translations provided by Tholagar, MrUrkaz, Krounted, and Valhallanem on Curseforge.	##
--- ###############################################################################################################
+-- ###########################################################################################################################
+-- ##	Español (Spanish) translations provided by Tholagar, Mikel391, MrUrkaz, Krounted, and Valhallanem on Curseforge.	##
+-- ###########################################################################################################################
 
 L["  /dcstats config: Opens the DejaCharacterStats addon config menu."] = "/dcstats config: Abre el menú de configuración de DejaCharacterStats"
 L["  /dcstats reset:  Resets DejaCharacterStats options to default."] = "/dcstats reset: Reinicia DejaCharacterStats a los ajustes predeterminados"

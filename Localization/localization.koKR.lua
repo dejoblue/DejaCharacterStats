@@ -7,9 +7,9 @@ if namespace.locale == "koKR" then
 	-- The EU English game client also
 	-- uses the US English locale code.
 
--- ###########################################################################################################
+-- #######################################################################################################################
 -- ##	한국어 (Korean) translations provided by PositiveMind, yuk6196, netaras, meloppy, and next96 on Curseforge.		##
--- ###########################################################################################################
+-- #######################################################################################################################
 
 L["  /dcstats config: Opens the DejaCharacterStats addon config menu."] = "/dcstats config: DejaCharacterStats 애드온 설정 메뉴를 엽니다."
 L["  /dcstats reset:  Resets DejaCharacterStats options to default."] = "/dcstats reset: DejaCharacterStats 설정을 기본값으로 초기화합니다."
