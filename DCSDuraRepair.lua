@@ -803,6 +803,7 @@ local function DCS_Item_Level_Center()
 						v.ilevel:SetTextColor(GetItemQualityColor(itemRarity))
 						if (itemRarity == 6) and (v ~= CharacterNeckSlot) then 	--supposedly only artifacts after crucible return wrong ilvl							
 							value = (equipped - summar_ilvl)/2
+							v.ilevel:SetText(value)
 						else
 							v.ilevel:SetText(value)
 							if (v == CharacterMainHandSlot) then							
@@ -814,9 +815,9 @@ local function DCS_Item_Level_Center()
 							end
 							summar_ilvl = summar_ilvl + value
 						end							
-						if IsEquippedItem("Heart of Azeroth") then
-							CharacterNeckSlot.ilevel:SetText((equipped-(summar_ilvl)) + 280)
-						end
+						-- if IsEquippedItem("Heart of Azeroth") then
+						-- 	CharacterNeckSlot.ilevel:SetText((equipped-(summar_ilvl)) + 280)
+						-- end
 					end
 				end
 			end

@@ -632,7 +632,7 @@ local function DCS_TableRelevantStats_OnLeave(self)
  
 local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", CharacterFrameInsetRight, "UIPanelButtonTemplate")
 	DCS_TableRelevantStats:RegisterEvent("PLAYER_LOGIN")
-	DCS_TableRelevantStats:RegisterEvent("PLAYER_TALENT_UPDATE")
+	DCS_TableRelevantStats:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 	DCS_TableRelevantStats:ClearAllPoints()
 	DCS_TableRelevantStats:SetPoint("BOTTOMRIGHT", -130,-36)
 	DCS_TableRelevantStats:SetScale(0.80)
@@ -681,15 +681,16 @@ local DCS_TableRelevantStats = CreateFrame("Button", "DCS_TableRelevantStats", C
 	end)
 
 	DCS_TableRelevantStats:SetScript("OnEvent", function(self, event, ...)
-		--registered events PLAYER_LOGIN and PLAYER_TALENT_UPDATE
+		--registered events PLAYER_ENTERING_WORLD and PLAYER_SPECIALIZATION_CHANGED
 		DCS_Login_Initialization()
 		DCS_TableRelevantStats_init()
 		
 		--Login error of "Division by zero" in BfA 8.0 alpha as the globals have not instantiated yet.
 		--May be an alpha issue. Try other events like "PLAYER_LOGIN" if found to be needed.
-		-- if event == "PLAYER_TALENT_UPDATE" then 
-		-- 	ShowCharacterStats("player")
-		-- end
+		if event == "PLAYER_SPECIALIZATION_CHANGED" then 
+			-- print("changed")
+			ShowCharacterStats("player")
+		end
 	end)
 
 ------------------------
