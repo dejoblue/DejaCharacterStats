@@ -854,7 +854,7 @@ local function attempt_ilvl(v,attempts)
 				v.ilevel:SetTextColor(getItemQualityColor(item:GetItemQuality())) --upvalue call
 				v.ilevel:SetText(value)
 			else
-				C_Timer.After(0.1, attempt_ilvl(v,attempts-1))
+				C_Timer.After(0.1, function() attempt_ilvl(v,attempts-1) end)
 			end
 		else
 			v.ilevel:SetText("")
