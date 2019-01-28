@@ -279,6 +279,7 @@ end
 local configMode = false
 
 local function ShowCharacterStats(unit)
+	--print("ShowCharacterStats")
     local stat
     local count, backgroundcount, height = 0, false, 4
 	local hideatzero = gdbprivate.gdb.gdbdefaults.dejacharacterstatsHideAtZeroChecked.SetChecked --placeholder for the checkbox hideatzero
