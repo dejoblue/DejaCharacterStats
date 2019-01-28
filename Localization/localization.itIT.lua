@@ -13,51 +13,44 @@ if namespace.locale == "itIT" then
 
 L["  /dcstats config: Opens the DejaCharacterStats addon config menu."] = "  /dcstats config: Apre il menu Configurazione dell'addon DejaCharacterStats."
 L["  /dcstats reset:  Resets DejaCharacterStats options to default."] = "  /dcstats reset: resetta l'addon ai parametri di default."
---[[Translation missing --]]
---[[ L["%s of %s increases %s by %.2f%%"] = ""--]] 
---[[Translation missing --]]
---[[ L["About DCS"] = ""--]] 
-L["All Stats"] = "Tutto"
-L["Attack"] = "Attacco"
-L["Average Durability"] = "Media durata"
+L["%s of %s increases %s by %.2f%%"] = "%s di %s incrementa %s di %.2f%%"
+L["About DCS"] = "Info DCS"
+L["All Stats"] = "Tutte le Stats"
+L["Attack"] = "Attacco "
+L["Average Durability"] = "Media integrità"
 L["Average equipped item durability percentage."] = "Media percentuale resistenza item."
 L["Average Item Level:"] = "Item Level Medio:"
---[[Translation missing --]]
---[[ L["Avoidance Rating"] = ""--]] 
+L["Avoidance Rating"] = "Indice elusione"
 L["Blizzard's Hide At Zero"] = "Blizzard's nascondi Zeri"
-L["Character Stats:"] = "Statistiche Personaggio:"
+L["Character Stats:"] = "Statistiche Personaggio: "
 L["Class Colors"] = "Colore Classe"
 L["Class Crest Background"] = "Sfondo Personalizzato di Classe"
---[[Translation missing --]]
---[[ L["Critical Strike Rating"] = ""--]] 
+L["Critical Strike Rating"] = "Indice Critico"
 L["DCS's Hide At Zero"] = "DCS nascondi Zeri"
-L["Decimals"] = "Decimali"
-L["Defense"] = "Difesa"
---[[Translation missing --]]
---[[ L["Dejablue's improved character stats panel view."] = ""--]] 
+L["Decimals"] = "Decimali "
+L["Defense"] = "Difesa "
+L["Dejablue's improved character stats panel view."] = "Vista pannello delle statistiche del personaggio migliorata di Dejablue."
 L["DejaCharacterStats Slash commands (/dcstats):"] = "DejaCharacterStats comando slash (/dcstats):"
 L["Displays a durability bar next to each item."] = "Visualiz. una barra di resistenza/riparazione vicino a ogni singolo pezzo."
 L["Displays average item durability on the character shirt slot and durability frames."] = "Visualiz. la media di resistenza/riparazione dei pezzi sulla camicia del personaggio e nel frame resistenza."
 L["Displays average item level to one decimal place."] = "Visualizza l'ILvL solo con un decimale"
 L["Displays average item level to two decimal places."] = "Visualiz. l'Ilvl a 2 decimali."
 L["Displays average item level with class colors."] = "Visualiz. l'ILvL con il colore di classe."
-L["Displays each equipped item's durability."] = "Visualiz. tutte le resistenze dei singoli item in percentuale."
-L["Displays each equipped item's repair cost."] = "Visualiz. il costo di riparazione di ogni singolo item."
+L["Displays each equipped item's durability."] = "Visualiz. tutte le integrità dei singoli item in percentuale."
+L["Displays each equipped item's repair cost."] = "Visualiz. il costo di riparazione di ogni singolo item"
 L["Displays 'Enhancements' category stats to two decimal places."] = "Visualiz. categoria miglioramenti a 2 cifre decimali"
 L["Displays Equipped/Available item levels unless equal."] = "Visualiz. gli itemLvL equip./disponib. se diversi."
 L["Displays the class crest background."] = "Imposta uno sfondo carino (di Classe :) nel frame delle statistiche."
 L["Displays the DCS scrollbar."] = "Visualiz. la scrollbar di DCS nella finestra personaggio"
 L["Displays the Expand button for the character stats frame."] = "Visualiz. il pulsante Visualizza/Nascondi Statistiche nel frame del personaggio."
 L["Displays the item level of each equipped item."] = "Visualizza il livello dell'Item di ciascun Item equipaggiato nella finestra personaggio."
---[[Translation missing --]]
---[[ L["Dodge Rating"] = ""--]] 
-L["Durability"] = "Durata"
+L["Dodge Rating"] = "Indice Schivata"
+L["Durability"] = "Integrità"
 L["Durability Bars"] = "Barra resistenza"
 L["Equipped/Available"] = "Equipaggiato/Disponibile"
 L["Expand"] = "Espandi"
 L["General"] = "Generale"
---[[Translation missing --]]
---[[ L["General global cooldown refresh time."] = ""--]] 
+L["General global cooldown refresh time."] = "Tempo di refresh del Cooldown globale."
 L["Global Cooldown"] = "Cooldown Globale"
 --[[Translation missing --]]
 --[[ L["Haste Rating"] = ""--]] 
@@ -104,5 +97,6 @@ L["Unlock DCS"] = "Sblocca DCS"
 --[[Translation missing --]]
 --[[ L["weapon auto attack (white) DPS."] = ""--]] 
 L["Weapon DPS"] = "DPS Arma"
+
 
 return end
