@@ -278,6 +278,7 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowDuraChecked = {
 local DCS_ShowDuraCheck = CreateFrame("CheckButton", "DCS_ShowDuraCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowDuraCheck:RegisterEvent("PLAYER_LOGIN")
     DCS_ShowDuraCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+	DCS_ShowDuraCheck:RegisterEvent("PLAYER_EQUIPMENT_CHANGED") --seems like UPDATE_INVENTORY_DURABILITY doesn't get triggered by equipping an item with the same name
 	DCS_ShowDuraCheck:ClearAllPoints()
 	--DCS_ShowDuraCheck:SetPoint("TOPLEFT", 30, -315)
 	DCS_ShowDuraCheck:SetPoint("TOPLEFT", "dcsItemsPanelCategoryFS", 7, -75)
@@ -460,6 +461,7 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowDuraTextureChecked = {
 local DCS_ShowDuraTextureCheck = CreateFrame("CheckButton", "DCS_ShowDuraTextureCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowDuraTextureCheck:RegisterEvent("PLAYER_LOGIN")
     DCS_ShowDuraTextureCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+	DCS_ShowDuraTextureCheck:RegisterEvent("PLAYER_EQUIPMENT_CHANGED") --seems like UPDATE_INVENTORY_DURABILITY doesn't get triggered by equipping an item with the same name
 	DCS_ShowDuraTextureCheck:ClearAllPoints()
 	--DCS_ShowDuraTextureCheck:SetPoint("TOPLEFT", 30, -275)
 	DCS_ShowDuraTextureCheck:SetPoint("TOPLEFT", "dcsItemsPanelCategoryFS", 7, -35)
@@ -473,8 +475,11 @@ DCS_ShowDuraTextureCheck:SetScript("OnEvent", function(self, ...)
 		showtextures = gdbprivate.gdb.gdbdefaults.dejacharacterstatsShowDuraTextureChecked.ShowDuraTextureSetChecked
 		self:SetChecked(showtextures)
 	end
+	--print("DCS_ShowDuraTextureCheck:SetScript(OnEvent)")
 	if PaperDollFrame:IsVisible() then
+		--print("PaperDollFrame:IsVisible()")
 		if showtextures then
+			--print("showtextures")
 			DCS_Durability_Bar_Textures()
 			--DCS_Mean_Durability() --average durability for bar near shirt should be in DCS_Durability_Bar_Textures()
 			--DCS_Item_DurabilityTop() --all single item durability stuff should be in DCS_Durability_Bar_Textures()
@@ -545,6 +550,7 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowAverageRepairChecked = 
 local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDuraCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowAverageDuraCheck:RegisterEvent("PLAYER_LOGIN")
     DCS_ShowAverageDuraCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+	DCS_ShowAverageDuraCheck:RegisterEvent("PLAYER_EQUIPMENT_CHANGED") --seems like UPDATE_INVENTORY_DURABILITY doesn't get triggered by equipping an item with the same name
 	DCS_ShowAverageDuraCheck:ClearAllPoints()
 	--DCS_ShowAverageDuraCheck:SetPoint("TOPLEFT", 30, -295)
 	DCS_ShowAverageDuraCheck:SetPoint("TOPLEFT", "dcsItemsPanelCategoryFS", 7, -55)
@@ -717,6 +723,7 @@ gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemRepairChecked = {
 local DCS_ShowItemRepairCheck = CreateFrame("CheckButton", "DCS_ShowItemRepairCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
 	DCS_ShowItemRepairCheck:RegisterEvent("PLAYER_LOGIN")
 	DCS_ShowItemRepairCheck:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+	DCS_ShowItemRepairCheck:RegisterEvent("PLAYER_EQUIPMENT_CHANGED") --seems like UPDATE_INVENTORY_DURABILITY doesn't get triggered by equipping an item with the same name
 	DCS_ShowItemRepairCheck:RegisterEvent("MERCHANT_SHOW")
 	DCS_ShowItemRepairCheck:RegisterEvent("MERCHANT_CLOSED") --without this event repair cost should remain unchanged from the last vendor
 	DCS_ShowItemRepairCheck:ClearAllPoints()
@@ -733,7 +740,9 @@ DCS_ShowItemRepairCheck:SetScript("OnEvent", function(self, ...)
 		self:SetChecked(showrepair)
 		DCS_Set_Dura_Item_Positions()
 	end
+	--print("want to recalculate repairs")
 	if PaperDollFrame:IsVisible() then
+		--print("recalculating repairs")
 		if showrepair then
 			DCS_Item_RepairCostBottom()
 		else

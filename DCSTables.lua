@@ -345,6 +345,8 @@ hooksecurefunc("MovementSpeed_OnUpdate", function(statFrame)
 	statFrame.Label:SetText(move_speed)
 end)
 
+
+local SPELL_POWER_MANA = Enum.PowerType.Mana
 DCS_TableData.StatData.DCS_POWER = {
 	updateFunc = function(statFrame, unit)
 		local powerType = SPELL_POWER_MANA --changing here as well for similarity
@@ -722,6 +724,13 @@ DCS_TableData.StatData.MASTERY_RATING = {
 		local stat = CR_MASTERY
 		local rating = GetCombatRating(stat)
 		if (UnitLevel("player") < SHOW_MASTERY_LEVEL) then
+			if not namespace.configMode then
+				if namespace.hidemastery then
+					statFrame:Hide();
+					print("hiding")
+					return;
+				end
+			end
 			color_rating1 = "|cff7f7f7f" .. color_rating1 .. "|r"
 			color_rating2 = "|cff7f7f7f" .. color_rating2 .. "|r"
 			color_format = "|cff7f7f7f" .. color_format .. "|r"
