@@ -8,7 +8,7 @@ if namespace.locale == "zhTW" then
 	-- uses the US English locale code.
 
 -- #######################################################################################################################
--- ##	繁體中文 (Traditional Chinese) translations provided by BNSSNB, killsophia, konraddo, and y123ao6 on Curseforge.	##
+-- ##	繁體中文 (Traditional Chinese) translations provided by BNS333, BNSSNB, killsophia, konraddo, and y123ao6 on Curseforge.	##
 -- #######################################################################################################################
 
 L["  /dcstats config: Opens the DejaCharacterStats addon config menu."] = "/dcstats config: 開啟DejaCharacterStats插件設置選項。"
@@ -29,8 +29,8 @@ L["Critical Strike Rating"] = "致命一擊點數"
 L["DCS's Hide At Zero"] = "以DCS方式隱藏0值"
 L["Decimals"] = "小數點"
 L["Defense"] = "防禦"
+L["Dejablue's improved character stats panel view."] = "Dejablue的角色屬性統計面板增強。"
 L["DejaCharacterStats Slash commands (/dcstats):"] = "DejaCharacterStats指令(/dcstats)"
-L["Displays \"Enhancements\" category stats to two decimal places."] = "顯示\"強化\"欄位的屬性到兩個小數點。"
 L["Displays a durability bar next to each item."] = "在每個物品的旁邊顯示耐久度條。"
 L["Displays average item durability on the character shirt slot and durability frames."] = "在角色介面襯衫欄與耐久度框架顯示平均物品耐久度。"
 L["Displays average item level to one decimal place."] = "顯示平均物品等級到小數點一位。"
@@ -38,6 +38,7 @@ L["Displays average item level to two decimal places."] = "顯示平均物品等
 L["Displays average item level with class colors."] = "以職業顏色顯示平均物品等級"
 L["Displays each equipped item's durability."] = "顯示每個已裝備物品的耐久度。"
 L["Displays each equipped item's repair cost."] = "顯示每個已裝備物品的修理費用。"
+L["Displays 'Enhancements' category stats to two decimal places."] = "'強化'欄位的屬性顯示到兩個小數點。"
 L["Displays Equipped/Available item levels unless equal."] = "顯示已裝備/可用的物品等級除非相等。"
 L["Displays the class crest background."] = "顯示職業紋章背景。"
 L["Displays the DCS scrollbar."] = "顯示DCS滾動條。"
@@ -53,10 +54,12 @@ L["General global cooldown refresh time."] = "一般通用冷卻刷新時間。"
 L["Global Cooldown"] = "通用冷卻"
 L["Haste Rating"] = "加速點數"
 L["Hide Character Stats"] = "隱藏角色屬性"
-L["Hides \"Enhancements\" stats if their displayed value would be zero. Checking \"Decimals\" changes the displayed value."] = [=[隱藏"強化"屬性如果它們的值為零。
-勾選"小數點"會改變顯示的數值。]=]
-L["Hides \"Enhancements\" stats only if their numerical value is exactly zero. For example, if stat value is 0.001%, then it would be displayed as 0%."] = [=[隱藏"強化"屬性只有當它們的數值完全為零時。
+L["Hide low level mastery"] = "隱藏低等級精通"
+L["Hides 'Enhancements' stats if their displayed value would be zero. Checking 'Decimals' changes the displayed value."] = [=[隱藏'強化'屬性如果顯示的值為零。
+勾選'小數點'會改變顯示的數值。]=]
+L["Hides 'Enhancements' stats only if their numerical value is exactly zero. For example, if stat value is 0.001%, then it would be displayed as 0%."] = [=[隱藏'強化'屬性只有當數值完全為零時。
 舉例，如果屬性數值為0.001%，那麼它將顯示為0％。]=]
+L["Hides Mastery stat until the character starts to have benefit from it. Hiding Mastery with Select-A-Stat™ in the character panel has priority over this setting."] = "隱藏精通屬性直到角色開始從中受益。使用角色視窗中Select-A-Stat™的精通隱藏會優先於此設置。"
 L["Item Durability"] = "物品耐久度"
 L["Item Level"] = "物品等級"
 L["Item Repair Cost"] = "物品修理費用"
@@ -88,5 +91,38 @@ L["Unlock DCS"] = "解鎖DCS"
 L["Versatility Rating"] = "臨機應變點數"
 L["weapon auto attack (white) DPS."] = "武器自動攻擊(白字)每秒傷害。"
 L["Weapon DPS"] = "武器每秒傷害"
+
+L["Hide Character Frame"] = "隱藏角色視窗"
+L["Show Character Frame"] = "顯示角色視窗"
+L["Spirit"] = "精神"
+L["Stamina"] = "耐力"
+L["Strength"] = "力量"
+L["Intellect"] = "智力"
+L["Agility"] = "敏捷"
+L["Armor"] = "護甲"
+L["Power"] = "攻強"
+L["Damage"] = "傷害"
+L["Melee Attack"] = "近戰攻擊"
+L["Ranged Attack"] = "遠程攻擊"
+
+L["Corruption"] = "腐化"
+L["Base Corruption"] = "基礎腐化"
+L["Corruption Resistance"] = "腐化抗性"
+L["Total Corruption"] = "總腐化"
+
+L["2v2 Rating"] = "2v2 階級"
+L["3v3 Rating"] = "3v3 階級"
+L["RBG Rating"] = "RBG 階級"
+L["Conquest"] = "征服"
+L["Honor"] = "榮譽"
+L["Honor Level"] = "榮譽等級"
+
+L["Show Config"] = "顯示設置"
+L["Black Item Color"] = "黑色物品顏色"
+L["Blacks out item color in PaperDollFrame."] = "將角色視窗中的物品顏色塗黑。"
+L["Darker Item Color"] = "黯化物品顏色"
+L["Darkens item color in PaperDollFrame."] = "將角色視窗中的物品顏色黯化。"
+L["Alternate Item Info Placement"] = "替代物品訊息放置"
+L["Checked puts item info next to the item. Unchecked puts item info on the item."] = "勾選後將物品訊息放在物品旁邊。 未選中則將物品訊息放到該物品上。"
 
 return end
