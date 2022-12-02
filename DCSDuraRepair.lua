@@ -538,7 +538,6 @@ local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDura
 		--]]
 	end)
 
-	
 
 ----------------------
 -- Item Repair Cost --
