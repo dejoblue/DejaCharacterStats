@@ -539,29 +539,32 @@ local DCS_ShowAverageDuraCheck = CreateFrame("CheckButton", "DCS_ShowAverageDura
 	end)
 
 	
+
 ----------------------
 -- Item Repair Cost --
 ----------------------
 local function DCS_Item_RepairCostBottom()
 	for _, v in ipairs(DCSITEM_SLOT_FRAMES) do
 		local slotId = v:GetID()
-		local scanTool = CreateFrame("GameTooltip")
-			scanTool:ClearLines()
-		local repairitemCost = select(3, scanTool:SetInventoryItem("player", slotId))
-		if (repairitemCost<=0) then
-			v.itemrepair:SetFormattedText("")
-		elseif (repairitemCost>999999) then -- 99G 99s 99c
-			v.itemrepair:SetTextColor(1, 0.843, 0)
-			v.itemrepair:SetFormattedText("%.0fg", (repairitemCost/10000))
-		elseif (repairitemCost>9999) then -- 99s 99c
-			v.itemrepair:SetTextColor(1, 0.843, 0)
-			v.itemrepair:SetFormattedText("%.2fg", (repairitemCost/10000))
-		elseif (repairitemCost>99) then -- 99c
-			v.itemrepair:SetTextColor(0.753, 0.753, 0.753)
-			v.itemrepair:SetFormattedText("%.2fs", (repairitemCost/100))
-		else
-			v.itemrepair:SetTextColor(0.722, 0.451, 0.200)
-			v.itemrepair:SetFormattedText("%.0fc", repairitemCost)
+		local itemInfo = C_TooltipInfo.GetInventoryItem("player", slotId)
+		if (itemInfo) then
+			TooltipUtil.SurfaceArgs(itemInfo)
+			local repairitemCost = itemInfo.repairCost
+			if (repairitemCost == nil or repairitemCost<=0) then
+				v.itemrepair:SetFormattedText("")
+			elseif (repairitemCost>999999) then -- 99G 99s 99c
+				v.itemrepair:SetTextColor(1, 0.843, 0)
+				v.itemrepair:SetFormattedText("%.0fg", (repairitemCost/10000))
+			elseif (repairitemCost>9999) then -- 99s 99c
+				v.itemrepair:SetTextColor(1, 0.843, 0)
+				v.itemrepair:SetFormattedText("%.2fg", (repairitemCost/10000))
+			elseif (repairitemCost>99) then -- 99c
+				v.itemrepair:SetTextColor(0.753, 0.753, 0.753)
+				v.itemrepair:SetFormattedText("%.2fs", (repairitemCost/100))
+			else
+				v.itemrepair:SetTextColor(0.722, 0.451, 0.200)
+				v.itemrepair:SetFormattedText("%.0fc", repairitemCost)
+			end
 		end
 	end
 end
